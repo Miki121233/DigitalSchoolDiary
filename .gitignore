@@ -1,0 +1,6 @@
+# App settings
+#/API/appsettings.Development.json
+#/API/appsettings.json
+
+# Database
+#/API/DigitalSchoolDiaryApp.db
