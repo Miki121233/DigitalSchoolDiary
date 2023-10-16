@@ -6,4 +6,6 @@ public class AppUser
     public byte[] PasswordHash { get; set; }
 
     public byte[] PasswordSalt { get; set; }
+    public string AccountType { get; set; } = "undefined";
+    public string Gender { get; set; }
 }
