@@ -1,8 +1,8 @@
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <div class="container">
       <a class="navbar-brand" href="#">Digital School Diary</a>
-        <ul class="navbar-nav me-auto mb-2 mb-md-0" *ngIf="accountService.currentUser$ | async">
-          <ng-container *ngIf="accountService.currentUser$">
+        <ul class="navbar-nav me-auto mb-2 mb-md-0" *ngIf="(accountService.currentUser$ | async) as currentUser">
+          <ng-container *ngIf="accountService.currentUser$"> <!-- Universal for all account types -->
             <li class="nav-item">
               <a class="nav-link" href="#">Grades</a>
             </li>
@@ -18,6 +18,17 @@
             <li class="nav-item">
               <a class="nav-link" href="#">School Calendar</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Detention</a>
+            </li>
+          </ng-container>
+
+          <!-- Template for now -->
+          <ng-container *ngIf="accountService.currentUser$ && (currentUser.accountType === 'Student') || (currentUser.accountType === 'Parent')">
+            
+          </ng-container>
+          <ng-container *ngIf="accountService.currentUser$ && currentUser.accountType === 'Teacher'">
+            
           </ng-container>
         </ul>
 
