@@ -11,23 +11,31 @@ public class DataContext : DbContext
 
 
     public DbSet<AppUser> Users { get; set; }
-    public DbSet<ParentUser> ParentUsers { get; set; }
-    public DbSet<StudentUser> StudentUsers { get; set; }
-    public DbSet<TeacherUser> TeacherUsers { get; set; }
+    public DbSet<Parent> Parents { get; set; }
+    public DbSet<Student> Students { get; set; }
+    public DbSet<Teacher> Teachers { get; set; }
     public DbSet<Class> Classes { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder.Entity<ParentUser>(opt => {
+        base.OnModelCreating(builder);
+
+        builder.Entity<AppUser>()
+        .HasDiscriminator<string>("AccountType")
+        .HasValue<Student>("Student")
+        .HasValue<Teacher>("Teacher")
+        .HasValue<Parent>("Parent");
+
+        builder.Entity<Parent>(opt => {
             opt.HasMany(x => x.StudentChildren).WithMany(x => x.Parents).UsingEntity(x => x.ToTable("StudentToParent"));
         });
 
-        builder.Entity<StudentUser>(opt => {
+        builder.Entity<Student>(opt => {
             opt.HasMany(x => x.Parents).WithMany(x => x.StudentChildren);
             opt.HasOne(x => x.Class).WithMany(x => x.Students).HasForeignKey(x => x.ClassId).OnDelete(DeleteBehavior.Restrict);
         });
 
-        builder.Entity<TeacherUser>(opt => {
+        builder.Entity<Teacher>(opt => {
             opt.HasMany(x => x.Students).WithMany(x => x.Teachers).UsingEntity(x => x.ToTable("StudentToTeacher"));
         });
 

@@ -7,4 +7,10 @@ public class RegisterDto
     public string Username { get; set; }
     [Required]
     public string Password { get; set; }
+    [Required]
+    public string AccountType { get; set; }
+    [Required]
+    public string DateOfBirth { get; set; }
+    [Required]
+    public string Gender { get; set; }
 }

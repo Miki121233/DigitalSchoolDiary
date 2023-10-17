@@ -2,6 +2,7 @@
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231017150414_GeneralFix")]
+    partial class GeneralFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.12");
@@ -24,9 +27,6 @@ namespace API.Data.Migrations
 
                     b.Property<string>("AccountType")
                         .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("DateOfBirth")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Gender")
@@ -66,7 +66,7 @@ namespace API.Data.Migrations
                     b.ToTable("Classes");
                 });
 
-            modelBuilder.Entity("ClassTeacher", b =>
+            modelBuilder.Entity("ClassTeacherUser", b =>
                 {
                     b.Property<string>("ClassesId")
                         .HasColumnType("TEXT");
@@ -81,7 +81,7 @@ namespace API.Data.Migrations
                     b.ToTable("TeacherToClass", (string)null);
                 });
 
-            modelBuilder.Entity("ParentStudent", b =>
+            modelBuilder.Entity("ParentUserStudentUser", b =>
                 {
                     b.Property<int>("ParentsId")
                         .HasColumnType("INTEGER");
@@ -96,7 +96,7 @@ namespace API.Data.Migrations
                     b.ToTable("StudentToParent", (string)null);
                 });
 
-            modelBuilder.Entity("StudentTeacher", b =>
+            modelBuilder.Entity("StudentUserTeacherUser", b =>
                 {
                     b.Property<int>("StudentsId")
                         .HasColumnType("INTEGER");
@@ -111,14 +111,14 @@ namespace API.Data.Migrations
                     b.ToTable("StudentToTeacher", (string)null);
                 });
 
-            modelBuilder.Entity("API.Entities.Parent", b =>
+            modelBuilder.Entity("API.Entities.ParentUser", b =>
                 {
                     b.HasBaseType("API.Entities.AppUser");
 
-                    b.HasDiscriminator().HasValue("Parent");
+                    b.HasDiscriminator().HasValue("ParentUser");
                 });
 
-            modelBuilder.Entity("API.Entities.Student", b =>
+            modelBuilder.Entity("API.Entities.StudentUser", b =>
                 {
                     b.HasBaseType("API.Entities.AppUser");
 
@@ -127,17 +127,17 @@ namespace API.Data.Migrations
 
                     b.HasIndex("ClassId");
 
-                    b.HasDiscriminator().HasValue("Student");
+                    b.HasDiscriminator().HasValue("StudentUser");
                 });
 
-            modelBuilder.Entity("API.Entities.Teacher", b =>
+            modelBuilder.Entity("API.Entities.TeacherUser", b =>
                 {
                     b.HasBaseType("API.Entities.AppUser");
 
-                    b.HasDiscriminator().HasValue("Teacher");
+                    b.HasDiscriminator().HasValue("TeacherUser");
                 });
 
-            modelBuilder.Entity("ClassTeacher", b =>
+            modelBuilder.Entity("ClassTeacherUser", b =>
                 {
                     b.HasOne("API.Entities.Class", null)
                         .WithMany()
@@ -145,44 +145,44 @@ namespace API.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("API.Entities.Teacher", null)
+                    b.HasOne("API.Entities.TeacherUser", null)
                         .WithMany()
                         .HasForeignKey("TeachersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ParentStudent", b =>
+            modelBuilder.Entity("ParentUserStudentUser", b =>
                 {
-                    b.HasOne("API.Entities.Parent", null)
+                    b.HasOne("API.Entities.ParentUser", null)
                         .WithMany()
                         .HasForeignKey("ParentsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("API.Entities.Student", null)
+                    b.HasOne("API.Entities.StudentUser", null)
                         .WithMany()
                         .HasForeignKey("StudentChildrenId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("StudentTeacher", b =>
+            modelBuilder.Entity("StudentUserTeacherUser", b =>
                 {
-                    b.HasOne("API.Entities.Student", null)
+                    b.HasOne("API.Entities.StudentUser", null)
                         .WithMany()
                         .HasForeignKey("StudentsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("API.Entities.Teacher", null)
+                    b.HasOne("API.Entities.TeacherUser", null)
                         .WithMany()
                         .HasForeignKey("TeachersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("API.Entities.Student", b =>
+            modelBuilder.Entity("API.Entities.StudentUser", b =>
                 {
                     b.HasOne("API.Entities.Class", "Class")
                         .WithMany("Students")

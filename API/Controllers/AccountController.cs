@@ -31,7 +31,10 @@ public class AccountController : BaseApiController
         {
             Username = registerDto.Username.ToLower(),
             PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
-            PasswordSalt = hmac.Key
+            PasswordSalt = hmac.Key,
+            AccountType = registerDto.AccountType,
+            DateOfBirth = registerDto.DateOfBirth,
+            Gender = registerDto.Gender
         };
 
         _context.Users.Add(user);
@@ -40,7 +43,8 @@ public class AccountController : BaseApiController
         return new UserDto
         {
             Username = user.Username,
-            Token = _tokenService.CreateToken(user)
+            Token = _tokenService.CreateToken(user),
+            AccountType = user.AccountType
         };
     } 
 
@@ -63,7 +67,8 @@ public class AccountController : BaseApiController
         return new UserDto
         {
             Username = user.Username,
-            Token = _tokenService.CreateToken(user)
+            Token = _tokenService.CreateToken(user),
+            AccountType = user.AccountType
         };
     }
 

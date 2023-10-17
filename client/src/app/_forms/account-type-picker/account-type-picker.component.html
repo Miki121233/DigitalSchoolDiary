@@ -1,0 +1,15 @@
+<div class="mb-3">
+    <div class="input-group">
+      <select
+        [class.is-invalid]="control.touched && control.invalid"
+        class="form-select"
+        [formControl]="control"
+      >
+        <option value="" disabled>Select an account type</option>
+        <option value="Student">Student</option>
+        <option value="Teacher">Teacher</option>
+        <option value="Parent">Parent</option>
+      </select>
+    <i class="bi bi-caret-down-fill"></i>
+    </div>
+  </div>
