@@ -7,15 +7,15 @@
         placeholder={{label}}
     >
     <div class="invalid-feedback" *ngIf="control.errors?.['required']">
-        Please enter a {{label}}
+        Proszę wprowadzić pole "{{label}}"
     </div>
     <div class="invalid-feedback" *ngIf="control.errors?.['minlength']">
-        {{label}} must be at least {{control.errors?.['minlength'].requiredLength}} characters
+        "{{label}}" musi mieć przynajmniej {{control.errors?.['minlength'].requiredLength}} znaków
     </div>
     <div class="invalid-feedback" *ngIf="control.errors?.['maxlength']">
-        {{label}} must be at most {{control.errors?.['maxlength'].requiredLength}} characters
+        {{label}} musi mieć maksymalnie {{control.errors?.['maxlength'].requiredLength}} znaków
     </div>
     <div class="invalid-feedback" *ngIf="control.errors?.['notMatching']">
-        Passwords do not match
+        Hasła nie zgadzają się
     </div>
 </div>

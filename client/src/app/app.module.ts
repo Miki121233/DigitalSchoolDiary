@@ -14,6 +14,12 @@ import { DatePickerComponent } from './_forms/date-picker/date-picker.component'
 import { TextInputComponent } from './_forms/text-input/text-input.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { AccountTypePickerComponent } from './_forms/account-type-picker/account-type-picker.component';
+import { GradesComponent } from './grades/grades.component';
+import { HomeworkComponent } from './homework/homework.component';
+import { ScheduleComponent } from './schedule/schedule.component';
+import { MessagesComponent } from './messages/messages.component';
+import { CalendarComponent } from './calendar/calendar.component';
+import { CommentsComponent } from './comments/comments.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +30,12 @@ import { AccountTypePickerComponent } from './_forms/account-type-picker/account
     DatePickerComponent,
     TextInputComponent,
     AccountTypePickerComponent,
+    GradesComponent,
+    HomeworkComponent,
+    ScheduleComponent,
+    MessagesComponent,
+    CalendarComponent,
+    CommentsComponent,
   ],
   imports: [
     BrowserModule,

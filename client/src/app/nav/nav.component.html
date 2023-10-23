@@ -1,25 +1,25 @@
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <div class="container">
-      <a class="navbar-brand" href="#">Digital School Diary</a>
+      <a class="navbar-brand" href="#">Szkolny dziennik elektroniczny</a>
         <ul class="navbar-nav me-auto mb-2 mb-md-0" *ngIf="(accountService.currentUser$ | async) as currentUser">
           <ng-container *ngIf="accountService.currentUser$"> <!-- Universal for all account types -->
             <li class="nav-item">
-              <a class="nav-link" href="#">Grades</a>
+              <a class="nav-link" routerLink="/oceny" routerLinkActive="active">Oceny</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Homework</a>
+              <a class="nav-link" routerLink="/zadania" routerLinkActive="active">Zadania domowe</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Schedule</a>
+              <a class="nav-link" routerLink="/plan" routerLinkActive="active">Plan zajęć</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Messages</a>
+              <a class="nav-link" routerLink="/wiadomosci" routerLinkActive="active">Wiadomości</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">School Calendar</a>
+              <a class="nav-link" routerLink="/kalendarz" routerLinkActive="active">Kalendarz szkolny</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Detention</a>
+              <a class="nav-link" routerLink="/uwagi" routerLinkActive="active">Uwagi</a>
             </li>
           </ng-container>
 
@@ -33,11 +33,11 @@
         </ul>
 
         <div class="dropdown" *ngIf="accountService.currentUser$ | async" dropdown>
-          <a class="dropdown-toogle text-light" dropdownToggle>Welcome user</a>
+          <a class="dropdown-toogle text-light" dropdownToggle>Witaj użytkowniku</a>
           <div class="dropdown-menu" *dropdownMenu>
-            <a class="dropdown-item">Edit profile</a>
-            <a class="dropdown-item">Parent registration</a>
-            <a class="dropdown-item" (click)="logout()">Logout</a>
+            <a class="dropdown-item">Edytuj profil</a>
+            <a class="dropdown-item">Rejestracja rodzica</a>
+            <a class="dropdown-item" (click)="logout()">Wyloguj się</a>
           </div>
         </div>
 
@@ -47,14 +47,14 @@
             [(ngModel)]="model.username"
             class="form-control me-2" 
             type="text" 
-            placeholder="Username">
+            placeholder="Nazwa użytkownika">
           <input 
             name="password" 
             [(ngModel)]="model.password"
             class="form-control me-2" 
             type="password" 
-            placeholder="Password">
-          <button class="btn btn-outline-success" type="Login">Login</button>
+            placeholder="Hasło">
+          <button class="btn btn-outline-success" type="Login">Zaloguj</button>
         </form>
     </div>
   </nav>

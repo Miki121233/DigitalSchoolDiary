@@ -48,7 +48,7 @@ export class RegisterComponent implements OnInit{
     this.accountService.register(values).subscribe({
       next: () => {
         this.router.navigateByUrl('/#')
-        this.toastr.success("Successfully registered an user!")
+        this.toastr.success("Pomyślnie zarejestrowano użytkownika!")
     },
       error: error => {
         this.validationErrors = error
@@ -58,6 +58,7 @@ export class RegisterComponent implements OnInit{
 
   cancel() {
     this.cancelRegister.emit(false);
+    this.router.navigateByUrl("/")
   }
 
   private getDateOnly(dob: string | undefined) { //returns date without timezone and hours

@@ -8,5 +8,7 @@
     [bsConfig]="{ isAnimated: true }"
     [maxDate]="maxDate"
     >
-    <div *ngIf="control.errors?.['required']" class="invalid-feedback"></div>
+    <div class="invalid-feedback" *ngIf="control.errors?.['required']">
+        Proszę wprowadzić pole "{{label}}"
+    </div>
 </div>
