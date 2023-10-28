@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <div class="container">
-      <a class="navbar-brand" href="#">Szkolny dziennik elektroniczny</a>
+      <a class="navbar-brand" routerLink="/">Szkolny dziennik elektroniczny</a>
         <ul class="navbar-nav me-auto mb-2 mb-md-0" *ngIf="(accountService.currentUser$ | async) as currentUser">
           <ng-container *ngIf="accountService.currentUser$"> <!-- Universal for all account types -->
             <li class="nav-item">
@@ -32,11 +32,11 @@
           </ng-container>
         </ul>
 
-        <div class="dropdown" *ngIf="accountService.currentUser$ | async" dropdown>
+        <div class="dropdown" *ngIf="(accountService.currentUser$ | async) as currentUser" dropdown>
           <a class="dropdown-toogle text-light" dropdownToggle>Witaj użytkowniku</a>
           <div class="dropdown-menu" *dropdownMenu>
             <a class="dropdown-item">Edytuj profil</a>
-            <a class="dropdown-item">Rejestracja rodzica</a>
+            <a class="dropdown-item" *ngIf="currentUser.accountType === 'Student'" routerLink="/rejestracja-rodzica" routerLinkActive="">Rejestracja rodzica</a>
             <a class="dropdown-item" (click)="logout()">Wyloguj się</a>
           </div>
         </div>

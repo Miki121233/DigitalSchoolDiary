@@ -20,6 +20,7 @@ import { ScheduleComponent } from './schedule/schedule.component';
 import { MessagesComponent } from './messages/messages.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { CommentsComponent } from './comments/comments.component';
+import { ParentRegisterComponent } from './parent-register/parent-register.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { CommentsComponent } from './comments/comments.component';
     MessagesComponent,
     CalendarComponent,
     CommentsComponent,
+    ParentRegisterComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,5 @@
 <form [formGroup]="registerForm" (ngSubmit)="registerForm.valid && register()" autocomplete="off">
-    <h2 class="text-center text-primary">Tworzenie nowego konta</h2>
+    <h2 class="text-center text-primary">Tworzenie nowego konta rodzica</h2>
     <hr>
 
     <div class="mb-3">
@@ -12,7 +12,6 @@
         </label>
     </div>
 
-    <app-account-type-picker [formControl]="$any(registerForm.controls['accountType'])" fieldName="'Account Type'" type="dropdown"></app-account-type-picker>
     <app-text-input [formControl]="$any(registerForm.controls['firstName'])" [label]="'Imię'"></app-text-input>
     <app-text-input [formControl]="$any(registerForm.controls['lastName'])" [label]="'Nazwisko'"></app-text-input>
     <app-text-input [formControl]="$any(registerForm.controls['username'])" [label]="'Nazwa użytkownika'"></app-text-input>

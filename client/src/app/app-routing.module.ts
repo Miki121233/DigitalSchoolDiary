@@ -9,11 +9,13 @@ import { ScheduleComponent } from './schedule/schedule.component';
 import { MessagesComponent } from './messages/messages.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { CommentsComponent } from './comments/comments.component';
+import { ParentRegisterComponent } from './parent-register/parent-register.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
-  {path: 'register', component: RegisterComponent},
+  {path: 'rejestracja', component: RegisterComponent},
   {path: '',
+    runGuardsAndResolvers: 'always',
     canActivate: [authGuard],
     children: [
       {path: 'oceny', component: GradesComponent},
@@ -22,6 +24,7 @@ const routes: Routes = [
       {path: 'wiadomosci', component: MessagesComponent},
       {path: 'kalendarz', component: CalendarComponent},
       {path: 'uwagi', component: CommentsComponent},
+      {path: 'rejestracja-rodzica', component: ParentRegisterComponent},
       
     ]
   },

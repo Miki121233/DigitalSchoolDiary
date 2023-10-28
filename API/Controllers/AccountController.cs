@@ -27,17 +27,71 @@ public class AccountController : BaseApiController
 
         using var hmac = new HMACSHA512();
 
-        var user = new AppUser
+        var user = new AppUser();
+
+        switch (registerDto.AccountType)
         {
+            case "Student":
+                user = new Student
+                {
+                    FirstName = registerDto.FirstName,
+                    LastName = registerDto.LastName,
+                    Username = registerDto.Username.ToLower(),
+                    PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
+                    PasswordSalt = hmac.Key,
+                    DateOfBirth = registerDto.DateOfBirth,
+                    Gender = registerDto.Gender
+                };
+                break;
+            case "Teacher":
+                user = new Teacher
+                {
+                    FirstName = registerDto.FirstName,
+                    LastName = registerDto.LastName,
+                    Username = registerDto.Username.ToLower(),
+                    PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
+                    PasswordSalt = hmac.Key,
+                    DateOfBirth = registerDto.DateOfBirth,
+                    Gender = registerDto.Gender
+                };
+                break;
+            default:
+                return BadRequest("Wrong Account type");
+        }
+
+        _context.Add(user);
+        await _context.SaveChangesAsync();
+
+        return new UserDto
+        {
+            Username = user.Username,
+            Token = _tokenService.CreateToken(user),
+            AccountType = user.AccountType
+        };
+    } 
+
+    [HttpPost("parentRegister")]
+    public async Task<ActionResult<UserDto>> ParentRegister(ParentRegisterDto registerDto)
+    {
+        if (await UserExists(registerDto.Username)) return BadRequest("Username is taken");
+
+        using var hmac = new HMACSHA512();
+
+        var user = new Parent
+        {
+            FirstName = registerDto.FirstName,
+            LastName = registerDto.LastName,
             Username = registerDto.Username.ToLower(),
             PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
             PasswordSalt = hmac.Key,
-            AccountType = registerDto.AccountType,
             DateOfBirth = registerDto.DateOfBirth,
             Gender = registerDto.Gender
         };
 
-        _context.Users.Add(user);
+        var studentChildren = await _context.Students.FirstOrDefaultAsync(x => x.Username == registerDto.StudentChildrenUsername);
+        user.StudentChildren.Add(studentChildren);
+
+        _context.Parents.Add(user);
         await _context.SaveChangesAsync();
 
         return new UserDto
