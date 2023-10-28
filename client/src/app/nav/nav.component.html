@@ -33,7 +33,9 @@
         </ul>
 
         <div class="dropdown" *ngIf="(accountService.currentUser$ | async) as currentUser" dropdown>
-          <a class="dropdown-toogle text-light" dropdownToggle>Witaj użytkowniku</a>
+          <a class="btn btn-outline-secondary dropdown-toogle text-light" *ngIf="currentUser.accountType === 'Student'" dropdownToggle>{{currentUser.firstName}} {{currentUser.lastName}} | Uczeń</a>
+          <a class="btn btn-outline-secondary dropdown-toogle text-light" *ngIf="currentUser.accountType === 'Teacher'" dropdownToggle>{{currentUser.firstName}} {{currentUser.lastName}} | Nauczyciel</a>
+          <a class="btn btn-outline-secondary dropdown-toogle text-light" *ngIf="currentUser.accountType === 'Parent'" dropdownToggle>{{currentUser.firstName}} {{currentUser.lastName}} | Rodzic</a>
           <div class="dropdown-menu" *dropdownMenu>
             <a class="dropdown-item">Edytuj profil</a>
             <a class="dropdown-item" *ngIf="currentUser.accountType === 'Student'" routerLink="/rejestracja-rodzica" routerLinkActive="">Rejestracja rodzica</a>
