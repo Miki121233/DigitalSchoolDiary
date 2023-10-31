@@ -32,7 +32,7 @@ public class DataContext : DbContext
 
         builder.Entity<Student>(opt => {
             opt.HasMany(x => x.Parents).WithMany(x => x.StudentChildren);
-            opt.HasOne(x => x.Class).WithMany(x => x.Students).HasForeignKey(x => x.ClassId).OnDelete(DeleteBehavior.Restrict);
+            //opt.HasOne(x => x.Class).WithMany(x => x.Students).HasForeignKey(x => x.ClassId).OnDelete(DeleteBehavior.Restrict);
         });
 
         // builder.Entity<Teacher>(opt => {
@@ -41,6 +41,7 @@ public class DataContext : DbContext
 
         builder.Entity<Class>(opt => {
             opt.HasMany(x => x.Teachers).WithMany(x => x.Classes).UsingEntity(x => x.ToTable("TeacherToClass"));
+           // opt.HasMany(x => x.Students).WithOne(x => x.Class).HasForeignKey(x => x.ClassId);
         });
     }
 }

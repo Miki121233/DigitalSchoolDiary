@@ -40,7 +40,8 @@ public class AccountController : BaseApiController
                     PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
                     PasswordSalt = hmac.Key,
                     DateOfBirth = registerDto.DateOfBirth,
-                    Gender = registerDto.Gender
+                    Gender = registerDto.Gender,
+                    ClassId = 1
                 };
                 break;
             case "Teacher":

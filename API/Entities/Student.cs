@@ -8,6 +8,6 @@ public class Student : AppUser
         AccountType = "Student";
     }
     public List<Parent> Parents { get; set; } = new();
-    public string ClassId { get; set; }
-    public Class Class { get; set; }
+    public int ClassId { get; set; }
+    //public Class Class { get; set; } - circular error
 }
