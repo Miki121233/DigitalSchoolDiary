@@ -23,7 +23,7 @@ public class AccountController : BaseApiController
     [HttpPost("register")] // POST: api/account/register
     public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
     {
-        if (await UserExists(registerDto.Username)) return BadRequest("Username is taken");
+        if (await UserExists(registerDto.Username)) return BadRequest("Nazwa użytkownika jest już zajęta");
 
         using var hmac = new HMACSHA512();
 
@@ -56,7 +56,7 @@ public class AccountController : BaseApiController
                 };
                 break;
             default:
-                return BadRequest("Wrong Account type");
+                return BadRequest("Błędny typ konta");
         }
 
         _context.Add(user);
@@ -75,7 +75,7 @@ public class AccountController : BaseApiController
     [HttpPost("parentRegister")]
     public async Task<ActionResult<UserDto>> ParentRegister(ParentRegisterDto registerDto)
     {
-        if (await UserExists(registerDto.Username)) return BadRequest("Username is taken");
+        if (await UserExists(registerDto.Username)) return BadRequest("Nazwa użytkownika jest już zajęta");
 
         using var hmac = new HMACSHA512();
 
@@ -111,7 +111,7 @@ public class AccountController : BaseApiController
     {
         var user = await _context.Users.SingleOrDefaultAsync(x => x.Username == loginDto.Username);
 
-        if (user == null) return Unauthorized("Invalid username");
+        if (user == null) return Unauthorized("Błędna nazwa użytkownika");
 
         using var hmac = new HMACSHA512(user.PasswordSalt);
 
@@ -119,7 +119,7 @@ public class AccountController : BaseApiController
 
         for (int i = 0; i < computedhash.Length; i++)
         {
-            if (computedhash[i] != user.PasswordHash[i]) return Unauthorized("Invalid password");
+            if (computedhash[i] != user.PasswordHash[i]) return Unauthorized("Błędne hasło");
         }
 
         return new UserDto

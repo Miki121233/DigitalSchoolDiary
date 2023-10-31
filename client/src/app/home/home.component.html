@@ -1,9 +1,22 @@
 <div class="container mt-5">
-    <div *ngIf="!registerMode" style="text-align: center;">
-    <h1>Ucz się mądrze, nie ciężko</h1>
-    <p class="lead">Bądź smart z naszym dziennikiem!</p>
-    <div class="text-center">
-        <button routerLink="/register" routerLinkActive="active" class="btn btn-primary btn-lg me-2">Utwórz nowe konto</button>
-        <button class="btn btn-primary btn-info btn-lg">Dowiedz się więcej</button>
-    </div>
+    <ng-container *ngIf="!(accountService.currentUser$ | async)">
+      <div style="text-align: center;">
+        <h1>Ucz się mądrze, nie ciężko</h1>
+        <p class="lead">Bądź smart z naszym dziennikiem!</p>
+        <div class="text-center">
+          <button routerLink="/register" routerLinkActive="active" class="btn btn-primary btn-lg me-2">Utwórz nowe konto</button>
+          <button class="btn btn-primary btn-info btn-lg">Dowiedz się więcej</button>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="(accountService.currentUser$ | async) as user">
+      <div style="text-align: center;">
+        <h1>Witaj {{user.firstName}}</h1>
+        <p class="lead">Bądź smart z naszym dziennikiem!</p>
+        <div class="text-center">
+          <button class="btn btn-primary btn-info btn-lg">Dowiedz się więcej</button>
+        </div>
+      </div>
+    </ng-container>
 </div>
