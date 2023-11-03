@@ -26,10 +26,12 @@ public class ClassesController : BaseApiController
     [HttpGet("{id}")]
     public async Task<Class> GetClassAsync(int id)
     {
-        return await _context.Classes.FindAsync(id);
+        return await _context.Classes
+            .Include(x => x.Students)
+            .FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    [HttpGet("{id}/students")]
+    [HttpGet("{id}/students")] //chyba niepotrzebne
     public async Task<IEnumerable<Student>> GetStudentsFromClassAsync(int id)
     {
         var users = await _context.Students.Where(x => x.ClassId == id).ToListAsync();

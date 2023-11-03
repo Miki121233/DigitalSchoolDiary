@@ -6,8 +6,14 @@
   background-color: #f0f0f0; /* Tło komponentu */
   color: #333; /* Kolor tekstu */
   display: inline-block; /* Bloki będą ustawiane obok siebie */
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
+
+  /* Dodaj flexbox, aby wyśrodkować zawartość */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
   
   .class-card:hover {

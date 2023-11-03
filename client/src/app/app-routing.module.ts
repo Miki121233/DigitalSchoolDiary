@@ -10,6 +10,8 @@ import { MessagesComponent } from './messages/messages.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { CommentsComponent } from './comments/comments.component';
 import { ParentRegisterComponent } from './parent-register/parent-register.component';
+import { ClassesListComponent } from './classes/classes-list/classes-list.component';
+import { classDetailedResolver } from './_resolvers/class-detailed.resolver';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -18,7 +20,8 @@ const routes: Routes = [
     runGuardsAndResolvers: 'always',
     canActivate: [authGuard],
     children: [
-      {path: 'oceny', component: GradesComponent},
+      {path: 'oceny', component: ClassesListComponent},
+      {path: 'oceny/:id', component: GradesComponent, resolve: {class: classDetailedResolver}},
       {path: 'zadania', component: HomeworkComponent},
       {path: 'plan', component: ScheduleComponent},
       {path: 'wiadomosci', component: MessagesComponent},

@@ -1,3 +1,6 @@
-<p>grades works!</p>
-
-<app-classes-list></app-classes-list>
+<div *ngIf="class.students">
+    <strong>Studenci z tej klasy:</strong>
+    <div *ngFor="let student of class.students">
+        <p>{{student.firstName}}</p>
+    </div>
+</div>

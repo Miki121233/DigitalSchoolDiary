@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { ClassesService } from 'src/app/_services/classes.service';
 
 @Component({
   selector: 'app-classes-card',
@@ -8,14 +7,8 @@ import { ClassesService } from 'src/app/_services/classes.service';
 })
 export class ClassesCardComponent {
   @Input() class: any;
-  students: any;
+  //navigateToGrades = false; 
 
-  constructor(private classesService: ClassesService) { }
+  constructor() { }
 
-  getStudentsFromClass() {
-    this.classesService.getStudentsFromClass(this.class.id).subscribe({
-      next: response => this.students = response,
-      error: error => console.log(error)
-    });
-  }
 }

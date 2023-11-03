@@ -1,14 +1,6 @@
-<div class="class-card fa-2x" (click)="getStudentsFromClass()">
+<div class="class-card fa-2x" routerLink="/oceny/{{class.id}}">
     <div>
         <p>{{class.schoolId}}</p>
-        <i class="fa fa-cloud"></i>
-        <i class="fa fa-circle-plus fa-beat"></i>
-    </div>
-</div>
-
-<div *ngIf="students">
-    <strong>Studenci z tej klasy:</strong>
-    <div *ngFor="let student of students">
-        <p>{{student.firstName}}</p>
+        <i class="fa-solid fa-pen"></i>
     </div>
 </div>
