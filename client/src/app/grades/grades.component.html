@@ -1,6 +1,33 @@
 <div *ngIf="class.students">
     <strong>Studenci z tej klasy:</strong>
-    <div *ngFor="let student of class.students">
-        <p>{{student.firstName}}</p>
-    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Imię</th>
+                <th>Nazwisko</th>
+                <th>Opis</th>
+                <th>Ocena</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>
+                    <input type="text" [(ngModel)]="description" (input)="updateDescriptions()">
+                </td>
+                <td></td>
+            </tr>
+            <tr *ngFor="let student of class.students; let i = index">
+                <td>{{student.firstName}}</td>
+                <td>{{student.lastName}}</td>
+                <td>
+                    <input type="text" [(ngModel)]="studentDescriptions[i]" placeholder="Opis oceny" [value]="student.gradeReason">
+                </td>
+                <td>
+                    <input type="number" [(ngModel)]="student.grade" placeholder="Ocena" [value]="student.grade">
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>

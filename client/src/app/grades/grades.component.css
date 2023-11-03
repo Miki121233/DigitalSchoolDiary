@@ -1,0 +1,30 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+
+/* Marginesy poziome */
+th {
+    margin-right: 5px;
+}
+
+/* Dodatkowe pole nad "Opis" */
+th:nth-child(3) {
+    position: relative;
+}
+
+th:nth-child(3)::before {
+    content: "";
+    display: block;
+    height: 10px;
+}
+
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+}
