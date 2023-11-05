@@ -1,5 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { User } from '../_models/user';
+import { AccountService } from '../_services/account.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-grades',
@@ -10,8 +13,13 @@ export class GradesComponent implements OnInit {
   class: any;
   description: string = ''; // Dodajemy pole description
   studentDescriptions: string[] = []; // Dodajemy tablicę do przechowywania opisów za co
+  user: User | null = null;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private accountService: AccountService) {
+    this.accountService.currentUser$.pipe(take(1)).subscribe({
+      next: user => this.user = user
+    })
+   }
 
   ngOnInit(): void {
     this.route.data.subscribe({

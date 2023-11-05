@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
+using API.Dtos;
 using API.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -37,6 +38,26 @@ public class ClassesController : BaseApiController
         var users = await _context.Students.Where(x => x.ClassId == id).ToListAsync();
 
         return users;
+    }
+
+    [HttpPost] 
+    public async Task<ActionResult<IEnumerable<Class>>> CreateClass(ClassDto classDto)
+    {
+        var classForComparison = _context.Classes.FirstOrDefault(x => x.Year == classDto.Year);
+        if(classForComparison != null)
+            if(classForComparison.ClassLetterId == classDto.ClassLetterId)
+                return BadRequest($"Klasa {classDto.Year}{classDto.ClassLetterId} już istnieje!");
+        
+        var classModel = new Class
+        {
+            Year = classDto.Year,
+            ClassLetterId = classDto.ClassLetterId.ToUpper()
+        };
+
+        _context.Classes.Add(classModel);
+        await _context.SaveChangesAsync();
+
+        return Ok(classModel);
     }
 
 }

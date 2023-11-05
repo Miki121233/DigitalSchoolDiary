@@ -2,6 +2,7 @@
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231105205807_GradesAdded")]
+    partial class GradesAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.12");
@@ -73,7 +76,7 @@ namespace API.Data.Migrations
                     b.ToTable("Classes");
                 });
 
-            modelBuilder.Entity("API.Entities.Grade", b =>
+            modelBuilder.Entity("API.Entities.Grades", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -82,10 +85,10 @@ namespace API.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("StudentId")
+                    b.Property<int>("Grade")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Value")
+                    b.Property<int>("StudentId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -151,13 +154,15 @@ namespace API.Data.Migrations
                     b.HasDiscriminator().HasValue("Teacher");
                 });
 
-            modelBuilder.Entity("API.Entities.Grade", b =>
+            modelBuilder.Entity("API.Entities.Grades", b =>
                 {
-                    b.HasOne("API.Entities.Student", null)
+                    b.HasOne("API.Entities.Student", "Student")
                         .WithMany("Grades")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("ClassTeacher", b =>

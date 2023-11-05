@@ -23,13 +23,13 @@ export class AppComponent implements OnInit {
     })
   }
 
-  getUsers() {
-    this.http.get('https://localhost:5002/api/users').subscribe({
-      next: response => this.users = response,
-      error: error => console.log(error),
-      complete: () => console.log('Request has completed')
-    })
-  }
+  // getUsers() {
+  //   this.http.get('https://localhost:5002/api/users').subscribe({
+  //     next: response => this.users = response,
+  //     error: error => console.log(error),
+  //     complete: () => console.log('Request has completed')
+  //   })
+  // }
 
   setCurrentUser() {
     const userString = localStorage.getItem('user'); 

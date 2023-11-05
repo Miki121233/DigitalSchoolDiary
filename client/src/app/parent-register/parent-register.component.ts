@@ -5,7 +5,6 @@ import { ToastrService } from 'ngx-toastr';
 import { AccountService } from '../_services/account.service';
 import { take } from 'rxjs';
 import { User } from '../_models/user';
-import { Member } from '../_models/member';
 
 @Component({
   selector: 'app-parent-register',
@@ -16,7 +15,7 @@ export class ParentRegisterComponent implements OnInit{
     @Output() cancelRegister = new EventEmitter();
     registerForm: FormGroup = new FormGroup({});
     validationErrors: string[] | undefined;
-    member: Member | undefined;
+    // member: Member | undefined;
     user: User | null = null;
 
   
