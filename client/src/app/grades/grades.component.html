@@ -38,6 +38,8 @@
     </div>
 </div>
 
-<div *ngIf="user && (user.accountType === 'Student' || user.accountType === 'Parent')">
-    <p> Tu będzie część ocen dla studenta oraz rodzica</p>
-</div>
+<!-- <div *ngIf="user && (user.accountType === 'Student' || user.accountType === 'Parent')">
+    <div class="col-2" *ngFor="let grade in grades">
+        <p>{{grade}}</p>
+    </div>
+</div> -->

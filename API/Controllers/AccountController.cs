@@ -41,7 +41,7 @@ public class AccountController : BaseApiController
                     PasswordSalt = hmac.Key,
                     DateOfBirth = registerDto.DateOfBirth,
                     Gender = registerDto.Gender,
-                    ClassId = 1
+                    ClassId = 1 //ogarnac jakies hashe do tego zeby klasy byly na starcie przypisane juz
                 };
                 break;
             case "Teacher":
@@ -63,14 +63,19 @@ public class AccountController : BaseApiController
         _context.Add(user);
         await _context.SaveChangesAsync();
 
-        return new UserDto
+        var userDto = new UserDto
         {
+            Id = user.Id,
             FirstName = user.FirstName,
             LastName = user.LastName,
             Username = user.Username,
             Token = _tokenService.CreateToken(user),
-            AccountType = user.AccountType
+            AccountType = user.AccountType,
         };
+
+        if(user is Student student) userDto.ClassId = student.ClassId;
+
+        return userDto;
     } 
 
     [HttpPost("parentRegister")]
@@ -99,6 +104,7 @@ public class AccountController : BaseApiController
 
         return new UserDto
         {
+            Id = user.Id,
             FirstName = user.FirstName,
             LastName = user.LastName,
             Username = user.Username,
@@ -123,14 +129,19 @@ public class AccountController : BaseApiController
             if (computedhash[i] != user.PasswordHash[i]) return Unauthorized("Błędne hasło");
         }
 
-        return new UserDto
+        var userDto = new UserDto
         {
+            Id = user.Id,
             FirstName = user.FirstName,
             LastName = user.LastName,
             Username = user.Username,
             Token = _tokenService.CreateToken(user),
             AccountType = user.AccountType
         };
+
+        if(user is Student student) userDto.ClassId = student.ClassId;
+
+        return userDto;
     }
 
     private async Task<bool> UserExists(string username)

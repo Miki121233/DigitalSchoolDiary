@@ -1,11 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "aVx7ojfL1fstqsZ6k7h1myi7hrYxzfnp0/xi25Ps79RmM13cM1AGMBz8nferMD0EsQyf/r2b6jlRImWgcjI+4Q==",
+  "dgSpecHash": "pEU9012ZIlYQhTtVO2zPLWPk4I+qF+6UWrV0ZNDT0UUuTPpbiGECwFL4ViU96+wQjwJOxqtDtuCcSL6/JlZZzA==",
   "success": true,
   "projectFilePath": "E:\\DigitalSchoolDiary\\API\\API.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\MPR21\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
+    "C:\\Users\\MPR21\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
     "C:\\Users\\MPR21\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\MPR21\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\7.0.12\\microsoft.aspnetcore.authentication.jwtbearer.7.0.12.nupkg.sha512",
+    "C:\\Users\\MPR21\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\MPR21\\.nuget\\packages\\microsoft.data.sqlite.core\\7.0.12\\microsoft.data.sqlite.core.7.0.12.nupkg.sha512",
     "C:\\Users\\MPR21\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.12\\microsoft.entityframeworkcore.7.0.12.nupkg.sha512",
     "C:\\Users\\MPR21\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\7.0.12\\microsoft.entityframeworkcore.abstractions.7.0.12.nupkg.sha512",

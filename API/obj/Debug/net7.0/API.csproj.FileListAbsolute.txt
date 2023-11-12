@@ -69,3 +69,5 @@ E:\DigitalSchoolDiary\API\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll
 E:\DigitalSchoolDiary\API\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 E:\DigitalSchoolDiary\API\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.dll
 E:\DigitalSchoolDiary\API\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+E:\DigitalSchoolDiary\API\bin\Debug\net7.0\AutoMapper.dll
+E:\DigitalSchoolDiary\API\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

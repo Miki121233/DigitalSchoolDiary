@@ -24,6 +24,7 @@ import { ParentRegisterComponent } from './parent-register/parent-register.compo
 import { ClassesListComponent } from './classes/classes-list/classes-list.component';
 import { ClassesCardComponent } from './classes/classes-card/classes-card.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { UserGradesComponent } from './user/user-grades/user-grades.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,6 +43,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     ParentRegisterComponent,
     ClassesListComponent,
     ClassesCardComponent,
+    UserGradesComponent,
   ],
   imports: [
     BrowserModule,

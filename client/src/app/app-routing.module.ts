@@ -12,6 +12,8 @@ import { CommentsComponent } from './comments/comments.component';
 import { ParentRegisterComponent } from './parent-register/parent-register.component';
 import { ClassesListComponent } from './classes/classes-list/classes-list.component';
 import { classDetailedResolver } from './_resolvers/class-detailed.resolver';
+import { userDetailedResolver } from './_resolvers/user-detailed.resolver';
+import { UserGradesComponent } from './user/user-grades/user-grades.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -22,6 +24,7 @@ const routes: Routes = [
     children: [
       {path: 'oceny', component: ClassesListComponent},
       {path: 'oceny/:id', component: GradesComponent, resolve: {class: classDetailedResolver}},
+      {path: 'uzytkownik/:id/oceny', component: UserGradesComponent, resolve: {class: userDetailedResolver}},
       {path: 'zadania', component: HomeworkComponent},
       {path: 'plan', component: ScheduleComponent},
       {path: 'wiadomosci', component: MessagesComponent},

@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { take } from 'rxjs';
+import { Class } from 'src/app/_models/class';
+import { User } from 'src/app/_models/user';
+import { AccountService } from 'src/app/_services/account.service';
 import { ClassesService } from 'src/app/_services/classes.service';
 
 @Component({
@@ -7,13 +12,36 @@ import { ClassesService } from 'src/app/_services/classes.service';
   styleUrls: ['./classes-list.component.css']
 })
 export class ClassesListComponent implements OnInit {
-  classes: any;
+  classes: Class[] = [];
+  user: User | null = null;
 
-  constructor(private classesService: ClassesService) { }
+  constructor(private classesService: ClassesService, private accountService: AccountService, private router: Router) { 
+    this.accountService.currentUser$.pipe(take(1)).subscribe({
+      next: user => {
+        this.user = user
+        console.log(user)
+      }
+    });
+  }
 
   ngOnInit(): void {
-    this.loadClasses();
+    // if(this.checkIfTeacher() === true)
+      this.loadClasses();
   }
+
+  // checkIfTeacher() : boolean {
+  //   if(this.user) {
+  //     if(this.user?.accountType === "Teacher") {
+  //       return true;
+  //     }
+  //     if(this.user?.accountType === "Student" || this.user?.accountType === "Parent") {
+  //       console.log('AAAA '+this.user.classId)
+  //       this.router.navigate(['uzytkownik', this.user.id, 'oceny'])
+  //       return false;
+  //     }
+  //   }
+  //   return true;
+  // }
 
   loadClasses() {
     this.classesService.getClasses().subscribe({

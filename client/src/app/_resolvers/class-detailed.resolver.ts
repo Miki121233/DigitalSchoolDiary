@@ -1,5 +1,4 @@
 import { ResolveFn } from '@angular/router';
-import { Member } from '../_models/member';
 import { inject } from '@angular/core';
 import { ClassesService } from '../_services/classes.service';
 import { Class } from '../_models/class';

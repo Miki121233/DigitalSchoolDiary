@@ -1,0 +1,29 @@
+<div *ngIf="user">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Opis oceny</th>
+          <th>Ocena</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let grade of grades">
+          <td>{{ grade.description }}</td>
+          <td>{{ grade.value }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+<!-- teacher do wchodzenia w pojedynczych-->
+<!-- <div *ngIf="user && (user.accountType === 'Student' || user.accountType === 'Teacher')">=
+    <div class="col-2" *ngFor="let grade of grades">
+        <p>{{grade.description}} {{grade.value}}</p>
+    </div>
+</div> -->
+
+<!-- <div *ngIf="user && user.accountType === 'Parent'">
+    <div class="col-2" *ngFor="let grade of grades">
+        <p>{{grade.description}} {{grade.value}}</p>
+    </div>
+</div> -->

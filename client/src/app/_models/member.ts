@@ -1,7 +1,10 @@
 export interface Member {
     id: number
-    userName: string
-    accountType: string
-    dateOfBirth: Date
-    gender: string
+    firstName: string;
+    lastName: string;
+    username: string;
+    accountType: string;
+    dateOfBirth: Date;
+    gender: string;
+    classId: string;
 }

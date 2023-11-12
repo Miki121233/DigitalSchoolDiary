@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Class } from '../_models/class';
+import { User } from '../_models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -18,10 +19,10 @@ export class ClassesService {
   }
 
   getClasses() {
-    return this.http.get(this.baseUrl + 'classes');
+    return this.http.get<Class[]>(this.baseUrl + 'classes');
   }
 
   getStudentsFromClass(id: number) {
-    return this.http.get(this.baseUrl + 'classes/' + id + '/students');
+    return this.http.get<User[]>(this.baseUrl + 'classes/' + id + '/students');
   }
 }
