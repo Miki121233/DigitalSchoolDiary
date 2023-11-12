@@ -24,14 +24,6 @@ public class GradesController : BaseApiController
         return await _context.Grades.ToListAsync();
     }
 
-    // [HttpGet("{id}")]
-    // public async Task<IEnumerable<Grade>> GetAllGradesForStudent(int id)
-    // {
-    //     var userGrades = await _context.Grades.Where(x => x.StudentId == id).ToListAsync();
-        
-    //     return userGrades;
-    // }
-
     [HttpPost("{studentId}")]
     public async Task<ActionResult<Grade>> PostGrade(GradeDto gradeDto, int studentId)
     {

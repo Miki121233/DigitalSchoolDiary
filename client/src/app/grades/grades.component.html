@@ -4,6 +4,12 @@
 
 <div *ngIf="students.length > 0 && user && user.accountType === 'Teacher'" class="grades-container">
     <div>
+        <strong>Oceny klasy:</strong>
+        <div *ngFor="let grade in grades">
+            <p>zrób tak żeby była tu tabela studentów i ich ocen po przecinku, sortuj po imieniu i nazwisku oraz oceny wpisuj po kolei</p>
+        </div>
+    </div>
+    <div>
         <strong>Przydzielanie ocen:</strong>
         <table class="styled-table">
             <thead>

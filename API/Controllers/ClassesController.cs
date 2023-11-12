@@ -32,12 +32,40 @@ public class ClassesController : BaseApiController
             .FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    [HttpGet("{id}/students")] //chyba niepotrzebne
-    public async Task<IEnumerable<Student>> GetStudentsFromClassAsync(int id)
+    [HttpGet("{id}/students")]
+    public async Task<ActionResult<IEnumerable<Student>>> GetStudentsFromClassAsync(int id)
     {
         var users = await _context.Students.Where(x => x.ClassId == id).ToListAsync();
 
+        if (users is null) return BadRequest("Ta klasa nie zawiera jeszcze studentów");
+
         return users;
+    }
+
+    [HttpGet("{id}/grades")]   //classes/1/grades
+    public ActionResult<IEnumerable<Grade>> GetGradesFromClassId(int id)
+    {
+        // ocena ma studentid => student ma studentid i classid przypisana => ja mam classid
+        // musze wziac z classid class=> z class
+        var classFromId = _context.Classes.Find(id);
+
+        if (classFromId is null) return BadRequest("Nie ma klasy o podanym Id");
+
+        var students = _context.Students.Where(x => x.ClassId == id);
+
+        if (students is null) return BadRequest("Nie ma studentów w tej klasie");
+
+        List<Grade> grades = new List<Grade>();
+
+        foreach (var student in students)
+        {
+            var gradesInLoop = _context.Grades.Where(x => x.StudentId == student.Id).ToList();
+            grades.AddRange(gradesInLoop);
+        }
+
+        if(grades is null) return BadRequest("W tej klasie nikt jeszcze nie otrzymał oceny");
+
+        return grades;
     }
 
     [HttpPost] 

@@ -55,18 +55,10 @@ export class GradesComponent implements OnInit {
     }
   }
 
-  getGradesForStudentFromId() {
-    if(this.user?.accountType === 'Student') {
-      if(this.user?.classId)
-        this.gradesService.getGradesForStudentFromId(this.user?.id).subscribe({
-          next: response => {
-            this.grades = response 
-            console.log(response)
-          }
-      });
-      else 
-        console.log('Bląd podczas wyświetlania ocen studenta względem klasy')
-    }
+  getGradesFromClassId() {
+    this.classesService.getGradesFromClassId(this.class.id).subscribe({
+      next: response => this.grades = response
+    });
   }
 
   updateDescriptions() {
@@ -100,6 +92,8 @@ export class GradesComponent implements OnInit {
         console.log('Błędy z przypisaniem ocen: ' + error.error)
       }
     });
+
+    this.getGradesFromClassId(); // mozliwe ze to za duzo razy sie niepotrzebnie wykonuje, ewentualne obejscie to pole refresh
   }
 
   assignAllGrades() {

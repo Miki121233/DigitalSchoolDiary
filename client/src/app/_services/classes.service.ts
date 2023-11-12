@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Class } from '../_models/class';
 import { User } from '../_models/user';
+import { Grade } from '../_models/grade';
 
 @Injectable({
   providedIn: 'root'
@@ -25,4 +26,10 @@ export class ClassesService {
   getStudentsFromClass(id: number) {
     return this.http.get<User[]>(this.baseUrl + 'classes/' + id + '/students');
   }
+
+  getGradesFromClassId(id: number) {
+    return this.http.get<Grade[]>(this.baseUrl + 'classes/' + id + '/grades');
+  }
+
+  //{{url}}/api/classes/1/grades
 }
