@@ -1,45 +1,40 @@
-<div *ngIf="class.students && user && user.accountType === 'Teacher'">
-    <div>
-        <strong>Tabela ocen:</strong>
-        <p></p>
-    </div>
+<ng-container *ngIf="students.length === 0">
+    <strong>Brak przypisanych studentów do tej klasy!</strong>
+</ng-container>
+
+<div *ngIf="students.length > 0 && user && user.accountType === 'Teacher'" class="grades-container">
     <div>
         <strong>Przydzielanie ocen:</strong>
-        <table>
+        <table class="styled-table">
             <thead>
                 <tr>
                     <th>Imię</th>
                     <th>Nazwisko</th>
-                    <th>Opis</th>
+                    <th>
+                        <input type="text" [(ngModel)]="description" placeholder="Zmień wszystkie opisy" class="change-all-descriptions" (input)="updateDescriptions()">
+                    </th>
                     <th>Ocena</th>
+                    <th>Akcje</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <input type="text" [(ngModel)]="description" placeholder="Zmień wszystkie opisy" (input)="updateDescriptions()">
-                    </td>
-                    <td></td>
-                </tr>
-                <tr *ngFor="let student of class.students; let i = index">
+                <tr *ngFor="let student of students; let i = index">
                     <td>{{student.firstName}}</td>
                     <td>{{student.lastName}}</td>
                     <td>
-                        <input type="text" [(ngModel)]="studentDescriptions[i]" placeholder="Opis oceny" [value]="student.gradeReason">
+                        <input type="text" [(ngModel)]="gradeDescriptions[i]" placeholder="Opis oceny" [value]="gradeDescriptions[i]" class="grade-description-input">
                     </td>
                     <td>
-                        <input type="number" [(ngModel)]="student.grade" placeholder="Ocena" [value]="student.grade">
+                        <input type="number" [(ngModel)]="gradeValues[i]" placeholder="Ocena" [value]="gradeValues[i]" class="grade-input">
+                    </td>
+                    <td>
+                        <button (click)="assignGrade(student, i)">Wystaw ocenę</button>
                     </td>
                 </tr>
             </tbody>
         </table>
+        <div style="text-align: right; margin-top: 10px; margin-right: 25px;">
+            <button (click)="assignAllGrades()">Wystaw wszystkie oceny</button>
+        </div>
     </div>
 </div>
-
-<!-- <div *ngIf="user && (user.accountType === 'Student' || user.accountType === 'Parent')">
-    <div class="col-2" *ngFor="let grade in grades">
-        <p>{{grade}}</p>
-    </div>
-</div> -->

@@ -18,4 +18,11 @@ export class GradesService {
   getGradesForStudentFromId(id: number) {
     return this.http.get<Grade[]>(this.baseUrl + 'users/'+ id + '/grades');
   }
+
+  postGradeForUser(id: number, grade: Grade) {
+    return this.http.post<Grade>(this.baseUrl + 'grades/' + id, grade);
+  }
+   // [HttpPost("{studentId}")]
+  // public async Task<ActionResult<Grade>> PostGrade(GradeDto gradeDto, int studentId)
+  // {
 }
