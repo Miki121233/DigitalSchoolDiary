@@ -16,6 +16,6 @@
   justify-content: center;
 }
   
-  .class-card:hover {
-    background-color: #e0e0e0; /* Zmiana koloru tła po najechaniu myszką */
-  }
+.class-card:hover {
+  background-color: #e0e0e0; /* Zmiana koloru tła po najechaniu myszką */
+}

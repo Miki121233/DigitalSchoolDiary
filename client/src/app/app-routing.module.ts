@@ -14,6 +14,8 @@ import { ClassesListComponent } from './classes/classes-list/classes-list.compon
 import { classDetailedResolver } from './_resolvers/class-detailed.resolver';
 import { userDetailedResolver } from './_resolvers/user-detailed.resolver';
 import { UserGradesComponent } from './user/user-grades/user-grades.component';
+import { classSubjectDetailedResolver } from './_resolvers/class-subject-detailed.resolver';
+import { ClassesSubjectsListComponent } from './classes/classes-subjects-list/classes-subjects-list.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -23,8 +25,9 @@ const routes: Routes = [
     canActivate: [authGuard],
     children: [
       {path: 'oceny', component: ClassesListComponent},
-      {path: 'oceny/:id', component: GradesComponent, resolve: {class: classDetailedResolver}},
-      {path: 'uzytkownik/:id/oceny', component: UserGradesComponent, resolve: {class: userDetailedResolver}},
+      {path: 'oceny/:id', component: ClassesSubjectsListComponent},//, resolve: {class: classDetailedResolver}},
+      {path: 'oceny/:id/:idPrzedmiotu', component: GradesComponent},//, resolve: {class: classSubjectDetailedResolver}},
+      //{path: 'uzytkownik/:id/oceny', component: UserGradesComponent, resolve: {class: userDetailedResolver}},
       {path: 'zadania', component: HomeworkComponent},
       {path: 'plan', component: ScheduleComponent},
       {path: 'wiadomosci', component: MessagesComponent},
@@ -34,7 +37,7 @@ const routes: Routes = [
       
     ]
   },
-  {path: '**', component: RegisterComponent, pathMatch: 'full'}
+  {path: '**', component: HomeComponent, pathMatch: 'full'}
 ];
 
 @NgModule({

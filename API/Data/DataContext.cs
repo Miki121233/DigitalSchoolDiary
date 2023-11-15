@@ -45,5 +45,9 @@ public class DataContext : DbContext
             opt.HasMany(x => x.Teachers).WithMany(x => x.Classes).UsingEntity(x => x.ToTable("TeacherToClass"));
            // opt.HasMany(x => x.Students).WithOne(x => x.Class).HasForeignKey(x => x.ClassId);
         });
+
+        builder.Entity<Subject>(opt =>{
+            
+        });
     }
 }

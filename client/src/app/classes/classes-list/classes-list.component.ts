@@ -25,8 +25,17 @@ export class ClassesListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // if(this.checkIfTeacher() === true)
+    if(this.user && this.user.accountType === 'Teacher')
       this.loadClasses();
+  }
+
+  loadClasses() {
+    this.classesService.getClasses().subscribe({
+      next:response => { 
+        console.log(response),
+        this.classes = response
+      }
+    });
   }
 
   // checkIfTeacher() : boolean {
@@ -43,12 +52,4 @@ export class ClassesListComponent implements OnInit {
   //   return true;
   // }
 
-  loadClasses() {
-    this.classesService.getClasses().subscribe({
-      next:response => { 
-        console.log(response),
-        this.classes = response
-      }
-    });
-  }
 }

@@ -7,7 +7,8 @@
   </ng-container>
 
   <ng-container *ngIf="user && (user.accountType === 'Student' || user.accountType === 'Parent')">
-    <app-user-grades></app-user-grades>
+    <!-- <app-user-grades></app-user-grades> -->
+    <div class="class-card fa-2x" routerLink="/oceny/{{user.classId}}"></div>
      <!-- oceny/{userid.classid} routerLink="/oceny/{{class.id}}  -->
   </ng-container>
 </div>

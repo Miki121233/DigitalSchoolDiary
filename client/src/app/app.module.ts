@@ -25,6 +25,8 @@ import { ClassesListComponent } from './classes/classes-list/classes-list.compon
 import { ClassesCardComponent } from './classes/classes-card/classes-card.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { UserGradesComponent } from './user/user-grades/user-grades.component';
+import { ClassesSubjectsListComponent } from './classes/classes-subjects-list/classes-subjects-list.component';
+import { ClassesSubjectsCardComponent } from './classes/classes-subjects-card/classes-subjects-card.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,6 +46,8 @@ import { UserGradesComponent } from './user/user-grades/user-grades.component';
     ClassesListComponent,
     ClassesCardComponent,
     UserGradesComponent,
+    ClassesSubjectsListComponent,
+    ClassesSubjectsCardComponent,
   ],
   imports: [
     BrowserModule,

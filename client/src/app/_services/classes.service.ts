@@ -23,11 +23,13 @@ export class ClassesService {
     return this.http.get<Class[]>(this.baseUrl + 'classes');
   }
 
-  getStudentsFromClass(id: number) {
+   //id jako string bo problem z paramMap.get('id')
+  getStudentsFromClass(id: string) {
     return this.http.get<User[]>(this.baseUrl + 'classes/' + id + '/students');
   }
 
-  getGradesFromClassId(id: number) {
+  //id jako string bo problem z paramMap.get('id')
+  getGradesFromClassId(id: string) {
     return this.http.get<Grade[]>(this.baseUrl + 'classes/' + id + '/grades');
   }
 

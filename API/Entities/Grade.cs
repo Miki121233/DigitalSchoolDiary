@@ -5,7 +5,6 @@ public class Grade
     public string Description { get; set; }
     public int Value { get; set; }
     public int StudentId { get; set; }
-    public string Subject { get; set; }
-    public string TeacherFirstName { get; set; }
-    public string TeacherLastName { get; set; }
+    public Subject Subject { get; set; }
+    public int TeacherId { get; set; }
 }

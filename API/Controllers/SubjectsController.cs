@@ -6,6 +6,7 @@ using API.Dtos;
 using API.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SQLitePCL;
 
 namespace API.Controllers;
 public class SubjectsController : BaseApiController
@@ -21,6 +22,26 @@ public class SubjectsController : BaseApiController
     {
         return await _context.Subjects.ToListAsync();
     }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Subject>> GetSubjectFromName(int id)
+    {   
+        var subject = await _context.Subjects.FindAsync(id);
+
+        if (subject is null) return BadRequest("Taki przedmiot nie istnieje");
+
+        return subject;
+    }
+
+    // [HttpGet("{name}")]
+    // public async Task<ActionResult<Subject>> GetSubjectFromName(string name)
+    // {   
+    //     var subject = await _context.Subjects.FirstOrDefaultAsync(x => x.Name.ToLower() == name.ToLower());
+
+    //     if (subject is null) return BadRequest("Taki przedmiot nie istnieje");
+
+    //     return subject;
+    // }
 
     [HttpPost]
     public async Task<ActionResult<Subject>> AddSubjectAsync(SubjectDto subjectDto)
