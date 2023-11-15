@@ -68,6 +68,39 @@ public class ClassesController : BaseApiController
         return grades;
     }
 
+    [HttpGet("{id}/subjects")]
+    public async Task<ActionResult<IEnumerable<Subject>>> GetSubjectsFromClassId(int id)
+    {
+        var classSearched = await _context.Classes.Include(x => x.Subjects).FirstOrDefaultAsync(x => x.Id == id);
+
+        if (classSearched is null) BadRequest("Nie ma klasy z takim id");
+
+        return classSearched.Subjects;
+    }
+
+    [HttpPost("{id}/subjects")]
+    public async Task<ActionResult<IEnumerable<Subject>>> AddSubjectToClassAsync(int id, SubjectDto subjectDto)
+    {
+        var classFromId = await _context.Classes.FindAsync(id);
+
+        if (classFromId is null) return BadRequest("Klasa o podanym id nie istnieje");
+
+        var subject = await _context.Subjects.FirstOrDefaultAsync(x => x.Name == subjectDto.Name);
+
+        if (subject is null) return BadRequest("Przedmiot o podanej nazwie nie istnieje w systemie");
+
+        if (classFromId.Subjects.Any(x => x.Name == subjectDto.Name))
+        {
+            return BadRequest("Przedmiot jest już przypisany do klasy");
+        }
+
+        classFromId.Subjects.Add(subject);
+
+        await _context.SaveChangesAsync();
+
+        return classFromId.Subjects;        
+    }
+
     [HttpPost] 
     public async Task<ActionResult<IEnumerable<Class>>> CreateClass(ClassDto classDto)
     {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '../_models/user';
 import { AccountService } from '../_services/account.service';
@@ -27,6 +27,7 @@ export class GradesComponent implements OnInit {
   user: User | null = null;
   students: User[] = [];
   grades: Grade[] = [];
+  @Input() subject: string | undefined;
 
   constructor(private route: ActivatedRoute, private accountService: AccountService, private http: HttpClient, 
     private classesService: ClassesService, private gradesService: GradesService, private fb: FormBuilder,

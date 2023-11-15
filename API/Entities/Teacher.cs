@@ -7,5 +7,7 @@ public class Teacher : AppUser
     {
         AccountType = "Teacher";
     }
-    public List<Class> Classes { get; set; } = new();
+    public List<Class> Classes { get; set; } = new(); 
+    // lepiej bedzie jak kazdy bedzie mial dostep do calosci klas (w przypadku zastępstwa byłyby inaczej problemy)
+    // ale jednoczesnie bedzie mial przypisane klasy ktorych uczy
 }

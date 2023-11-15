@@ -9,6 +9,8 @@ public class Class
     public string ClassLetterId { get; set; } // b
     public List<Teacher> Teachers { get; set; } = new();
     public List<Student> Students { get; set; } = new();
+    public List<Subject> Subjects { get; set; } = new();
+
 
     private string SchoolIdCalculation() {
         return Year.ToString() + ClassLetterId;

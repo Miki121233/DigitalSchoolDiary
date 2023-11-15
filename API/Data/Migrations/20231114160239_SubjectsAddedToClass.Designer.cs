@@ -3,6 +3,7 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231114160239_SubjectsAddedToClass")]
+    partial class SubjectsAddedToClass
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.12");
@@ -50,7 +53,7 @@ namespace API.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
 
                     b.HasDiscriminator<string>("AccountType").HasValue("AppUser");
 
@@ -71,7 +74,7 @@ namespace API.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Classes", (string)null);
+                    b.ToTable("Classes");
                 });
 
             modelBuilder.Entity("API.Entities.Grade", b =>
@@ -86,15 +89,6 @@ namespace API.Data.Migrations
                     b.Property<int>("StudentId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Subject")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("TeacherFirstName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("TeacherLastName")
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("Value")
                         .HasColumnType("INTEGER");
 
@@ -102,7 +96,7 @@ namespace API.Data.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("Grades", (string)null);
+                    b.ToTable("Grades");
                 });
 
             modelBuilder.Entity("API.Entities.Subject", b =>
@@ -121,7 +115,7 @@ namespace API.Data.Migrations
 
                     b.HasIndex("ClassId");
 
-                    b.ToTable("Subjects", (string)null);
+                    b.ToTable("Subject");
                 });
 
             modelBuilder.Entity("ClassTeacher", b =>
