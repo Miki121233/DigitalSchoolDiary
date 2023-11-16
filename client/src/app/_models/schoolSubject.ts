@@ -1,4 +1,4 @@
 export interface SchoolSubject {
-    id: number;
+    id: string;
     name: string;
 }

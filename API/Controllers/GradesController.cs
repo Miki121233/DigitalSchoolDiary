@@ -24,6 +24,47 @@ public class GradesController : BaseApiController
         return await _context.Grades.Include(x => x.Subject).ToListAsync();
     }
 
+    [HttpGet("{classId}/{subjectId}")]
+    public async Task<ActionResult<List<StudentGradesDto>>> GetStudentsGradesForDisplay(int classId, int subjectId)
+    {
+        // var classFromId = _context.Classes.Include(x => x.Students).Where(x => x.Id == classId);
+
+        // if (classFromId is null) return BadRequest("Nie ma klasy o podanym id");
+
+        // var gradesFromSubject = _context.Grades.Where(x => x.Subject.Id == subjectId);
+
+        // // var studentsFromGrades = _context.Students.Include(x => x.Grades).Where(x => x.Grades.sub)
+        
+        // var studentsFromThisClass = classFromId.Students;
+
+        var classFromId = await _context.Classes
+            .Include(x => x.Students)
+            .ThenInclude(s => s.Grades)
+            .ThenInclude(g => g.Subject)
+            .FirstOrDefaultAsync(x => x.Id == classId);
+
+        if (classFromId is null) return BadRequest("Nie ma klasy o podanym id");
+
+        var studentsGradesDtoList = new List<StudentGradesDto>();
+
+        foreach (var student in classFromId.Students)
+        {
+            var studentGradesDto = new StudentGradesDto
+            {
+                FirstName = student.FirstName,
+                LastName = student.LastName,
+                Grades = student.Grades
+                    .Where(g => g.Subject.Id == subjectId)
+                    .ToList()
+            };
+
+            studentsGradesDtoList.Add(studentGradesDto);
+        }
+
+        return studentsGradesDtoList.OrderBy(x => x.LastName).OrderBy(x => x.FirstName).ToList();
+        
+    }
+
     [HttpPost("{studentId}")]
     public async Task<ActionResult<Grade>> PostGrade(PostGradeDto gradeDto, int studentId)
     {
@@ -47,7 +88,8 @@ public class GradesController : BaseApiController
             Value = gradeDto.Value,
             StudentId = studentId,
             TeacherId = gradeDto.TeacherId,
-            Subject = subject
+            Subject = subject,
+            Date = DateTime.UtcNow
         };
 
         _context.Grades.Add(grade);

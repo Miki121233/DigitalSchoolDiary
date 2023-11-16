@@ -3,4 +3,5 @@ export interface Grade {
     value: number;
     subject: string;
     teacherId: number;
+    date?: Date;
 }

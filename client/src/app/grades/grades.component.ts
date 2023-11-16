@@ -28,6 +28,7 @@ export class GradesComponent implements OnInit {
   gradeValues: number[] = [];
   gradePost: Grade | null = null;
   user: User | null = null;
+  studentsForDisplay: any;
   students: User[] = [];
   grades: Grade[] = [];
   subject: SchoolSubject | null = null;
@@ -52,6 +53,7 @@ export class GradesComponent implements OnInit {
       this.getStudentsFromClass(this.classId);
     });
     this.getSubjectFromUrl();
+    this.getStudentGrades();
   }
 
   getStudentsFromClass(id: string) {
@@ -62,6 +64,20 @@ export class GradesComponent implements OnInit {
     for (let i = 0; i < this.students.length; i++) {
       this.gradeDescriptions[i] = "1";
     }
+  }
+
+  getStudentGrades() {
+    //if (this.classId && this.subject)
+    this.route.paramMap.subscribe(params => {
+      if (this.classId)
+        this.gradesService.getStudentsGrades(this.classId, params.get('idPrzedmiotu')!).subscribe({
+          next: response => {
+           this.studentsForDisplay = response
+           console.log(this.studentsForDisplay)
+          }
+      });
+      else console.log('Problem z getStudentGrades()' + this.classId + this.subject);
+    });
   }
 
   getGradesFromClassId() {
@@ -84,6 +100,7 @@ export class GradesComponent implements OnInit {
       this.subjectsService.getSubjectFromId(subjectId).subscribe({
         next: response => {
           this.subject = response
+          console.log(this.subject.id)
         }
       })
     });
@@ -118,6 +135,7 @@ export class GradesComponent implements OnInit {
         }
       });
       this.getGradesFromClassId(); // mozliwe ze to za duzo razy sie niepotrzebnie wykonuje, ewentualne obejscie to pole refresh
+      this.getStudentGrades();
     }
   }
 

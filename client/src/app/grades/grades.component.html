@@ -3,14 +3,49 @@
 </ng-container>
 
 <div *ngIf="students.length > 0 && user && user.accountType === 'Teacher'" class="grades-container">
-    <div>
+    <strong>Uczniowie tej klasy i ich oceny:</strong>
+    <div class="accordion-container">
+        <accordion [isAnimated]="true" [closeOthers]="true">
+            <ng-container *ngFor="let student of studentsForDisplay">
+                <accordion-group class="accordion-group">
+                    <div class="accordion-heading" accordion-heading>
+                        <span>{{student.firstName}} {{student.lastName}}</span>
+                        <i class="toggle-icon">▶</i>
+                    </div>
+                    <div class="accordion-body">
+                        <p *ngIf="student.grades.length === 0">Brak przydzielonych ocen</p>
+                        <table *ngIf="student.grades.length > 0" class="styled-table-accordion">
+                            <thead>
+                                <tr>
+                                    <th>Opis oceny</th>
+                                    <th>Ocena</th>
+                                    <th>Data wystawienia oceny</th>
+                                    <th>Id Nauczyciela wystawiającego</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let grade of student.grades">
+                                    <td>{{ grade.description }}</td>
+                                    <td>{{ grade.value }}</td>
+                                    <td>{{ grade.date | date:'dd-MM-yyyy'}}</td>
+                                    <td>{{ grade.teacherId }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </accordion-group>
+            </ng-container>
+        </accordion>
+    </div>
+    
+    <!-- <div>
         <strong>Oceny klasy:</strong>
         <div *ngFor="let grade in grades">
             <p>zrób tak żeby była tu tabela studentów i ich ocen po przecinku, sortuj po imieniu i nazwisku oraz oceny wpisuj po kolei</p>
         </div>
-    </div>
+    </div> -->
     <div>
-        <strong>Przydzielanie ocen:</strong>
+        <strong>Przydzielanie ocen: - {{subject?.name}}</strong>
         <table class="styled-table">
             <thead>
                 <tr>

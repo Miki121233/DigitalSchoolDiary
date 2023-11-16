@@ -1,6 +1,16 @@
-<div class="class-subjects-card fa-2x" (click)="log()" routerLink="/oceny/{{classId}}/{{subject.id}}"> <!--tu musza byc wypisane przedmioty a oceny daje sie na /oceny/class.id/historia-->
-    <div>
-        <p>{{subject.name}}</p>
-        <i class="fa-solid fa-pen"></i>
+<ng-container *ngIf="user && user.accountType === 'Teacher'">
+    <div class="class-subjects-card fa-2x" (click)="log()" routerLink="/oceny/{{classId}}/{{subject.id}}">
+        <div>
+            <p>{{subject.name}}</p>
+            <i class="fa-solid fa-pen"></i>
+        </div>
     </div>
-</div>
+</ng-container>
+<ng-container *ngIf="user && (user.accountType === 'Student' || user.accountType === 'Parent')">
+    <div class="class-subjects-card fa-2x" (click)="log()" routerLink="/oceny/{{classId}}/{{subject.id}}/{{user.id}}">
+        <div>
+            <p>{{subject.name}}</p>
+            <i class="fa-solid fa-pen"></i>
+        </div>
+    </div>
+</ng-container>

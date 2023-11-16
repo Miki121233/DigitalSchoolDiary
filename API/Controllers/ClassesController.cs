@@ -39,7 +39,7 @@ public class ClassesController : BaseApiController
 
         if (users is null) return BadRequest("Ta klasa nie zawiera jeszcze studentów");
 
-        return users;
+        return users.OrderBy(x => x.LastName).OrderBy(x => x.FirstName).ToList();
     }
 
     [HttpGet("{id}/grades")]   //classes/1/grades

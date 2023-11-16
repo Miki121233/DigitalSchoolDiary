@@ -83,4 +83,20 @@ public class UsersController : BaseApiController
         return await _context.Grades.Where(x => x.StudentId == id).ToListAsync(); 
     }
 
+//     getGradesForStudentFromIdAndSubjectId(studentId: number, subjectId: number) {
+//     return this.http.get<Grade[]>(this.baseUrl + 'users/'+ studentId + '/grades/' + subjectId);
+//   }
+
+    [HttpGet("{id}/grades/{subjectId}")]
+    public async Task<ActionResult<IEnumerable<Grade>>> getGradesForStudentFromIdAndSubjectId(int id, int subjectId)
+    {
+        var user = await _context.Users.FindAsync(id);
+
+        if (user is null) return BadRequest("Zły adres id studenta!");
+
+        if (user.AccountType == "Teacher" || user.AccountType == "Parent") return BadRequest("Tylko uczniowie mają oceny!");
+
+        return await _context.Grades.Where(x => x.StudentId == id).Where(x => x.Subject.Id == subjectId).ToListAsync(); 
+    }
+
 }

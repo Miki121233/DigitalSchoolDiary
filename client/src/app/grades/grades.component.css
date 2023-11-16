@@ -65,3 +65,74 @@
 .change-all-descriptions:hover {
     background-color: #2980b9;
 }
+
+/* Dodatkowe style dla accordionów */
+.accordion-container {
+    width: 100%;
+    margin: 20px;
+}
+
+/* Dodatkowe style dla tabeli w accordionie */
+.styled-table-accordion {
+    width: 75%;
+    border-collapse: collapse;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    height: 50%;
+}
+
+.styled-table-accordion th, .styled-table-accordion td {
+    padding: 10px; /* Zmniejszono padding */
+    text-align: left;
+    font-size: 14px; /* Zmniejszono rozmiar czcionki */
+}
+
+.styled-table-accordion thead {
+    background-color: #3498db;
+    color: #ffffff;
+}
+
+.styled-table-accordion tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.styled-table-accordion th, .styled-table-accordion td {
+    border-bottom: 1px solid #ddd;
+}
+
+/* Dostosowanie inputów */
+.styled-table-accordion input[type="text"],
+.styled-table-accordion input[type="number"] {
+    width: 100%;
+    padding: 8px; /* Zmniejszono padding */
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 8px; /* Zmniejszono margines */
+}
+
+/* Dodatkowe pola nad "Opis" */
+.styled-table-accordion th:nth-child(3) {
+    position: relative;
+}
+
+.styled-table-accordion th:nth-child(3)::before {
+    content: "";
+    display: block;
+    height: 8px; /* Zmniejszono wysokość */
+}
+
+/* Dostosowanie inputu dla "Zmień wszystkie opisy" */
+.styled-table-accordion input.change-all-descriptions {
+    width: calc(100% - 20px); /* Odejmujemy 20px, aby uwzględnić padding i border */
+    padding: 8px; /* Zmniejszono padding */
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 8px; /* Zmniejszono margines */
+}
+
+.styled-table-accordion input.change-all-descriptions:hover {
+    background-color: #2980b9;
+}

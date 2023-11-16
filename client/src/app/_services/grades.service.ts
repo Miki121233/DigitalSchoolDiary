@@ -19,6 +19,15 @@ export class GradesService {
     return this.http.get<Grade[]>(this.baseUrl + 'users/'+ id + '/grades');
   }
 
+  getGradesForStudentFromIdAndSubjectId(studentId: number, subjectId: string) {
+    return this.http.get<Grade[]>(this.baseUrl + 'users/'+ studentId + '/grades/' + subjectId);
+  }
+
+  //id string bo paramget
+  getStudentsGrades(classId: string, subjectId: string) {
+    return this.http.get(this.baseUrl + 'grades/' + classId + '/' + subjectId);  
+  }
+
   postGradeForUser(id: number, grade: Grade) {
     return this.http.post<Grade>(this.baseUrl + 'grades/' + id, grade);
   }

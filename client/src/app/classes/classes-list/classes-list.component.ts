@@ -22,6 +22,7 @@ export class ClassesListComponent implements OnInit {
         console.log(user)
       }
     });
+    this.checkIfTeacher();
   }
 
   ngOnInit(): void {
@@ -38,18 +39,17 @@ export class ClassesListComponent implements OnInit {
     });
   }
 
-  // checkIfTeacher() : boolean {
-  //   if(this.user) {
-  //     if(this.user?.accountType === "Teacher") {
-  //       return true;
-  //     }
-  //     if(this.user?.accountType === "Student" || this.user?.accountType === "Parent") {
-  //       console.log('AAAA '+this.user.classId)
-  //       this.router.navigate(['uzytkownik', this.user.id, 'oceny'])
-  //       return false;
-  //     }
-  //   }
-  //   return true;
-  // }
+  checkIfTeacher() {
+    if(this.user) {
+      if(this.user?.accountType === "Teacher") {
+        return;
+      }
+      if(this.user?.accountType === "Student" || this.user?.accountType === "Parent") {
+        this.router.navigate(['oceny', this.user.id])
+        return;
+      }
+    }
+    return true;
+  }
 
 }

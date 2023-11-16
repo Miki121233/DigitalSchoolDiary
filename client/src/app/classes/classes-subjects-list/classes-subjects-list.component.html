@@ -1,5 +1,5 @@
 <div class="row">
-    <ng-container *ngIf="user && user.accountType === 'Teacher'">
+    <ng-container *ngIf="user"> 
       <strong class="mb-2">Wybierz przedmiot:</strong>
       <div class="col-2" *ngFor="let subject of subjects">
         <app-classes-subjects-card [classId]="classId" [subject]="subject"></app-classes-subjects-card>

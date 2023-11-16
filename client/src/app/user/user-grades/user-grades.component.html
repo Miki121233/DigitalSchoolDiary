@@ -1,5 +1,6 @@
 <div *ngIf="user">
-    <table class="table">
+    <p *ngIf="grades.length === 0">Brak ocen z wybranego przedmiotu</p>
+    <table *ngIf="grades.length>0" class="table">
       <thead>
         <tr>
           <th>Opis oceny</th>

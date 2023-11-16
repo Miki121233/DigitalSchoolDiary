@@ -27,6 +27,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { UserGradesComponent } from './user/user-grades/user-grades.component';
 import { ClassesSubjectsListComponent } from './classes/classes-subjects-list/classes-subjects-list.component';
 import { ClassesSubjectsCardComponent } from './classes/classes-subjects-card/classes-subjects-card.component';
+import { AccordionModule } from 'ngx-bootstrap/accordion';
 @NgModule({
   declarations: [
     AppComponent,
@@ -61,7 +62,8 @@ import { ClassesSubjectsCardComponent } from './classes/classes-subjects-card/cl
       positionClass: 'toast-bottom-right'
     }),
     BsDatepickerModule.forRoot(),
-    FontAwesomeModule
+    FontAwesomeModule,
+    AccordionModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

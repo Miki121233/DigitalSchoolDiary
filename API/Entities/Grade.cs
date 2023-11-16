@@ -1,3 +1,6 @@
+using System;
+using Microsoft.AspNetCore.Http.HttpResults;
+
 namespace API.Entities;
 public class Grade
 {
@@ -7,4 +10,5 @@ public class Grade
     public int StudentId { get; set; }
     public Subject Subject { get; set; }
     public int TeacherId { get; set; }
+    public DateTime Date { get; set; } = DateTime.UtcNow;
 }
