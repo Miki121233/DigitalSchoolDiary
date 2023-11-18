@@ -1,0 +1,21 @@
+.class-card {
+    border: 1px solid #ccc; /* Obramowanie */
+    padding: 10px; /* Wewnętrzny odstęp */
+    margin: 10px; /* Odstęp między komponentami */
+    cursor: pointer; /* Zmiana kursora na wskaźnik przy najechaniu */
+    background-color: #f0f0f0; /* Tło komponentu */
+    color: #333; /* Kolor tekstu */
+    display: inline-block; /* Bloki będą ustawiane obok siebie */
+    width: 150px;
+    height: 150px;
+  
+    /* Dodaj flexbox, aby wyśrodkować zawartość */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+    
+  .class-card:hover {
+    background-color: #e0e0e0; /* Zmiana koloru tła po najechaniu myszką */
+  }

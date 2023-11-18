@@ -38,39 +38,8 @@ public class UsersController : BaseApiController
         var user = await _context.Users.FindAsync(id);
         
         return _mapper.Map<MemberDto>(user);
-
-
-        // AppUser userForReturn;
-        // switch (user.AccountType)
-        // {
-        //     case "Student":
-        //         {
-        //             userForReturn = await _context.Students.FindAsync(id);
-        //         }
-        //         break;
-        //     case "Parent":
-        //         {
-        //             userForReturn = await _context.Parents.FindAsync(id);
-        //         }
-        //         break;
-        //     case "Teacher":
-        //         {
-        //             userForReturn = await _context.Teachers.FindAsync(id);
-        //         }
-        //         break;
-        //     default:
-        //         {
-        //             return BadRequest("Błąd z typem konta");
-        //         }
-        // }
-
-        // return userForReturn;
     }
 
-    
-//  getGradesForStudentFromId(studentId: number) {
-//     return this.http.get<Grade[]>(this.baseUrl + 'users/'+ studentId + 'grades/');
-//   }
     [HttpGet("{id}/grades")]
     public async Task<ActionResult<IEnumerable<Grade>>> GetGradesForStudentFromId(int id)
     {
@@ -83,10 +52,6 @@ public class UsersController : BaseApiController
         return await _context.Grades.Where(x => x.StudentId == id).ToListAsync(); 
     }
 
-//     getGradesForStudentFromIdAndSubjectId(studentId: number, subjectId: number) {
-//     return this.http.get<Grade[]>(this.baseUrl + 'users/'+ studentId + '/grades/' + subjectId);
-//   }
-
     [HttpGet("{id}/grades/{subjectId}")]
     public async Task<ActionResult<IEnumerable<Grade>>> getGradesForStudentFromIdAndSubjectId(int id, int subjectId)
     {
@@ -97,6 +62,40 @@ public class UsersController : BaseApiController
         if (user.AccountType == "Teacher" || user.AccountType == "Parent") return BadRequest("Tylko uczniowie mają oceny!");
 
         return await _context.Grades.Where(x => x.StudentId == id).Where(x => x.Subject.Id == subjectId).ToListAsync(); 
+    }
+
+    [HttpGet("parent/{id}")]
+    public async Task<ActionResult<ParentDto>> GetParentWithChildrenIds(int id)
+    {
+        var parent = await _context.Parents.Include(x => x.StudentChildren).FirstOrDefaultAsync(x => x.Id == id);
+
+        if (parent is null) return BadRequest("Zły adres id rodzica!");
+
+        if (parent.AccountType != "Parent") return BadRequest("Konto nie należy do rodzica!");
+
+        List<StudentChildrenDto> childrenDtos = new();
+        foreach (var child in parent.StudentChildren)
+        {
+            childrenDtos.Add(new StudentChildrenDto()
+            {
+                Id = child.Id,
+                FirstName = child.FirstName,
+                LastName = child.LastName,
+                ClassId = child.ClassId
+            });
+        };
+
+        var parentDto = new ParentDto
+        {
+            Id = parent.Id,
+            FirstName = parent.FirstName,
+            LastName = parent.LastName,
+            Username = parent.Username,
+            AccountType = parent.AccountType,
+            StudentChildren = childrenDtos
+        };
+
+        return parentDto; 
     }
 
 }

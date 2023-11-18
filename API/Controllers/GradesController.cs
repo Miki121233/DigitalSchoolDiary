@@ -66,7 +66,7 @@ public class GradesController : BaseApiController
     }
 
     [HttpPost("{studentId}")]
-    public async Task<ActionResult<Grade>> PostGrade(PostGradeDto gradeDto, int studentId)
+    public async Task<ActionResult<Grade>> PostGrade(PostGradeDto gradeDto, int studentId) //sprawdzic jeszcze czy przedmiot jest w bazie klasy
     {
         var student = _context.Users.FirstOrDefault(x => x.Id == studentId);
 

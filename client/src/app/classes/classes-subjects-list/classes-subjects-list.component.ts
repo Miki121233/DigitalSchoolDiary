@@ -28,7 +28,7 @@ export class ClassesSubjectsListComponent implements OnInit{
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      this.classId = params.get('id');
+      this.classId = params.get('classId');
       console.log('Class ID:', this.classId);
     });
     this.loadSubjects();

@@ -44,12 +44,26 @@ export class ClassesListComponent implements OnInit {
       if(this.user?.accountType === "Teacher") {
         return;
       }
-      if(this.user?.accountType === "Student" || this.user?.accountType === "Parent") {
-        this.router.navigate(['oceny', this.user.id])
-        return;
+      if(this.user?.accountType === "Student") {
+        const currentPath = window.location.pathname;
+
+        if (currentPath.includes('/oceny')) {
+          this.router.navigate(['oceny', this.user.classId])
+        } 
+        else if (currentPath.includes('/zadania')) {
+          this.router.navigate(['zadania', this.user.classId])
+        } 
+        else {
+          console.log("Błąd ze ścieżkami");
+        }
       }
+      // if(this.user?.accountType === "Parent") {
+      //   this.router.navigateByUrl('wybor-dziecka');
+      //   return;
+      // }
     }
-    return true;
+    return;
   }
+
 
 }

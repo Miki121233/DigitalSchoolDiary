@@ -1,0 +1,7 @@
+<div *ngIf="user">
+    <div class="class-card fa-2x"> 
+        <div *ngFor="let child of user.studentChildren" [routerLink]="getRouterLink(child.classId)">
+            <p (click)="pickChild(child)">{{child.firstName}} {{child.lastName}} {{child.id}}</p>
+        </div>
+    </div>
+</div>

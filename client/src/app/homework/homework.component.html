@@ -1,1 +1,30 @@
-<p>homework works!</p>
+<div class="styled-table">
+    <p *ngIf="homeworks.length === 0">Brak przydzielonych zadań domowych</p>
+    <table *ngIf="homeworks.length > 0">
+        <thead>
+            <tr>
+                <th>Opis zadania</th>
+                <th>Komentarz do zadania</th>
+                <th>Data wystawienia zadania</th>
+                <th>Termin zadania</th>
+                <th>Id Nauczyciela wystawiającego</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let homework of homeworks">
+                <td>{{ homework.description }}</td>
+                <td>{{ homework.comment }}</td>
+                <td>{{ homework.publishDate | date:'dd-MM-yyyy'}}</td>
+                <td *ngIf="homework.deadline.toString() === '0001-01-01T00:00:00'">
+                    Brak daty</td>
+                <td *ngIf="homework.deadline.toString() !== '0001-01-01T00:00:00'">
+                    {{ homework.deadline | date:'dd-MM-yyyy'}}</td>
+                <td>{{ homework.teacherId }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div *ngIf="user && user.accountType === 'Teacher'">
+    <p>teacher</p>
+</div>

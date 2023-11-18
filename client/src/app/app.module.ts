@@ -28,6 +28,7 @@ import { UserGradesComponent } from './user/user-grades/user-grades.component';
 import { ClassesSubjectsListComponent } from './classes/classes-subjects-list/classes-subjects-list.component';
 import { ClassesSubjectsCardComponent } from './classes/classes-subjects-card/classes-subjects-card.component';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
+import { SelectChildListComponent } from './parents/select-child-list/select-child-list.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,6 +50,7 @@ import { AccordionModule } from 'ngx-bootstrap/accordion';
     UserGradesComponent,
     ClassesSubjectsListComponent,
     ClassesSubjectsCardComponent,
+    SelectChildListComponent,
   ],
   imports: [
     BrowserModule,

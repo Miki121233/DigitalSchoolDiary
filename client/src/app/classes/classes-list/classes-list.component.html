@@ -1,7 +1,11 @@
 <div class="row">
-  <ng-container *ngIf="user && user.accountType === 'Teacher'">
+  <ng-container *ngIf="user && user.accountType === 'Teacher'"> <!--metoda checkifteacher() przekierowywuje-->
     <strong class="mb-2">Wybierz klasę:</strong>
     <div class="col-2" *ngFor="let class of classes">
       <app-classes-card [class]="class"></app-classes-card>
     </div>
   </ng-container>
+  <ng-container *ngIf="user && user.accountType === 'Parent'">
+    <app-select-child-list></app-select-child-list>
+  </ng-container>
+</div>

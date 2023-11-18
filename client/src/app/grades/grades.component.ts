@@ -49,7 +49,7 @@ export class GradesComponent implements OnInit {
     //   }
     // });
     this.route.paramMap.subscribe(params => {
-      this.classId = params.get('id')!
+      this.classId = params.get('classId')!
       this.getStudentsFromClass(this.classId);
     });
     this.getSubjectFromUrl();
@@ -70,7 +70,7 @@ export class GradesComponent implements OnInit {
     //if (this.classId && this.subject)
     this.route.paramMap.subscribe(params => {
       if (this.classId)
-        this.gradesService.getStudentsGrades(this.classId, params.get('idPrzedmiotu')!).subscribe({
+        this.gradesService.getStudentsGrades(this.classId, params.get('subjectId')!).subscribe({
           next: response => {
            this.studentsForDisplay = response
            console.log(this.studentsForDisplay)

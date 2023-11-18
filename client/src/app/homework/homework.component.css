@@ -1,0 +1,42 @@
+/* Dodatkowe style */
+.grades-container {
+    margin: 20px;
+}
+
+/* Nowa stylizacja tabeli */
+.styled-table {
+    width: 70%;
+    border-collapse: collapse;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    table-layout: fixed; /* Ustawienie stałej szerokości kolumn */
+}
+
+.styled-table th, .styled-table td {
+    padding: 15px;
+    text-align: left;
+}
+
+.styled-table thead {
+    background-color: #3498db;
+    color: #ffffff;
+}
+
+.styled-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.styled-table th, .styled-table td {
+    border-bottom: 1px solid #ddd;
+}
+
+/* Stylizacja ostatniej kolumny */
+.styled-table th:last-child,
+.styled-table td:last-child {
+    border-bottom: none; /* Usunięcie dolnej granicy ostatniej kolumny */
+}
+
+.styled-table th:last-child {
+    width: 100%; /* Ustawienie szerokości na 100% dla th ostatniej kolumny */
+}

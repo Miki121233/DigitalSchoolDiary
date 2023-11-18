@@ -16,6 +16,7 @@ import { userDetailedResolver } from './_resolvers/user-detailed.resolver';
 import { UserGradesComponent } from './user/user-grades/user-grades.component';
 import { classSubjectDetailedResolver } from './_resolvers/class-subject-detailed.resolver';
 import { ClassesSubjectsListComponent } from './classes/classes-subjects-list/classes-subjects-list.component';
+import { SelectChildListComponent } from './parents/select-child-list/select-child-list.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -25,11 +26,14 @@ const routes: Routes = [
     canActivate: [authGuard],
     children: [
       {path: 'oceny', component: ClassesListComponent},
-      {path: 'oceny/:id', component: ClassesSubjectsListComponent},//, resolve: {class: classDetailedResolver}},
-      {path: 'oceny/:id/:idPrzedmiotu', component: GradesComponent},//, resolve: {class: classSubjectDetailedResolver}},
+      {path: 'oceny/:classId', component: ClassesSubjectsListComponent},//, resolve: {class: classDetailedResolver}},
+      {path: 'oceny/:classId/:subjectId', component: GradesComponent},//, resolve: {class: classSubjectDetailedResolver}},
       //{path: 'uzytkownik/:id/oceny', component: UserGradesComponent}, //resolve: {class: userDetailedResolver}},
       {path: 'oceny/:classId/:subjectId/:userId', component: UserGradesComponent}, //resolve: {class: userDetailedResolver}},
-      {path: 'zadania', component: HomeworkComponent},
+      {path: 'wybor-dziecka', component: SelectChildListComponent},
+      {path: 'zadania', component: ClassesListComponent},
+      {path: 'zadania/:classId', component: ClassesSubjectsListComponent},
+      {path: 'zadania/:classId/:subjectId', component: HomeworkComponent},
       {path: 'plan', component: ScheduleComponent},
       {path: 'wiadomosci', component: MessagesComponent},
       {path: 'kalendarz', component: CalendarComponent},

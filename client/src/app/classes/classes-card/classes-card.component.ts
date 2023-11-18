@@ -7,8 +7,23 @@ import { Component, Input } from '@angular/core';
 })
 export class ClassesCardComponent {
   @Input() class: any;
-  //navigateToGrades = false; 
 
   constructor() { }
+
+  getRouterLink(classId: number): string {
+    const currentPath = window.location.pathname;
+
+    if (currentPath.includes('/oceny')) {
+      return `/oceny/${classId}`;
+    } 
+    else if (currentPath.includes('/zadania')) {
+      return `/zadania/${classId}`;
+    } 
+    else {
+      // Domyślnie, jeśli nie pasuje do żadnej ścieżki
+      return `/inne/${classId}`;
+    }
+    
+  }
 
 }

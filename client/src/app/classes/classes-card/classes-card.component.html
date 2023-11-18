@@ -1,4 +1,4 @@
-<div class="class-card fa-2x" routerLink="/oceny/{{class.id}}"> <!-- ClassesSubjectsListComponent -->
+<div class="class-card fa-2x" [routerLink]="getRouterLink(class.id)"> <!-- ClassesSubjectsListComponent -->
     <div>
         <p>{{class.schoolId}}</p>
         <i class="fa-solid fa-pen"></i>
