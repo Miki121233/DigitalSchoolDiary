@@ -121,4 +121,13 @@ public class ClassesController : BaseApiController
         return Ok(classModel);
     }
 
+    [HttpGet("get-school-id/{classId}")]
+    public async Task<ActionResult<string>> GetSchoolIdFromClassId(int classId)
+    {
+        var classFromId = await _context.Classes.FindAsync(classId);
+        if (classFromId is null) return BadRequest("Nie ma klasy o podanym id");
+
+        return classFromId.SchoolId;
+    }
+
 }

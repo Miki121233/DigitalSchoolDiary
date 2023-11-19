@@ -29,6 +29,10 @@ import { ClassesSubjectsListComponent } from './classes/classes-subjects-list/cl
 import { ClassesSubjectsCardComponent } from './classes/classes-subjects-card/classes-subjects-card.component';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { SelectChildListComponent } from './parents/select-child-list/select-child-list.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { DatePipe } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
@@ -65,9 +69,14 @@ import { SelectChildListComponent } from './parents/select-child-list/select-chi
     }),
     BsDatepickerModule.forRoot(),
     FontAwesomeModule,
-    AccordionModule.forRoot()
+    AccordionModule.forRoot(),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory
+    }),
+    NgbModule
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

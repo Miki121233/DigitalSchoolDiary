@@ -39,7 +39,7 @@ public class HomeworksController : BaseApiController
         var classFromId = await _context.Classes.FindAsync(classId);
         if (classFromId is null) return BadRequest("Nie ma klasy o podanym id");
 
-        var subject = await _context.Subjects.FirstOrDefaultAsync(x => x.Name.ToLower() == homeworkDto.Subject.ToLower());
+        var subject = await _context.Subjects.FirstOrDefaultAsync(x => x.Id == homeworkDto.SubjectId);
         if (subject is null) return BadRequest("Nie ma takiego przedmiotu w bazie");
 
         var teacher = await _context.Teachers.FindAsync(homeworkDto.TeacherId);

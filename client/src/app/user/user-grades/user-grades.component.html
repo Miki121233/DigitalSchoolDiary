@@ -5,12 +5,14 @@
         <tr>
           <th>Opis oceny</th>
           <th>Ocena</th>
+          <th>Data wystawienia oceny</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let grade of grades">
           <td>{{ grade.description }}</td>
           <td>{{ grade.value }}</td>
+          <td>{{ grade.date | date:'dd-MM-yyyy' }}</td>
         </tr>
       </tbody>
     </table>

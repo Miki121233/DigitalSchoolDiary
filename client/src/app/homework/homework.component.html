@@ -1,5 +1,6 @@
 <div class="styled-table">
     <p *ngIf="homeworks.length === 0">Brak przydzielonych zadań domowych</p>
+    <strong *ngIf="homeworks.length > 0">Zadania przydzielone dla tej klasy:</strong>
     <table *ngIf="homeworks.length > 0">
         <thead>
             <tr>
@@ -18,7 +19,8 @@
                 <td *ngIf="homework.deadline.toString() === '0001-01-01T00:00:00'">
                     Brak daty</td>
                 <td *ngIf="homework.deadline.toString() !== '0001-01-01T00:00:00'">
-                    {{ homework.deadline | date:'dd-MM-yyyy'}}</td>
+                    <!-- {{ homework.deadline | date:'dd-MM-yyyy'}}</td> -->
+                    {{timeToEvent(homework.deadline)}}</td>
                 <td>{{ homework.teacherId }}</td>
             </tr>
         </tbody>
@@ -26,5 +28,42 @@
 </div>
 
 <div *ngIf="user && user.accountType === 'Teacher'">
-    <p>teacher</p>
+    <div>
+        <strong>Przydziel nowe zadanie dla klasy:</strong>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Opis zadania</th>
+                    <th>Komentarz do zadania</th>
+                    <!-- <th>Data wystawienia zadania</th> -->
+                    <th>Termin oddania</th>
+                    <!-- <th>Id Nauczyciela wystawiającego</th> -->
+                    <th>Akcje</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <input type="text" [(ngModel)]="descriptionForm" placeholder="Ogólny opis zadania" [value]="descriptionForm" class="grade-description-input">
+                    </td>
+                    <td>
+                        <input type="text" [(ngModel)]="commentForm" placeholder="Szczegółowy opis zadania" [value]="commentForm" class="grade-description-input">
+                    </td>
+                    <td>
+                        <input type="text" 
+                        class="grade-description-input"
+                        [(ngModel)]="deadlineForm"
+                        [value]="deadlineForm | date:'dd-MM-yyyy'"
+                        placeholder="Ostateczny termin"
+                        bsDatepicker
+                        [bsConfig]="{ isAnimated: true }"
+                        >
+                    </td>
+                    <td>
+                        <button (click)="assignHomework()">Opublikuj zadanie</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

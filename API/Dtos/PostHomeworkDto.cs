@@ -13,5 +13,5 @@ public class PostHomeworkDto
     //[Required]
     public DateTime Deadline { get; set; }
     [Required]
-    public string Subject { get; set; }
+    public int SubjectId { get; set; }
 }

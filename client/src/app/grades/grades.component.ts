@@ -126,7 +126,7 @@ export class GradesComponent implements OnInit {
 
       this.gradesService.postGradeForUser(student.id, this.gradePost).subscribe({
         next: () => {
-          this.toastr.success(`Wystawienio ocenę ${this.gradeValues[index]} dla ${student.firstName} 
+          this.toastr.success(`Wystawiono ocenę ${this.gradeValues[index]} dla ${student.firstName} 
           ${student.lastName} z opisem: ${this.gradeDescriptions[index]}`);
           
         },

@@ -14,8 +14,9 @@ export class ClassesService {
 
   constructor(private http: HttpClient) { }
 
-  //id jako string bo problem z paramMap.get('id')
-  getClass(id: string) {
+  //id jako number | string bo problem z paramMap.get('id') - chce miec stringa
+  
+  getClass(id: number | string) {
     return this.http.get<Class>(this.baseUrl + 'classes/' + id);
   }
 
@@ -23,15 +24,16 @@ export class ClassesService {
     return this.http.get<Class[]>(this.baseUrl + 'classes');
   }
 
-   //id jako string bo problem z paramMap.get('id')
-  getStudentsFromClass(id: string) {
+  getStudentsFromClass(id: number | string) {
     return this.http.get<User[]>(this.baseUrl + 'classes/' + id + '/students');
   }
 
-  //id jako string bo problem z paramMap.get('id')
-  getGradesFromClassId(id: string) {
+  getGradesFromClassId(id: number | string) {
     return this.http.get<Grade[]>(this.baseUrl + 'classes/' + id + '/grades');
   }
 
-  //{{url}}/api/classes/1/grades
+  getSchoolIdFromClassId(classId: number | string) {
+    return this.http.get<string>(this.baseUrl + 'classes/get-school-id/' + classId, { responseType: 'text' as 'json' });
+  }
+
 }
