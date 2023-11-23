@@ -33,6 +33,10 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { ScheduleEventDialogComponent } from './schedule-event-dialog/schedule-event-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 @NgModule({
   declarations: [
     AppComponent,
@@ -55,6 +59,7 @@ import { DatePipe } from '@angular/common';
     ClassesSubjectsListComponent,
     ClassesSubjectsCardComponent,
     SelectChildListComponent,
+    ScheduleEventDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -74,7 +79,10 @@ import { DatePipe } from '@angular/common';
       provide: DateAdapter,
       useFactory: adapterFactory
     }),
-    NgbModule
+    //NgbModule,
+    FullCalendarModule,
+    MatDialogModule,
+    TimepickerModule.forRoot()
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

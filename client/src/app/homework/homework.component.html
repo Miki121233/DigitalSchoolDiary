@@ -20,7 +20,7 @@
                     Brak daty</td>
                 <td *ngIf="homework.deadline.toString() !== '0001-01-01T00:00:00'">
                     <!-- {{ homework.deadline | date:'dd-MM-yyyy'}}</td> -->
-                    {{timeToEvent(homework.deadline)}}</td>
+                    {{homework.deadline | date:'dd-MM-yyyy'}} ({{timeToEvent(homework.deadline)}}) </td>
                 <td>{{ homework.teacherId }}</td>
             </tr>
         </tbody>

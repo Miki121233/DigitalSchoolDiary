@@ -13,7 +13,8 @@
 }
 
 .styled-table th, .styled-table td {
-    padding: 15px;
+    border: 1px solid #ddd; /* odpowiada za kratkowanie */
+    padding: 20px;
     text-align: left;
 }
 

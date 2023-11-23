@@ -19,6 +19,9 @@ export class ClassesCardComponent {
     else if (currentPath.includes('/zadania')) {
       return `/zadania/${classId}`;
     } 
+    else if (currentPath.includes('/plan')) {
+      return `/plan/${classId}`;
+    } 
     else {
       // Domyślnie, jeśli nie pasuje do żadnej ścieżki
       return `/inne/${classId}`;

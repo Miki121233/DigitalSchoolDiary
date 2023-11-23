@@ -3,6 +3,7 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231123140255_EventsHasTeacherId")]
+    partial class EventsHasTeacherId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.12");
@@ -86,9 +89,6 @@ namespace API.Data.Migrations
                     b.Property<int?>("ClassId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("CreatorId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<bool>("Editable")
                         .HasColumnType("INTEGER");
 
@@ -113,7 +113,7 @@ namespace API.Data.Migrations
                     b.Property<string>("StartTime")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("TeacherId")
+                    b.Property<int>("TeacherId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
@@ -281,7 +281,9 @@ namespace API.Data.Migrations
 
                     b.HasOne("API.Entities.Teacher", null)
                         .WithMany("Events")
-                        .HasForeignKey("TeacherId");
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("API.Entities.Grade", b =>

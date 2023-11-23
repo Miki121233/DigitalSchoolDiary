@@ -26,10 +26,7 @@ export class UserGradesComponent {
         if (user) {
           this.user = user
           console.log('user');
-          
           console.log(user);
-          
-          
         }
       }
     });

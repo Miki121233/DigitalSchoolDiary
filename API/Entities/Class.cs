@@ -10,7 +10,7 @@ public class Class
     public List<Teacher> Teachers { get; set; } = new();
     public List<Student> Students { get; set; } = new();
     public List<Subject> Subjects { get; set; } = new();
-
+    public List<Event> Events { get; set; } = new();
 
     private string SchoolIdCalculation() {
         return Year.ToString() + ClassLetterId;

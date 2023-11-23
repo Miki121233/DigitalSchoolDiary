@@ -18,6 +18,7 @@ public class DataContext : DbContext
     public DbSet<Grade> Grades { get; set; }
     public DbSet<Subject> Subjects { get; set; }
     public DbSet<Homework> Homeworks { get; set; }
+    public DbSet<Event> Events { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
