@@ -17,6 +17,7 @@ import { UserGradesComponent } from './user/user-grades/user-grades.component';
 import { classSubjectDetailedResolver } from './_resolvers/class-subject-detailed.resolver';
 import { ClassesSubjectsListComponent } from './classes/classes-subjects-list/classes-subjects-list.component';
 import { SelectChildListComponent } from './parents/select-child-list/select-child-list.component';
+import { TeacherScheduleComponent } from './teacher-schedule/teacher-schedule.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -34,6 +35,7 @@ const routes: Routes = [
       {path: 'zadania', component: ClassesListComponent},
       {path: 'zadania/:classId', component: ClassesSubjectsListComponent},
       {path: 'zadania/:classId/:subjectId', component: HomeworkComponent},
+      {path: 'plany', component: TeacherScheduleComponent},
       {path: 'plan', component: ClassesListComponent},
       {path: 'plan/:classId', component: ScheduleComponent},
       {path: 'wiadomosci', component: MessagesComponent},

@@ -34,6 +34,48 @@ public class EventsController : BaseApiController
         return classFromId.Events;
     }
 
+    [HttpGet("teachers/{teacherId}")]
+    public async Task<ActionResult<IEnumerable<Event>>> LoadTeacherEventsFromId(int teacherId)
+    {
+        var teacher = await _context.Teachers.Include(x => x.Events).FirstOrDefaultAsync(x => x.Id == teacherId);
+        if (teacher is null) return BadRequest("Nauczyciel o podanym adresie id nie istnieje");
+
+        return teacher.Events;
+    }    
+
+    [HttpPut("{id}")]
+    public async Task<ActionResult<Event>> EditEvent(int id, ChangeEventDto eventDto)
+    {
+        var eventFromId = await _context.Events.FindAsync(id);
+        if (eventFromId is null) return BadRequest("Nie ma wydarzenia o podanym id");
+
+        if(eventDto.AssignedPersonId != 0) 
+        {
+            var teacherPreviouslyAssigned = _context.Teachers.Include(x => x.Events).FirstOrDefault(t => t.Events.Any(e => e.Id == id));
+            if (teacherPreviouslyAssigned != null) 
+            {
+                var eventToRemove = teacherPreviouslyAssigned.Events.FirstOrDefault(e => e.Id == id);
+                if (eventToRemove != null) 
+                {
+                    teacherPreviouslyAssigned.Events.Remove(eventToRemove);
+                }
+            }
+
+            var teacherToAssign = _context.Teachers.Include(x => x.Events).FirstOrDefault(t => t.Id == eventDto.AssignedPersonId);
+            if (teacherToAssign != null) 
+            {
+                teacherToAssign.Events.Add(eventFromId);
+            }
+            else return BadRequest("Nauczyciel o podanym id nie istnieje");
+
+        }
+
+        _mapper.Map(eventDto, eventFromId);
+        await _context.SaveChangesAsync();
+
+        return eventFromId;
+    }
+
     [HttpPost("classes/{classId}")]
     public async Task<ActionResult<Event>> PostEvent(int classId, PostEventDto eventDto) //sprawdzic jeszcze czy przedmiot jest w bazie klasy
     {

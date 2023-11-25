@@ -19,5 +19,11 @@ export class EventsService {
     return this.http.post(this.baseUrl + 'events/classes/' + classId, event);
   }
   
+  loadTeacherEventsFromId(teacherId: number | string) {
+    return this.http.get<ScheduleEvent[]>(this.baseUrl + 'events/teachers/' + teacherId);
+  }
 
+  editEvent(id: number, scheduleEvent: ScheduleEvent) {
+    return this.http.put(this.baseUrl + 'events/' + id, scheduleEvent);
+  }
 }

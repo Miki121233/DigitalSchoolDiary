@@ -25,7 +25,9 @@ export class ScheduleComponent {
   classId: string | null = null;
   events: ScheduleEvent[] | null = null;
   user: User | null = null;
-  child?: StudentChildren 
+  child?: StudentChildren
+  selectedSlotMin: string | null = null;
+  selectedSlotMax: string | null = null;
 
   constructor(private dialog: MatDialog, private eventsService: EventsService, private toastr: ToastrService,
     private accountService: AccountService, private userService: UserService, private route: ActivatedRoute) {
@@ -58,67 +60,94 @@ export class ScheduleComponent {
       right: 'timeGridWeek,timeGridDay'
     },
     weekends: false,
+    slotMinTime: '06:00',
+    slotMaxTime: '22:00',
     events: this.events!,
     locale: plLocale,
     dateClick: this.handleDateClick.bind(this),
-    //eventClick: this.handleEventClick.bind(this)
+    eventClick: this.handleEventClick.bind(this)
     
   };
 
-  // handleEventClick(arg: any) { //edycja istniejacego klikajac na niego
-  //   const dialogRef = this.dialog.open(ScheduleEventDialogComponent, {
-  //     width: '250px',
-  //     data: { title: 'Edytuj wydarzenie', event: arg.event },
-  //   });
+  handleSlotMinChange() {
+    if (this.selectedSlotMin) {
+      const calendarApi = this.fullCalendar.getApi();
+      calendarApi.setOption("slotMinTime", this.selectedSlotMin)
+    }
+  }
 
-  //   dialogRef.afterClosed().subscribe((result) => {
-  //     if (result) {
-  //       const calendarApi = this.fullCalendar.getApi();
-  //       const endDate = new Date(result.event.date);
+  handleSlotMaxChange() {
+    if (this.selectedSlotMax) {
+      const calendarApi = this.fullCalendar.getApi();
+      calendarApi.setOption("slotMaxTime", this.selectedSlotMax)
+    }
+  }
 
-  //       calendarApi.getEventById(result.event.id)?.remove();
-  //       //this.eventsService.postEventForClass(this.classId, )
-  //       calendarApi.addEvent({
-  //         ...result.event,
-  //         id: result.event.id,
-  //         startRecur: result.event.start,
-  //         //endRecur: endDate,
-  //       });
-
-  //       calendarApi.refetchEvents();
-          //this.loadEventsFromClass();
-  //     }
-  //   });
-  // }
-
-  // postEventForClass() {
-  //   this.eventsService.postEventForClass();
-  // }
-
+  handleEventClick(arg: any) {
+    if (arg.event && this.events) {
+      var eventFromClick = arg.event.toPlainObject();
+      this.events.forEach(event => {
+        if (eventFromClick.id == event.id) { // == porównuje wartosci
+          const dialogRef = this.dialog.open(ScheduleEventDialogComponent, {
+            width: '250px',
+            data: { title: 'Edytuj wydarzenie', event: event, showDeleteButton: true },
+          });
+          dialogRef.afterClosed().subscribe((result) => {
+            const calendarApi = this.fullCalendar.getApi();
+            if (result) {
+              if (result.action === 'delete') {
+                this.deleteEvent(event.id);
+              } 
+              else if (result.action === 'save') {
+                this.editEvent(event.id, event);
+              } 
+              else { } //anulowanie
+              calendarApi.refetchEvents();
+            }
+         });
+        }
+      });
+    }
+  }
+  
   handleDateClick(arg: any) { //dodanie eventu przez klikniecie na kalendarz
-    console.log('Clicked on date:', arg.date);
-    const startDate = arg.date;
-    const endDate = new Date(arg.date);
-    endDate.setDate(startDate.getDate() + 1);
-    var startHour;
-    var endHour;
-    if(startDate.getMinutes() == '0') {
-      startHour = startDate.getHours() + ":" + '00';
-      endHour = (startDate.getHours() + 1) + ":" + '00';
+    if (this.user && this.user.accountType==='Teacher') {
+      const startDate = arg.date;
+      const endDate = new Date(arg.date);
+      endDate.setDate(startDate.getDate() + 1);
+      var startHour;
+      var endHour;
+
+      if(startDate.getHours() < 10) {
+        if(startDate.getMinutes() == '0') {
+          startHour = '0' + startDate.getHours() + ':' + '00';
+          endHour = '0' + (startDate.getHours() + 1) + ':' + '00';
+        }
+        else if (startDate.getMinutes() != '0')  {
+          startHour = '0' + startDate.getHours() + ':' + startDate.getMinutes();
+          endHour = '0' + (startDate.getHours() + 1) + ':' + startDate.getMinutes();
+        }  
+      }
+      else if (startDate.getHours() >= 10) {
+        if(startDate.getMinutes() == '0') {
+          startHour = startDate.getHours() + ':' + '00';
+          endHour = (startDate.getHours() + 1) + ':' + '00';
+        }
+        else if (startDate.getMinutes() != '0')  {
+          startHour = startDate.getHours() + ':' + startDate.getMinutes();
+          endHour = (startDate.getHours() + 1) + ':' + startDate.getMinutes();
+        }
+      }
+
+      this.openEventDialog({ 
+        title: 'Nowe wydarzenie', 
+        start: startDate, 
+        startTime: startHour, 
+        endTime: endHour,
+        startRecur: startDate,
+        end: endDate
+      });
     }
-    else  {
-      startHour = startDate.getHours() + ":" + startDate.getMinutes();
-      endHour = (startDate.getHours() + 1) + ":" + startDate.getMinutes();
-    }
-    this.openEventDialog({ 
-      title: 'Nowe wydarzenie', 
-      start: startDate, 
-      startTime: startHour, 
-      endTime: endHour,
-      startRecur: startDate,
-      end: endDate
-    });
-    console.log('endDate:', endDate.toString());
   }
 
   addEvent() 
@@ -134,8 +163,6 @@ export class ScheduleComponent {
   }
 
   openEventDialog(event: any): void {
-    console.log('event')
-    console.log(event)
     const dialogRef = this.dialog.open(ScheduleEventDialogComponent, {
       width: '300px',
       data: { event },
@@ -143,31 +170,45 @@ export class ScheduleComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
+        const event = result.data.event;
+        console.log('event')
+        console.log(event)
         const calendarApi = this.fullCalendar.getApi();
-        if(result.event.repeatWeekly && result.event.repeatWeekly == true) {
-          const dayOfWeek = result.event.start.getDay();
+        if(event.repeatWeekly && event.repeatWeekly == true) {
+          const dayOfWeek = event.start.getDay();
           calendarApi.addEvent({
-            ...result.event,
+            ...event,
             daysOfWeek: [dayOfWeek],
-            startRecur:  result.event.start,
+            startRecur:  event.start,
           });
-          console.log(result.event);
-          console.log(result.event.start);
         }
-        else if(!result.event.repeatWeekly || result.event.repeatWeekly == false ) {
+        else if(!event.repeatWeekly || event.repeatWeekly == false ) {
           //jednorazowo
-          const endDate = new Date(result.event.date);
+          const endDate = new Date(event.date);
           console.log('endDate 2')
           console.log(endDate)
-          calendarApi.addEvent(result.event);
+          calendarApi.addEvent(event);
           console.log({
-            ...result.event,
-            startRecur:  result.event.start
+            ...event,
+            startRecur:  event.start
             //endRecur:
           })
         }
-        this.postEventForClass(result.event);
+        this.postEventForClass(event);
         calendarApi.refetchEvents();
+      }
+    });
+  }
+
+  editEvent(id: number, scheduleEvent: ScheduleEvent) {
+    this.eventsService.editEvent(id, scheduleEvent).subscribe({
+      next: _ => {
+        this.toastr.success("Pomyślnie edytowano wydarzenie")
+        this.loadEventsFromClass();
+      },
+      error: error => {
+        console.log(error.error)
+        this.toastr.error("Błąd z edycją wydarzenia")
       }
     });
   }
@@ -180,12 +221,35 @@ export class ScheduleComponent {
           this.toastr.success("Pomyślnie utworzono wydarzenie")
           this.loadEventsFromClass();
       },
-        error: error => console.log(error.error)
+        error: error => {
+          console.log(error.error)
+          this.toastr.error("Błąd z utworzeniem wydarzenia")
+        }
       });
     }
     else {
       this.toastr.error("Błąd z utworzeniem wydarzenia")
     }
+  }
+
+  deleteEvent(id: any) {
+    const calendarApi = this.fullCalendar.getApi();
+    //calendarApi.getEventById(id)?.remove();
+    // Dodaj tutaj również logikę usuwania z backendu, używając serwisu eventsService
+
+    console.log('Usuwanie!!!' + ', id: '+id);
+
+    // this.eventsService.deleteEvent(id).subscribe({
+    //   next: _ => {
+    //     this.toastr.success("Pomyślnie usunięto wydarzenie");
+    //     this.loadEventsFromClass();
+    //     calendarApi.refetchEvents();
+    //   },
+    //   error: error => {
+    //     console.error(error);
+    //     this.toastr.error("Błąd podczas usuwania wydarzenia");
+    //   }
+    // });
   }
 
   loadEventsFromClass() {
@@ -205,6 +269,9 @@ export class ScheduleComponent {
         console.log(this.events)
 
         this.calendarOptions.events = this.events;
+      },
+      error: error => {
+        this.toastr.error("Problem z załadowaniem wydarzeń")
       }
     });
   }

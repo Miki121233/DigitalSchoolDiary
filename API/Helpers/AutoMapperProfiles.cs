@@ -9,6 +9,8 @@ public class AutoMapperProfiles : Profile
     {
         CreateMap<AppUser, MemberDto>();
         CreateMap<PostEventDto, Event>();
+        CreateMap<ChangeEventDto, Event>()
+            .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
         // CreateMap<Teacher, UserDto>();
         // CreateMap<Parent, UserDto>();
         // CreateMap<Student, UserDto>();

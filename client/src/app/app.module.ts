@@ -37,6 +37,8 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { ScheduleEventDialogComponent } from './schedule-event-dialog/schedule-event-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+import { TeacherScheduleComponent } from './teacher-schedule/teacher-schedule.component';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -59,7 +61,9 @@ import { TimepickerModule } from 'ngx-bootstrap/timepicker';
     ClassesSubjectsListComponent,
     ClassesSubjectsCardComponent,
     SelectChildListComponent,
-    ScheduleEventDialogComponent
+    ScheduleEventDialogComponent,
+    TeacherScheduleComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,

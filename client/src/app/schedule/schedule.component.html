@@ -1,4 +1,8 @@
 <div>
+    <label for="slotMin">Godzina początkowa:</label>
+    <input type="time" [(ngModel)]="selectedSlotMin" (change)="handleSlotMinChange()" />
+    <label for="slotMax">Godzina końcowa:</label>
+    <input type="time" [(ngModel)]="selectedSlotMax" (change)="handleSlotMaxChange()" />
     <full-calendar #fullCalendar [options]="calendarOptions" [events]="events"></full-calendar>
-    <button (click)="addEvent()">Dodaj wydarzenie</button>
+    <button *ngIf="user && user.accountType==='Teacher'" (click)="addEvent()">Dodaj wydarzenie</button>
 </div>
