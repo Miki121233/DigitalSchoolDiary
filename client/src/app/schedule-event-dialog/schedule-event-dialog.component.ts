@@ -38,19 +38,6 @@ export class ScheduleEventDialogComponent {
     this.showDeleteButton = data.showDeleteButton || false;
   }
 
-  confirmDelete(): void {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '250px',
-      data: { message: 'Czy na pewno chcesz usunąć to wydarzenie?' },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.dialogRef.close({ data: this.data, action: 'delete' });
-      }
-    });
-  }
-
   onNoClick(): void {
     this.dialogRef.close();
   }

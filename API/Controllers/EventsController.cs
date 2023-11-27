@@ -47,11 +47,11 @@ public class EventsController : BaseApiController
     public async Task<ActionResult<Event>> EditEvent(int id, ChangeEventDto eventDto)
     {
         var eventFromId = await _context.Events.FindAsync(id);
-        if (eventFromId is null) return BadRequest("Nie ma wydarzenia o podanym id");
+        if (eventFromId is null) return NotFound("Nie ma wydarzenia o podanym id");
 
         if(eventDto.AssignedPersonId != 0) 
         {
-            var teacherPreviouslyAssigned = _context.Teachers.Include(x => x.Events).FirstOrDefault(t => t.Events.Any(e => e.Id == id));
+            var teacherPreviouslyAssigned = await _context.Teachers.Include(x => x.Events).FirstOrDefaultAsync(t => t.Events.Any(e => e.Id == id));
             if (teacherPreviouslyAssigned != null) 
             {
                 var eventToRemove = teacherPreviouslyAssigned.Events.FirstOrDefault(e => e.Id == id);
@@ -61,7 +61,7 @@ public class EventsController : BaseApiController
                 }
             }
 
-            var teacherToAssign = _context.Teachers.Include(x => x.Events).FirstOrDefault(t => t.Id == eventDto.AssignedPersonId);
+            var teacherToAssign = await _context.Teachers.Include(x => x.Events).FirstOrDefaultAsync(t => t.Id == eventDto.AssignedPersonId);
             if (teacherToAssign != null) 
             {
                 teacherToAssign.Events.Add(eventFromId);
@@ -80,7 +80,7 @@ public class EventsController : BaseApiController
     public async Task<ActionResult<Event>> PostEvent(int classId, PostEventDto eventDto) //sprawdzic jeszcze czy przedmiot jest w bazie klasy
     {
         var classFromId = await _context.Classes.FindAsync(classId);
-        if (classFromId is null) return BadRequest("Nie ma klasy o podanym id");
+        if (classFromId is null) return NotFound("Nie ma klasy o podanym id");
         
         var creator = await _context.Teachers.FindAsync(eventDto.CreatorId);
         if (creator is null) return BadRequest("Nie ma nauczyciela o podanym id");  
@@ -97,6 +97,26 @@ public class EventsController : BaseApiController
         return eventForReturn;
     }
 
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteEvent(int id)
+    {
+        var eventFromId = await _context.Events.FindAsync(id);
+        if (eventFromId is null) return NotFound("Nie ma wydarzenia o podanym id");
 
+        var assignedClass = await _context.Classes.Include(x => x.Events).FirstOrDefaultAsync(t => t.Events.Any(e => e.Id == id));
+        if (assignedClass is null) return BadRequest("Wydarzenie nie ma przypisanej klasy");
+        assignedClass.Events.Remove(eventFromId);
+
+        var assignedTeacher = await _context.Teachers.Include(x => x.Events).FirstOrDefaultAsync(t => t.Events.Any(e => e.Id == id));
+        if (assignedTeacher != null) 
+        {
+            assignedTeacher.Events.Remove(eventFromId);
+        }
+        
+        _context.Events.Remove(eventFromId);
+        await _context.SaveChangesAsync();
+        
+        return Ok();
+    }
 
 }

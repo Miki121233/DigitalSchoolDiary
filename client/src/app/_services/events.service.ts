@@ -26,4 +26,8 @@ export class EventsService {
   editEvent(id: number, scheduleEvent: ScheduleEvent) {
     return this.http.put(this.baseUrl + 'events/' + id, scheduleEvent);
   }
+
+  deleteEvent(id: number) {
+    return this.http.delete(this.baseUrl + 'events/' + id);
+  }
 }

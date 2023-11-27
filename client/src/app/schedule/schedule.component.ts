@@ -14,6 +14,7 @@ import { AccountService } from "../_services/account.service";
 import { UserService } from "../_services/user.service";
 import { StudentChildren } from "../_models/studentChildren";
 import { ActivatedRoute } from "@angular/router";
+import { ConfirmationDialogComponent } from "../confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector: 'app-schedule',
@@ -88,6 +89,7 @@ export class ScheduleComponent {
       var eventFromClick = arg.event.toPlainObject();
       this.events.forEach(event => {
         if (eventFromClick.id == event.id) { // == porównuje wartosci
+          event.start = arg.event._instance.range.start;
           const dialogRef = this.dialog.open(ScheduleEventDialogComponent, {
             width: '250px',
             data: { title: 'Edytuj wydarzenie', event: event, showDeleteButton: true },
@@ -232,24 +234,29 @@ export class ScheduleComponent {
     }
   }
 
-  deleteEvent(id: any) {
-    const calendarApi = this.fullCalendar.getApi();
-    //calendarApi.getEventById(id)?.remove();
-    // Dodaj tutaj również logikę usuwania z backendu, używając serwisu eventsService
+  deleteEvent(id: number) {
+    const confirmationDialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '250px',
+      data: { message: 'Czy na pewno chcesz usunąć to wydarzenie?' },
+    });
+  
+    confirmationDialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        const calendarApi = this.fullCalendar.getApi();
+        this.eventsService.deleteEvent(id).subscribe({
+        next: () => {
+          this.toastr.success("Pomyślnie usunięto wydarzenie");
+          this.loadEventsFromClass();
+          calendarApi.refetchEvents();
+        },
+        error: error => {
+          console.error(error);
+          this.toastr.error("Błąd podczas usuwania wydarzenia");
+        }
+        });
+      }
+    });
 
-    console.log('Usuwanie!!!' + ', id: '+id);
-
-    // this.eventsService.deleteEvent(id).subscribe({
-    //   next: _ => {
-    //     this.toastr.success("Pomyślnie usunięto wydarzenie");
-    //     this.loadEventsFromClass();
-    //     calendarApi.refetchEvents();
-    //   },
-    //   error: error => {
-    //     console.error(error);
-    //     this.toastr.error("Błąd podczas usuwania wydarzenia");
-    //   }
-    // });
   }
 
   loadEventsFromClass() {
