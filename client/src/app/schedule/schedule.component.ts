@@ -64,11 +64,24 @@ export class ScheduleComponent {
     slotMinTime: '06:00',
     slotMaxTime: '22:00',
     events: this.events!,
+    eventContent: this.handleEventContent.bind(this),
     locale: plLocale,
     dateClick: this.handleDateClick.bind(this),
     eventClick: this.handleEventClick.bind(this)
     
   };
+
+  handleEventContent(arg: any): string {
+    const event = arg.event;
+    
+    if (event.extendedProps.assignedTeacherId != 0 && typeof(event.extendedProps.assignedTeacherId) !== typeof(undefined) &&
+    event.extendedProps.assignedTeacherLastName && event.extendedProps.assignedTeacherFirstName) {
+      const description = ' - ' + event.extendedProps.assignedTeacherLastName + ' ' + event.extendedProps.assignedTeacherFirstName;
+      return `${event.title} ${description}`;
+    }
+
+    return `${event.title}`;
+  }
 
   handleSlotMinChange() {
     if (this.selectedSlotMin) {
@@ -90,13 +103,29 @@ export class ScheduleComponent {
       this.events.forEach(event => {
         if (eventFromClick.id == event.id) { // == porównuje wartosci
           event.start = arg.event._instance.range.start;
+          event.startHours = eventFromClick.extendedProps.startHours;
+          event.endHours = eventFromClick.extendedProps.endHours;
+          event.assignedTeacherId = eventFromClick.extendedProps.assignedTeacherId;
+          console.log('event');
+          console.log(event);
+          console.log('eventFromClick');
+          console.log(eventFromClick);
+          
           const dialogRef = this.dialog.open(ScheduleEventDialogComponent, {
             width: '250px',
-            data: { title: 'Edytuj wydarzenie', event: event, showDeleteButton: true },
+            data: { title: event.title, event: event, showDeleteButton: true },
           });
           dialogRef.afterClosed().subscribe((result) => {
-            const calendarApi = this.fullCalendar.getApi();
             if (result) {
+              const eventFromResult = result.data.event;
+              const calendarApi = this.fullCalendar.getApi();
+              const eventStart = new Date(eventFromResult.start);
+              eventStart.setHours(parseInt(eventFromResult.startHours.split(':')[0], 10), parseInt(eventFromResult.startHours.split(':')[1], 10));
+              const eventEnd= new Date(eventFromResult.end);
+              eventEnd.setHours(parseInt(eventFromResult.endHours.split(':')[0], 10), parseInt(eventFromResult.endHours.split(':')[1], 10));
+              event.start = eventStart;
+              event.end = eventEnd;
+
               if (result.action === 'delete') {
                 this.deleteEvent(event.id);
               } 
@@ -115,12 +144,12 @@ export class ScheduleComponent {
   handleDateClick(arg: any) { //dodanie eventu przez klikniecie na kalendarz
     if (this.user && this.user.accountType==='Teacher') {
       const startDate = arg.date;
-      const endDate = new Date(arg.date);
-      endDate.setDate(startDate.getDate() + 1);
+      //const endDate = new Date(arg.date);
+      //endDate.setDate(startDate.getDate() + 1);
       var startHour;
       var endHour;
 
-      if(startDate.getHours() < 10) {
+      if(startDate.getHours() < 9) {
         if(startDate.getMinutes() == '0') {
           startHour = '0' + startDate.getHours() + ':' + '00';
           endHour = '0' + (startDate.getHours() + 1) + ':' + '00';
@@ -128,6 +157,16 @@ export class ScheduleComponent {
         else if (startDate.getMinutes() != '0')  {
           startHour = '0' + startDate.getHours() + ':' + startDate.getMinutes();
           endHour = '0' + (startDate.getHours() + 1) + ':' + startDate.getMinutes();
+        }  
+      }
+      else if (startDate.getHours() == 9) {
+        if(startDate.getMinutes() == '0') {
+          startHour = '0' + startDate.getHours() + ':' + '00';
+          endHour = (startDate.getHours() + 1) + ':' + '00';
+        }
+        else if (startDate.getMinutes() != '0')  {
+          startHour = '0' + startDate.getHours() + ':' + startDate.getMinutes();
+          endHour = (startDate.getHours() + 1) + ':' + startDate.getMinutes();
         }  
       }
       else if (startDate.getHours() >= 10) {
@@ -141,14 +180,25 @@ export class ScheduleComponent {
         }
       }
 
-      this.openEventDialog({ 
-        title: 'Nowe wydarzenie', 
-        start: startDate, 
-        startTime: startHour, 
-        endTime: endHour,
-        startRecur: startDate,
-        end: endDate
-      });
+      if(startHour && endHour) {
+        const startWithStartTime = new Date(startDate);
+        startWithStartTime.setHours(parseInt(startHour.split(':')[0], 10), parseInt(startHour.split(':')[1], 10));
+
+        const endWithEndTime = new Date(startDate);
+        endWithEndTime.setHours(parseInt(endHour.split(':')[0], 10), parseInt(endHour.split(':')[1], 10));
+
+        this.openEventDialog({ 
+          title: 'Nowe wydarzenie', 
+          start: startWithStartTime, 
+          end: endWithEndTime,
+          startHours: startHour, 
+          endHours: endHour,
+          editable: true
+          //startRecur: startDate
+        });
+
+      }
+      else console.error('Problem z inicjalizacja startHour i endHour');
     }
   }
 
@@ -157,8 +207,8 @@ export class ScheduleComponent {
     this.openEventDialog({ 
       title: 'Nowe wydarzenie',
       start: new Date(),
-      startTime: '13:00',
-      endTime: '14:00',
+      startHours: '13:00',
+      endHours: '14:00',
       editable: true,
       allDay: false,
      });
@@ -173,28 +223,23 @@ export class ScheduleComponent {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         const event = result.data.event;
-        console.log('event')
+        console.log('event 11111')
         console.log(event)
         const calendarApi = this.fullCalendar.getApi();
+
         if(event.repeatWeekly && event.repeatWeekly == true) {
           const dayOfWeek = event.start.getDay();
-          calendarApi.addEvent({
-            ...event,
-            daysOfWeek: [dayOfWeek],
-            startRecur:  event.start,
-          });
+          event.startTime = event.startHours;
+          event.endTime = event.endHours;
+          event.daysOfWeek = [dayOfWeek];
+          calendarApi.addEvent(event);
+
         }
         else if(!event.repeatWeekly || event.repeatWeekly == false ) {
-          //jednorazowo
-          const endDate = new Date(event.date);
-          console.log('endDate 2')
-          console.log(endDate)
+          event.startTime = undefined;
+          event.endTime = undefined;
+          event.daysOfWeek = undefined;
           calendarApi.addEvent(event);
-          console.log({
-            ...event,
-            startRecur:  event.start
-            //endRecur:
-          })
         }
         this.postEventForClass(event);
         calendarApi.refetchEvents();
@@ -268,8 +313,15 @@ export class ScheduleComponent {
           if(event.repeatWeekly && event.repeatWeekly == true) {
             const dayOfWeek = new Date(event.start).getDay();
             event.daysOfWeek = [dayOfWeek]
+            event.startTime = event.startHours;
+            event.endTime = event.endHours;
+  
           }
-          //else - pojedyncze wydarzenie
+          else if(!event.repeatWeekly || event.repeatWeekly == false ) {
+            event.startTime = undefined;
+            event.endTime = undefined;
+            event.daysOfWeek = undefined;
+          }
         });
 
         console.log('loaded events')

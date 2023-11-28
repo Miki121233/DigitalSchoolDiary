@@ -1,7 +1,5 @@
-using System;
-
-namespace API.Entities;
-public class Event
+namespace API.Dtos;
+public class EventDtoForClass
 {
     public int Id { get; set; }
     public string Title { get; set; }
@@ -12,9 +10,10 @@ public class Event
     public string StartRecur { get; set; }
     public string EndRecur { get; set; }
     public bool RepeatWeekly { get; set; }
-    public bool Editable { get; set; } = true;
-    public bool AllDay { get; set; } = false;
-    //to w Liscie nauczyciela
-    //public int AssignedTeacherId { get; set; }
+    public bool Editable { get; set; }
+    public bool AllDay { get; set; }
+    public int AssignedTeacherId { get; set; }
+    public string AssignedTeacherFirstName { get; set; }
+    public string AssignedTeacherLastName { get; set; }
     public int CreatorId { get; set; }
 }

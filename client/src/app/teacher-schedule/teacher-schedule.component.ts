@@ -48,10 +48,21 @@ export class TeacherScheduleComponent {
     slotMinTime: '06:00',
     slotMaxTime: '22:00',
     events: this.events!,
+    eventContent: this.handleEventContent.bind(this),
     locale: plLocale
     
   };
 
+  handleEventContent(arg: any): string {
+    const event = arg.event;
+    
+    if (event.extendedProps.classSchoolId != 0 && typeof(event.extendedProps.classSchoolId) !== typeof(undefined)) {
+      const description = ' - ' + event.extendedProps.classSchoolId;
+      return `${event.title} ${description}`;
+    }
+
+    return `${event.title}`;
+  }
 
   loadTeacherEvents() {
     if (this.user)
@@ -62,8 +73,15 @@ export class TeacherScheduleComponent {
         if(event.repeatWeekly && event.repeatWeekly == true) {
           const dayOfWeek = new Date(event.start).getDay();
           event.daysOfWeek = [dayOfWeek]
+          event.startTime = event.startHours;
+          event.endTime = event.endHours;
+
         }
-        //else - pojedyncze wydarzenie
+        else if(!event.repeatWeekly || event.repeatWeekly == false ) {
+          event.startTime = undefined;
+          event.endTime = undefined;
+          event.daysOfWeek = undefined;
+        }
       });
       console.log('eventy nauczyciela');
       console.log(response);

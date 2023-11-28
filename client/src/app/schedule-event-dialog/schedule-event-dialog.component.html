@@ -9,11 +9,11 @@
   </div>
   <div class="mat-form-field">
     <label>Godzina rozpoczęcia:</label>
-    <p><input type="time" [(ngModel)]="data.event.startTime" /></p>
+    <p><input type="time" [(ngModel)]="data.event.startHours" /></p>
   </div>
   <div class="mat-form-field">
     <label>Godzina zakończenia:</label>
-    <p><input type="time" [(ngModel)]="data.event.endTime" /></p>
+    <p><input type="time" [(ngModel)]="data.event.endHours" /></p>
   </div>
   <div class="mat-form-field">
     <label>Czy powtarzać to wydarzenie co tydzień?</label>
@@ -21,7 +21,7 @@
   </div>
   <div class="mat-form-field">
     <label>Id osoby która ma być przypisana do wydarzenia:</label>
-    <p><input type="number" [(ngModel)]="data.event.assignedPersonId" /></p>
+    <p><input type="number" [(ngModel)]="data.event.assignedTeacherId" /></p>
   </div>
 </div>
 <div mat-dialog-actions>
