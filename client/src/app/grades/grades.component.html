@@ -3,14 +3,15 @@
 </ng-container>
 
 <div *ngIf="students.length > 0 && user && user.accountType === 'Teacher'" class="grades-container">
-    <strong>Uczniowie tej klasy i ich oceny:</strong>
+    <h1 class="subject-name">{{subject?.name?.toUpperCase()}}</h1>
+    <h2>Uczniowie tej klasy i ich oceny:</h2>
     <div class="accordion-container">
         <accordion [isAnimated]="true" [closeOthers]="true">
             <ng-container *ngFor="let student of studentsForDisplay">
                 <accordion-group class="accordion-group">
                     <div class="accordion-heading" accordion-heading>
-                        <span>{{student.firstName}} {{student.lastName}}</span>
-                        <i class="toggle-icon">▶</i>
+                        <i class="fa-solid fa-user-graduate"></i>
+                        <span>  {{student.firstName}} {{student.lastName}}</span>
                     </div>
                     <div class="accordion-body">
                         <p *ngIf="student.grades.length === 0">Brak przydzielonych ocen</p>
@@ -45,7 +46,7 @@
         </div>
     </div> -->
     <div>
-        <strong>Przydzielanie ocen: - {{subject?.name}}</strong>
+        <h2>Przydzielanie ocen:</h2>
         <table class="styled-table">
             <thead>
                 <tr>

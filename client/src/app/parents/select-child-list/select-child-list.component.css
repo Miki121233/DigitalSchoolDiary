@@ -1,21 +1,31 @@
 .class-card {
-    border: 1px solid #ccc; /* Obramowanie */
-    padding: 10px; /* Wewnętrzny odstęp */
-    margin: 10px; /* Odstęp między komponentami */
-    cursor: pointer; /* Zmiana kursora na wskaźnik przy najechaniu */
-    background-color: #f0f0f0; /* Tło komponentu */
-    color: #333; /* Kolor tekstu */
-    display: inline-block; /* Bloki będą ustawiane obok siebie */
-    width: 150px;
-    height: 150px;
-  
-    /* Dodaj flexbox, aby wyśrodkować zawartość */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-    
-  .class-card:hover {
-    background-color: #e0e0e0; /* Zmiana koloru tła po najechaniu myszką */
-  }
+  border: 2px solid #3498db; /* Obramowanie - niebieski kolor */
+  padding: 20px; /* Wewnętrzny odstęp */
+  margin: 20px; /* Odstęp między komponentami */
+  cursor: pointer; /* Zmiana kursora na wskaźnik przy najechaniu */
+  background-color: #ffffff; /* Tło komponentu - biały kolor */
+  color: #3498db; /* Kolor tekstu - niebieski kolor */
+  display: inline-block; /* Bloki będą ustawiane obok siebie */
+  width: 165px;
+  height: 165px;
+  border-radius: 15px; /* Zaokrąglenie rogów */
+
+  /* Dodaj flexbox, aby wyśrodkować zawartość */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  /* Dodaj efekt przejścia dla płynniejszej zmiany koloru */
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+}
+
+.class-card:hover {
+  background-color: #2980b9; /* Zmiana koloru tła po najechaniu myszką - ciemniejszy niebieski */
+  border-color: #2980b9; /* Zmiana koloru obramowania po najechaniu myszką - ciemniejszy niebieski */
+  color: #ffffff; /* Kolor tekstu po najechaniu myszką - biały */
+}
+
+.class-card p {
+  line-height: 1.3;
+}

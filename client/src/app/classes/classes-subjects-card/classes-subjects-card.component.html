@@ -1,24 +1,24 @@
 <ng-container *ngIf="user && user.accountType === 'Teacher'">
-    <div class="class-subjects-card fa-2x" (click)="log()" [routerLink]="getRouterLinkForTeacher()">
+    <div class="class-card fa-2x" (click)="log()" [routerLink]="getRouterLinkForTeacher()">
         <div>
             <p>{{subject.name}}</p>
-            <i class="fa-solid fa-pen"></i>
+            <i class="fa-solid fa-book"></i>
         </div>
     </div>
 </ng-container>
 <ng-container *ngIf="user && user.accountType === 'Student'">
-    <div class="class-subjects-card fa-2x" (click)="log()" [routerLink]="getRouterLinkForStudent()">
+    <div class="class-card fa-2x" (click)="log()" [routerLink]="getRouterLinkForStudent()">
         <div>
             <p>{{subject.name}}</p>
-            <i class="fa-solid fa-pen"></i>
+            <i class="fa-solid fa-book"></i>
         </div>
     </div>
 </ng-container>
 <ng-container *ngIf="user && user.accountType === 'Parent'">
-    <div class="class-subjects-card fa-2x" (click)="log()" [routerLink]="getRouterLinkForParent()">
+    <div class="class-card fa-2x" (click)="log()" [routerLink]="getRouterLinkForParent()">
         <div>
             <p>{{subject.name}}</p>
-            <i class="fa-solid fa-pen"></i>
+            <i class="fa-solid fa-book"></i>
         </div>
     </div>
 </ng-container>

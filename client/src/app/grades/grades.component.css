@@ -69,7 +69,11 @@
 /* Dodatkowe style dla accordionów */
 .accordion-container {
     width: 100%;
-    margin: 20px;
+    margin-bottom: 20px;
+}
+
+.accordion-group {
+    font-size: 130%;
 }
 
 /* Dodatkowe style dla tabeli w accordionie */
@@ -136,3 +140,15 @@
 .styled-table-accordion input.change-all-descriptions:hover {
     background-color: #2980b9;
 }
+
+.subject-name {
+    border: 2px solid #3498db; /* Obramowanie - niebieski kolor */
+    padding: 10px; /* Wewnętrzny odstęp */
+    color: #3498db; /* Kolor tekstu - niebieski kolor */
+    border-radius: 15px;
+    border-left-width: 150px;
+    border-right-width: 150px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }

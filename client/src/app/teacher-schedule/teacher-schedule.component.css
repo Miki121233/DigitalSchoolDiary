@@ -1,0 +1,16 @@
+.btn {
+    border: 2px solid #3498db; /* Obramowanie - niebieski kolor */
+    margin: 5px; /* Odstęp między komponentami */
+    border-radius: 15px; /* Zaokrąglenie rogów */
+    cursor: pointer; /* Zmiana kursora na wskaźnik przy najechaniu */
+    background-color: #ffffff; /* Tło komponentu - biały kolor */
+    text-align: center;
+    color: #3498db; /* Kolor tekstu - niebieski kolor */
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+}
+
+.btn:hover {
+    background-color: #2980b9; /* Zmiana koloru tła po najechaniu myszką - ciemniejszy niebieski */
+    border-color: #2980b9; /* Zmiana koloru obramowania po najechaniu myszką - ciemniejszy niebieski */
+    color: #ffffff; /* Kolor tekstu po najechaniu myszką - biały */
+  }

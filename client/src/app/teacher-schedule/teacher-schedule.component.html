@@ -1,6 +1,6 @@
 <div *ngIf="user && user.accountType==='Teacher'">
-    <button *ngIf="!teacherScheduleSwitch" (click)="switchTeacherSchedule()"><h2>Wyświetl swój grafik</h2></button>
-    <button *ngIf="teacherScheduleSwitch" (click)="switchTeacherSchedule()"><h2>Ukryj swój grafik</h2></button>
+    <button class="btn btn-primary" *ngIf="!teacherScheduleSwitch" (click)="switchTeacherSchedule()"><h2>Wyświetl swój grafik</h2></button>
+    <button class="btn btn-primary" *ngIf="teacherScheduleSwitch" (click)="switchTeacherSchedule()"><h2>Ukryj swój grafik</h2></button>
     <div *ngIf="teacherScheduleSwitch">
         <label for="slotMin">Godzina początkowa:</label>
         <input type="time" [(ngModel)]="selectedSlotMin" (change)="handleSlotMinChange()" />
@@ -9,8 +9,8 @@
         <full-calendar #fullCalendar [options]="calendarOptions" [events]="events"></full-calendar>
     </div>
     <div><p></p></div>
-    <button *ngIf="!classesListSwitch" (click)="switchClassesList()"><h2>Wyświetl panel planów zajęć klas</h2></button>
-    <button *ngIf="classesListSwitch" (click)="switchClassesList()"><h2>Schowaj panel planów zajęć klas</h2></button>
+    <button class="btn btn-primary" *ngIf="!classesListSwitch" (click)="switchClassesList()"><h2>Wyświetl panel planów zajęć klas</h2></button>
+    <button class="btn btn-primary" *ngIf="classesListSwitch" (click)="switchClassesList()"><h2>Schowaj panel planów zajęć klas</h2></button>
     <div *ngIf="classesListSwitch">
         <app-classes-list></app-classes-list>
     </div>

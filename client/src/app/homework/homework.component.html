@@ -1,7 +1,7 @@
-<div class="styled-table">
+<div>
     <p *ngIf="homeworks.length === 0">Brak przydzielonych zadań domowych</p>
-    <strong *ngIf="homeworks.length > 0">Zadania przydzielone dla tej klasy:</strong>
-    <table *ngIf="homeworks.length > 0">
+    <h2 *ngIf="homeworks.length > 0">Zadania przydzielone dla tej klasy:</h2>
+    <table class="styled-table" *ngIf="homeworks.length > 0">
         <thead>
             <tr>
                 <th>Opis zadania</th>
@@ -29,7 +29,7 @@
 
 <div *ngIf="user && user.accountType === 'Teacher'">
     <div>
-        <strong>Przydziel nowe zadanie dla klasy:</strong>
+        <h2>Przydziel nowe zadanie dla klasy:</h2>
         <table class="styled-table">
             <thead>
                 <tr>

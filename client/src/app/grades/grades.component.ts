@@ -95,12 +95,11 @@ export class GradesComponent implements OnInit {
 
   getSubjectFromUrl() {
     this.route.paramMap.subscribe(params => {
-      const subjectId = params.get('idPrzedmiotu');
+      const subjectId = params.get('subjectId');
       if (subjectId)
       this.subjectsService.getSubjectFromId(subjectId).subscribe({
         next: response => {
           this.subject = response
-          console.log(this.subject.id)
         }
       })
     });

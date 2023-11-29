@@ -1,8 +1,9 @@
 <div *ngIf="user">
-    <strong>Wybierz ucznia, którego dane chcesz przeglądać:</strong>
+    <h2>Wybierz ucznia, którego dane chcesz przeglądać:</h2>
     <div class="class-card fa-2x"> 
         <div *ngFor="let child of user.studentChildren" [routerLink]="getRouterLink(child.classId)">
-            <p (click)="pickChild(child)">{{child.firstName}} {{child.lastName}} {{child.id}}</p>
+            <p (click)="pickChild(child)">{{child.firstName}} {{child.lastName}}</p>
+            <i class="fa-solid fa-user-graduate"></i>
         </div>
     </div>
 </div>
