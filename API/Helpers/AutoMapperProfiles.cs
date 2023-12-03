@@ -15,6 +15,7 @@ public class AutoMapperProfiles : Profile
         CreateMap<Event, EventDtoForTeacher>();
         CreateMap<Grade, GradeDto>();
         CreateMap<Homework, HomeworkDto>();
+        CreateMap<Message, MessageDto>();
 
 
     }

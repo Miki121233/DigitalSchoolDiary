@@ -1,0 +1,66 @@
+<div class="card">
+    <div class="card-body">
+        <div *ngIf="messages.length === 0">
+            Brak wiadomości. Możesz wysłać pierwszą wiadomość klikając 'Wyślij'
+        </div>
+
+        <ul *ngIf="messages.length > 0" class="chat">
+            <li *ngFor="let message of messages">
+                <ng-container *ngIf="user && recipient">
+                    <div *ngIf="user.id === message.senderId">
+                        <span class="chat-img float-end">
+                            <h3>Ty<i class="fa-solid fa-user"></i></h3>
+                        </span>
+                        <div class="chat-body chat-sender">
+                            <div class="header">
+                                <small class="text-muted">
+                                    <span class="fa fa-clock-o"> {{message.messageSent + 'Z' | timeago}}</span>
+                                    <span class="text-danger" *ngIf="!message.dateRead 
+                                    && message.senderId !== recipientId"> (Nieprzeczytana)</span>
+                                    <span class="text-success" *ngIf="message.dateRead 
+                                    && message.senderId !== recipientId"> (Przeczytana {{message.dateRead + 'Z' | timeago}})</span>
+                                </small>
+                            </div>
+                            <h3> {{message.content}}</h3>
+                        </div>
+                    </div>
+                    <div *ngIf="user.id === message.recipientId">
+                        <span class="chat-img float-end">
+                            <h3 *ngIf="user.accountType==='Teacher'">{{recipient.lastName}} {{recipient.firstName}} | Nauczyciel <i class="fa-solid fa-user-tie"></i></h3>
+                            <h3 *ngIf="user.accountType==='Parent'">{{recipient.lastName}} {{recipient.firstName}} | Rodzic <i class="fa-solid fa-user"></i></h3>
+                            <h3 *ngIf="user.accountType==='Student'">{{recipient.lastName}} {{recipient.firstName}} | Uczeń <i class="fa-solid fa-user-graduate"></i></h3>
+                        </span>
+                        <div class="chat-body chat-recipient">
+                            <div class="header">
+                                <small class="text-muted">
+                                    <span class="fa fa-clock-o"> {{message.messageSent + 'Z' | timeago}}</span>
+                                    <span class="text-danger" *ngIf="!message.dateRead 
+                                    && message.senderId !== recipientId"> (Nieprzeczytana)</span>
+                                    <span class="text-success" *ngIf="message.dateRead 
+                                    && message.senderId !== recipientId"> (Przeczytana {{message.dateRead + 'Z' | timeago}})</span>
+                                </small>
+                            </div>
+                            <h3>{{message.content}}</h3>
+                        </div>
+                    </div>
+                </ng-container>
+            </li>
+        </ul>
+    </div>
+    <div class="card-footer">
+        <form #messageForm="ngForm" (ngSubmit)="sendMessage()" autocomplete="off">
+            <div class="input-group">
+                <input 
+                    name="messageContent"
+                    required
+                    [(ngModel)]="content"
+                    type="text"
+                    class="form-control input-sm me-2" 
+                    placeholder="Wyślij prywatną wiadomość">
+                <div class="input-group-append">
+                    <button [disabled]="!messageForm.valid" class="btn btn-primary" type="submit">Wyślij</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

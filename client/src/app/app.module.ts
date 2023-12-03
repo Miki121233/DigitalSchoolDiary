@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -39,6 +39,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { TeacherScheduleComponent } from './teacher-schedule/teacher-schedule.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { JwtInterceptor } from './_interceptors/jwt.interceptor';
+import { MessageThreadsComponent } from './message-threads/message-threads.component';
+import { TimeagoCustomFormatter, TimeagoFormatter, TimeagoIntl, TimeagoModule } from "ngx-timeago";
 @NgModule({
   declarations: [
     AppComponent,
@@ -63,7 +66,8 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
     SelectChildListComponent,
     ScheduleEventDialogComponent,
     TeacherScheduleComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    MessageThreadsComponent
   ],
   imports: [
     BrowserModule,
@@ -86,9 +90,14 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
     //NgbModule,
     FullCalendarModule,
     MatDialogModule,
-    TimepickerModule.forRoot()
+    TimepickerModule.forRoot(),
+    TimeagoModule.forRoot({formatter: { provide: TimeagoFormatter, useClass: TimeagoCustomFormatter }})
   ],
-  providers: [DatePipe],
+  providers: [
+    DatePipe,
+    TimeagoIntl,
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

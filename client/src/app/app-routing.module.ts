@@ -18,6 +18,7 @@ import { classSubjectDetailedResolver } from './_resolvers/class-subject-detaile
 import { ClassesSubjectsListComponent } from './classes/classes-subjects-list/classes-subjects-list.component';
 import { SelectChildListComponent } from './parents/select-child-list/select-child-list.component';
 import { TeacherScheduleComponent } from './teacher-schedule/teacher-schedule.component';
+import { MessageThreadsComponent } from './message-threads/message-threads.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -39,6 +40,7 @@ const routes: Routes = [
       {path: 'plan', component: ClassesListComponent},
       {path: 'plan/:classId', component: ScheduleComponent},
       {path: 'wiadomosci', component: MessagesComponent},
+      {path: 'wiadomosci/:userId', component: MessageThreadsComponent},
       {path: 'kalendarz', component: CalendarComponent},
       {path: 'uwagi', component: CommentsComponent},
       {path: 'rejestracja-rodzica', component: ParentRegisterComponent},

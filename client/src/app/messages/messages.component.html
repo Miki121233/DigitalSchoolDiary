@@ -1,1 +1,68 @@
-<p>messages works!</p>
+<div class="mb-4 d-flex">
+    <div class="btn-group" name="container">
+        <button 
+            class="btn btn-primary"
+            (click)="getMessagesForUser('Unread')"
+        >
+            <i class="fa fa-envelope"></i> Nieprzeczytane
+        </button>
+        <button 
+            class="btn btn-primary"
+            (click)="getMessagesForUser('Inbox')"
+        >
+            <i class="fa fa-envelope-open"></i> Wiadomości otrzymane
+        </button>
+        <button 
+            class="btn btn-primary"
+            (click)="getMessagesForUser('Outbox')"
+        >
+            <i class="fa fa-paper-plane"></i> Wysłane wiadomości
+        </button>
+    </div>
+</div>
+
+<div class="row" *ngIf="!messages || messages.length === 0">
+    <h3>Brak wiadomości</h3>
+</div>
+
+<div class="row" *ngIf="messages && messages.length > 0">
+    <table class="table table-hover" style="cursor: pointer;">
+        <thead>
+            <tr>
+                <th style="width: 40%;">Wiadomość</th>
+                <th style="width: 20%;">Od / Do</th>
+                <th style="width: 20%;">Wysłano / Odebrano</th>
+                <th style="width: 20%;"></th>
+            </tr>
+        </thead>
+        <tbody class="align-middle">
+            <tr *ngFor="let message of messages"
+                routerLink="{{container === 'Outbox' 
+                ? '/wiadomosci/' + message.recipientId 
+                : '/wiadomosci/' + message.senderId}}"
+            >
+                <td>{{message.content}}</td>
+                <td>
+                    <div *ngIf="container === 'Outbox'">
+                        <!-- <img 
+                            class="img-circle rounded-circle me-2"
+                            src="{{message.recipientPhotoUrl || './assets/user.png'}}" 
+                            alt="recipient photo"> -->
+                        <strong>{{message.recipientFullName | titlecase}}</strong>
+                    </div>
+                    <div *ngIf="container !== 'Outbox'">
+                        <!-- <img 
+                            class="img-circle rounded-circle me-2"
+                            src="{{message.senderPhotoUrl || './assets/user.png'}}" 
+                            alt="sender photo"> -->
+                        <strong>{{message.senderFullName | titlecase}}</strong>
+                    </div>
+                </td>
+                <td>{{message.messageSent + 'Z' | timeago}}</td>
+                <td *ngIf="user && user.accountType==='Teacher'">
+                    <button (click)="$event.stopPropagation()" (click)="deleteMessage(message.id)" class="btn btn-danger">Usuń wiadomość</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

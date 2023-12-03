@@ -1,0 +1,19 @@
+.chat-sender {
+    background-color: lightskyblue;
+}
+
+.chat-recipient {
+    background-color: lightgray;
+}
+
+.chat li {
+    margin-bottom: 5px;
+    padding-bottom: 7px;
+    border-bottom: 1px dotted #B3A9A9;
+}
+
+.chat {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}

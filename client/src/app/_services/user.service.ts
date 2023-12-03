@@ -29,7 +29,7 @@ export class UserService {
     }
 
     //id jako string bo problem z paramMap.get('id')
-    getUser(id: string) {
+    getUser(id: string | number) {
       return this.http.get<User>(this.baseUrl + 'users/' + id);
     }
 

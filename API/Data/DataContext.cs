@@ -19,6 +19,7 @@ public class DataContext : DbContext
     public DbSet<Subject> Subjects { get; set; }
     public DbSet<Homework> Homeworks { get; set; }
     public DbSet<Event> Events { get; set; }
+    public DbSet<Message> Messages { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -48,8 +49,9 @@ public class DataContext : DbContext
            // opt.HasMany(x => x.Students).WithOne(x => x.Class).HasForeignKey(x => x.ClassId);
         });
 
-        builder.Entity<Subject>(opt =>{
-            
+        builder.Entity<Message>(opt =>{
+            opt.HasOne(u => u.Recipient).WithMany(m => m.MessagesReceived);
+            opt.HasOne(u => u.Sender).WithMany(m => m.MessagesSent);
         });
     }
 }

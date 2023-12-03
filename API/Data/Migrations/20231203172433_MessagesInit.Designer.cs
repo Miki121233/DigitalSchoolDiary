@@ -3,6 +3,7 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231203172433_MessagesInit")]
+    partial class MessagesInit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.12");
@@ -50,7 +53,7 @@ namespace API.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
 
                     b.HasDiscriminator<string>("AccountType").HasValue("AppUser");
 
@@ -71,7 +74,7 @@ namespace API.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Classes", (string)null);
+                    b.ToTable("Classes");
                 });
 
             modelBuilder.Entity("API.Entities.Event", b =>
@@ -125,7 +128,7 @@ namespace API.Data.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("Events", (string)null);
+                    b.ToTable("Events");
                 });
 
             modelBuilder.Entity("API.Entities.Grade", b =>
@@ -158,7 +161,7 @@ namespace API.Data.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("Grades", (string)null);
+                    b.ToTable("Grades");
                 });
 
             modelBuilder.Entity("API.Entities.Homework", b =>
@@ -195,7 +198,7 @@ namespace API.Data.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("Homeworks", (string)null);
+                    b.ToTable("Homeworks");
                 });
 
             modelBuilder.Entity("API.Entities.Subject", b =>
@@ -214,7 +217,7 @@ namespace API.Data.Migrations
 
                     b.HasIndex("ClassId");
 
-                    b.ToTable("Subjects", (string)null);
+                    b.ToTable("Subjects");
                 });
 
             modelBuilder.Entity("ClassTeacher", b =>
@@ -265,7 +268,7 @@ namespace API.Data.Migrations
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("Messages", (string)null);
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("ParentStudent", b =>
