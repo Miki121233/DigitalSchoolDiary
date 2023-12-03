@@ -18,5 +18,9 @@
           <button class="btn btn-primary btn-info btn-lg">Dowiedz się więcej</button>
         </div>
       </div>
+      <h2>Dni do końca roku szkolnego: {{daysRemaining}}</h2>
+      <div class="loading-bar-container">
+        <div class="loading-bar" [style.width.%]="percentage"></div>
+      </div>
     </ng-container>
 </div>
