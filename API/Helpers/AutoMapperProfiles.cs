@@ -13,6 +13,8 @@ public class AutoMapperProfiles : Profile
             .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
         CreateMap<Event, EventDtoForClass>(); //assignedTeacherId osobno
         CreateMap<Event, EventDtoForTeacher>();
+        CreateMap<Grade, GradeDto>();
+        CreateMap<Homework, HomeworkDto>();
 
 
     }

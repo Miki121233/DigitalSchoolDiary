@@ -21,7 +21,7 @@
                                     <th>Opis oceny</th>
                                     <th>Ocena</th>
                                     <th>Data wystawienia oceny</th>
-                                    <th>Id Nauczyciela wystawiającego</th>
+                                    <th>Nauczyciel wystawiający</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -29,7 +29,7 @@
                                     <td>{{ grade.description }}</td>
                                     <td>{{ grade.value }}</td>
                                     <td>{{ grade.date | date:'dd-MM-yyyy'}}</td>
-                                    <td>{{ grade.teacherId }}</td>
+                                    <td>{{ grade.teacherFullName }}</td>
                                 </tr>
                             </tbody>
                         </table>

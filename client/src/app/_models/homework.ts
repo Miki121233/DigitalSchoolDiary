@@ -5,6 +5,7 @@ export interface Homework {
     description: string
     comment: string
     teacherId: number
+    teacherFullName?: string
     classId: number
     publishDate: Date 
     deadline: Date

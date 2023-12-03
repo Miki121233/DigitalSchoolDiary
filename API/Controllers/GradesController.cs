@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using API.Data;
 using API.Dtos;
 using API.Entities;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,9 +14,11 @@ namespace API.Controllers;
 public class GradesController : BaseApiController
 {
     private readonly DataContext _context;
-    public GradesController(DataContext context)
+    private readonly IMapper _mapper;
+    public GradesController(DataContext context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
 
     [HttpGet]
@@ -53,10 +56,15 @@ public class GradesController : BaseApiController
             {
                 FirstName = student.FirstName,
                 LastName = student.LastName,
-                Grades = student.Grades
-                    .Where(g => g.Subject.Id == subjectId)
-                    .ToList()
+                Grades = _mapper.Map<List<GradeDto>>(student.Grades
+                    .Where(g => g.Subject.Id == subjectId))
             };
+            foreach (var grade in studentGradesDto.Grades)
+            {
+                var teacher = await _context.Teachers.FindAsync(grade.TeacherId);
+                grade.TeacherFullName = teacher.LastName + " " + teacher.FirstName;
+            }
+
 
             studentsGradesDtoList.Add(studentGradesDto);
         }

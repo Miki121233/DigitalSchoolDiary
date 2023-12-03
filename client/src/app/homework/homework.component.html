@@ -8,7 +8,7 @@
                 <th>Komentarz do zadania</th>
                 <th>Data wystawienia zadania</th>
                 <th>Termin zadania</th>
-                <th>Id Nauczyciela wystawiającego</th>
+                <th>Nauczyciel wystawiający</th>
             </tr>
         </thead>
         <tbody>
@@ -21,7 +21,7 @@
                 <td *ngIf="homework.deadline.toString() !== '0001-01-01T00:00:00'">
                     <!-- {{ homework.deadline | date:'dd-MM-yyyy'}}</td> -->
                     {{homework.deadline | date:'dd-MM-yyyy'}} ({{timeToEvent(homework.deadline)}}) </td>
-                <td>{{ homework.teacherId }}</td>
+                <td>{{ homework.teacherFullName }}</td>
             </tr>
         </tbody>
     </table>

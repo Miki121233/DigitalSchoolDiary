@@ -1,8 +1,11 @@
-<div class="row">
-    <ng-container *ngIf="user"> 
-      <h2 class="mb-2">Wybierz przedmiot:</h2>
-      <div class="col-2" *ngFor="let subject of subjects">
-        <app-classes-subjects-card [classId]="classId" [subject]="subject"></app-classes-subjects-card>
-      </div>
-    </ng-container>
+<div *ngIf="user" class="row">
+  <ng-container *ngIf="subjects.length === 0">
+    <h2>Brak przypisanych przedmiotów do klasy</h2>
+  </ng-container>
+  <ng-container *ngIf="subjects.length !== 0"> 
+    <h2 class="mb-2">Wybierz przedmiot:</h2>
+    <div class="col-2" *ngFor="let subject of subjects">
+      <app-classes-subjects-card [classId]="classId" [subject]="subject"></app-classes-subjects-card>
+    </div>
+  </ng-container>
 </div>

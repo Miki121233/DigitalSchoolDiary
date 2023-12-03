@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using API.Data;
 using API.Dtos;
 using API.Entities;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,9 +13,11 @@ namespace API.Controllers;
 public class HomeworksController : BaseApiController
 {
     private readonly DataContext _context;
-    public HomeworksController(DataContext context)
+    private readonly IMapper _mapper;
+    public HomeworksController(DataContext context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
 
     [HttpGet]
@@ -24,13 +27,20 @@ public class HomeworksController : BaseApiController
     }
 
     [HttpGet("{classId}/{subjectId}")]
-    public async Task<IEnumerable<Homework>> GetHomeworksFromClassIdAndSubjectId(int classId, int subjectId)
+    public async Task<IEnumerable<HomeworkDto>> GetHomeworksFromClassIdAndSubjectId(int classId, int subjectId)
     {
         var homeworksWithinClass = _context.Homeworks.Where(x => x.ClassId == classId).Include(x => x.Subject);
 
         var homeworksFromSubjectId = homeworksWithinClass.Where(x => x.Subject.Id == subjectId);
 
-        return await homeworksFromSubjectId.ToListAsync();
+        var homeworkDto = _mapper.Map<IEnumerable<HomeworkDto>>(homeworksFromSubjectId);
+        foreach (var homework in homeworkDto)
+        {
+            var teacher = await _context.Teachers.FindAsync(homework.TeacherId);
+            homework.TeacherFullName = teacher.LastName + " " + teacher.FirstName;
+        }
+
+        return homeworkDto.ToList();
     }
 
     [HttpPost("{classId}")] //sprawdzic jeszcze czy przedmiot jest w bazie klasy
