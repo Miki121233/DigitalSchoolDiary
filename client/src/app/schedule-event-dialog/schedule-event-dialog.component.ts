@@ -4,7 +4,8 @@ import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { plLocale } from 'ngx-bootstrap/locale';
 import { TimepickerConfig } from 'ngx-bootstrap/timepicker';
-import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { User } from '../_models/user';
+import { UserService } from '../_services/user.service';
 
 defineLocale('pl', plLocale); // Ustawienie języka na polski
 
@@ -18,9 +19,12 @@ export class ScheduleEventDialogComponent {
   bsTimepickerConfig: Partial<TimepickerConfig>;
   bsConfig: Partial<BsDatepickerConfig>;
   showDeleteButton: boolean;
+  contains = '';
+  filteredUsers: User[] = [];
+  assignedUser?: User;
 
   constructor(private dialog: MatDialog, public dialogRef: MatDialogRef<ScheduleEventDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
+    @Inject(MAT_DIALOG_DATA) public data: any, private userService: UserService) {
     this.bsConfig = {
       dateInputFormat: 'HH:mm DD-MM-YYYY', // Format wyświetlania daty i godziny
       containerClass: 'theme-default',
@@ -36,9 +40,39 @@ export class ScheduleEventDialogComponent {
     };
 
     this.showDeleteButton = data.showDeleteButton || false;
+    this.getPersonFromId();
   }
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  assignPerson(person: User) {
+    this.data.event.assignedTeacherId = person.id;
+    this.getPersonFromId();
+  }
+
+  deleteAssigned() {
+    this.data.event.assignedTeacherId = 0;
+    this.assignedUser = undefined;
+  }
+
+  search() {
+    if (this.contains !== '') {
+      this.userService.getTeachersContainingString(this.contains).subscribe({
+        next: response => {
+          this.filteredUsers = response
+        }
+      })
+    }
+  }
+
+  getPersonFromId() {
+    this.userService.getUser(this.data.event.assignedTeacherId).subscribe({
+      next: response => {
+        if (response)
+          this.assignedUser = response
+      }
+    });
   }
 }

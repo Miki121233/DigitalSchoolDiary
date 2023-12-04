@@ -19,10 +19,37 @@
     <label>Czy powtarzać to wydarzenie co tydzień?</label>
     <input class="checkbox" type="checkbox" [(ngModel)]="data.event.repeatWeekly" />
   </div>
-  <div class="mat-form-field">
+  <!-- <div class="mat-form-field">
     <label>Id osoby która ma być przypisana do wydarzenia:</label>
     <p><input type="number" [(ngModel)]="data.event.assignedTeacherId" /></p>
+  </div> -->
+  <div class="one-line" *ngIf="assignedUser">
+    <label>Osoba przypisana do wydarzenia:</label>
+    <span>
+      <strong>{{assignedUser.lastName}} {{assignedUser.firstName}}</strong>
+      <button class="btn btn-danger" style="scale: 60%;" (click)="deleteAssigned()">Usuń</button>
+    </span>
   </div>
+  <div class="mt-3">
+    <div class="mat-form-field input-group mb-3">
+        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"></i></span>
+        <input 
+            type="text" 
+            [(ngModel)]="contains" 
+            class="form-control" 
+            placeholder="Przypisz osobę..." 
+            aria-label="Przypisz osobę..." 
+            aria-describedby="basic-addon1"
+            (input)="search()"
+            style="max-width: 300px;"
+            />
+    </div>
+    <ul>
+        <li *ngFor="let person of filteredUsers" (click)="assignPerson(person)">
+            <p>{{person.lastName}} {{person.firstName}}</p>
+        </li>
+    </ul>
+</div>
 </div>
 <div mat-dialog-actions>
   <button class="btn btn-success" mat-button [mat-dialog-close]="{ data: data, action: 'save' }" cdkFocusInitial>Zapisz</button>

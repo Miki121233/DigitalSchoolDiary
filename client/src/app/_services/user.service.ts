@@ -36,8 +36,14 @@ export class UserService {
     getUsersContainingString(contains: string) {
       let params = new HttpParams();
       params = params.append('contains', contains);
-      console.log('params');
-      console.log(params);
+      
+      return this.http.get<User[]>(this.baseUrl + 'users/search', { params });
+    }
+
+    getTeachersContainingString(contains: string) {
+      let params = new HttpParams();
+      params = params.append('contains', contains);
+      params = params.append('group', 'Teachers');
       
       return this.http.get<User[]>(this.baseUrl + 'users/search', { params });
     }

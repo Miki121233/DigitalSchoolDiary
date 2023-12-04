@@ -112,7 +112,7 @@ export class ScheduleComponent {
           console.log(eventFromClick);
           
           const dialogRef = this.dialog.open(ScheduleEventDialogComponent, {
-            width: '250px',
+            width: '300px',
             data: { title: event.title, event: event, showDeleteButton: true },
           });
           dialogRef.afterClosed().subscribe((result) => {

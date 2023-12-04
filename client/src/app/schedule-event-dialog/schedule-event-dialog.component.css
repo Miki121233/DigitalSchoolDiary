@@ -4,3 +4,31 @@
     width: 20px;
     height: 20px;
 }
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+  
+li {
+    background-color: #f8f9fa;
+    border: 2px solid #dee2e6; 
+    padding: 5px;
+    max-width: 200px; 
+    margin-left: 45px;
+    text-align: justify;
+}
+
+li:hover {
+    color: white;
+    background-color: #a0a7af;
+}
+
+.one-line span{
+    display: flex;
+    align-items: center;
+}
+
+/* .one-line button {
+     margin-left: 10px; 
+} */

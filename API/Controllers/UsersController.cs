@@ -44,7 +44,7 @@ public class UsersController : BaseApiController
     }
 
     [HttpGet("search")]
-    public ActionResult<IEnumerable<MemberDto>> GetUsersContainingString([FromQuery] string contains)
+    public ActionResult<IEnumerable<MemberDto>> GetUsersContainingString([FromQuery] string contains, [FromQuery] string group)
     {
         var resultLastName = _context.Users.AsEnumerable()
             .Where(x => x.LastName
@@ -56,21 +56,22 @@ public class UsersController : BaseApiController
             .Contains(contains, StringComparison.OrdinalIgnoreCase))
             .ToList();
 
-        foreach (var result in resultFirstName)
+        var resultAll = resultLastName.Concat(resultFirstName).Distinct();
+
+        switch(group)
         {
-            if (resultLastName.Any(x => x.Id == result.Id)) { }
-            else resultLastName.Add(result);
+            case "Teachers":
+            {
+                resultAll = resultAll.OfType<Teacher>().ToList();
+            } 
+            break;
 
-            // var samePersonCheck = resultLastName.FirstOrDefault(x => x.Id == id);
-            // if (samePersonCheck != null) 
-            // {
-            //     resultLastName.Remove(samePersonCheck);
-            // }
-        };
+            default:
+            { } 
+            break;
+        }
 
-        var resultAll = resultLastName
-            .OrderBy(x => x.LastName)
-            .ThenBy(x => x.FirstName);
+        resultAll = resultAll.OrderBy(x => x.LastName).ThenBy(x => x.FirstName);
 
         var members = _mapper.Map<IEnumerable<MemberDto>>(resultAll);
 
