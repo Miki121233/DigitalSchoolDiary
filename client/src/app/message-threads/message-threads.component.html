@@ -6,7 +6,7 @@
 
         <ul *ngIf="messages.length > 0" class="chat">
             <li *ngFor="let message of messages">
-                <ng-container *ngIf="user && recipient">
+                <ng-container *ngIf="user">
                     <div *ngIf="user.id === message.senderId">
                         <span class="chat-img float-end">
                             <h3>Ty<i class="fa-solid fa-user"></i></h3>
@@ -14,33 +14,33 @@
                         <div class="chat-body chat-sender">
                             <div class="header">
                                 <small class="text-muted">
-                                    <span class="fa fa-clock-o"> {{message.messageSent + 'Z' | timeago}}</span>
+                                    <span><i class="fa-regular fa-clock"></i> {{message.messageSent + 'Z' | timeago}}</span>
                                     <span class="text-danger" *ngIf="!message.dateRead 
                                     && message.senderId !== recipientId"> (Nieprzeczytana)</span>
                                     <span class="text-success" *ngIf="message.dateRead 
                                     && message.senderId !== recipientId"> (Przeczytana {{message.dateRead + 'Z' | timeago}})</span>
                                 </small>
                             </div>
-                            <h3> {{message.content}}</h3>
+                            <h3 style="text-indent: 15px;">{{message.content}}</h3>
                         </div>
                     </div>
                     <div *ngIf="user.id === message.recipientId">
                         <span class="chat-img float-end">
-                            <h3 *ngIf="user.accountType==='Teacher'">{{recipient.lastName}} {{recipient.firstName}} | Nauczyciel <i class="fa-solid fa-user-tie"></i></h3>
-                            <h3 *ngIf="user.accountType==='Parent'">{{recipient.lastName}} {{recipient.firstName}} | Rodzic <i class="fa-solid fa-user"></i></h3>
-                            <h3 *ngIf="user.accountType==='Student'">{{recipient.lastName}} {{recipient.firstName}} | Uczeń <i class="fa-solid fa-user-graduate"></i></h3>
+                            <h3 *ngIf="message.senderAccountType==='Teacher'">{{message.senderFullName}} | Nauczyciel <i class="fa-solid fa-user-tie"></i></h3>
+                            <h3 *ngIf="message.senderAccountType==='Parent'">{{message.senderFullName}} | Rodzic <i class="fa-solid fa-user"></i></h3>
+                            <h3 *ngIf="message.senderAccountType==='Student'">{{message.senderFullName}} | Uczeń <i class="fa-solid fa-user-graduate"></i></h3>
                         </span>
                         <div class="chat-body chat-recipient">
                             <div class="header">
                                 <small class="text-muted">
-                                    <span class="fa fa-clock-o"> {{message.messageSent + 'Z' | timeago}}</span>
+                                    <span><i class="fa-regular fa-clock"></i> {{message.messageSent + 'Z' | timeago}}</span>
                                     <span class="text-danger" *ngIf="!message.dateRead 
                                     && message.senderId !== recipientId"> (Nieprzeczytana)</span>
                                     <span class="text-success" *ngIf="message.dateRead 
                                     && message.senderId !== recipientId"> (Przeczytana {{message.dateRead + 'Z' | timeago}})</span>
                                 </small>
                             </div>
-                            <h3>{{message.content}}</h3>
+                            <h3 style="text-indent: 15px;">{{message.content}}</h3>
                         </div>
                     </div>
                 </ng-container>

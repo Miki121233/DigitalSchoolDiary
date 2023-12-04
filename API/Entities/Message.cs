@@ -7,7 +7,7 @@ public class Message
     public string SenderFullName { get; set; }
     public AppUser Sender { get; set; }
     public int RecipientId { get; set; }
-    public string RecipientFullName{ get; set; }
+    public string RecipientFullName { get; set; }
     public AppUser Recipient { get; set; }
     public string Content { get; set; }
     public DateTime? DateRead { get; set; }

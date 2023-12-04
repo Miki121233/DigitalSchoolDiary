@@ -7,6 +7,7 @@ import { User } from '../_models/user';
 import { ToastrService } from 'ngx-toastr';
 import { TimeagoIntl } from 'ngx-timeago';
 import { strings as polishStrings } from "ngx-timeago/language-strings/pl";
+import { UserService } from '../_services/user.service';
 
 @Component({
   selector: 'app-messages',
@@ -17,9 +18,11 @@ export class MessagesComponent implements OnInit {
   messages: Message[] = [];
   user: User | null = null;
   container = 'Unread';
+  contains = '';
+  filteredUsers: User[] = [];
 
   constructor(private messagesService: MessagesService, private accountService: AccountService,
-    private toastr: ToastrService, intl: TimeagoIntl) {
+    private toastr: ToastrService, intl: TimeagoIntl, private userService: UserService) {
     intl.strings = polishStrings;
     intl.changes.next();
     accountService.currentUser$.pipe(take(1)).subscribe({
@@ -33,6 +36,16 @@ export class MessagesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getMessagesForUser('Unread');
+  }
+
+  search() {
+    this.userService.getUsersContainingString(this.contains).subscribe({
+      next: response => {
+        this.filteredUsers = response
+        if (this.user)
+          this.filteredUsers = this.filteredUsers.filter(user => user.id !== this.user!.id);
+      }
+    })
   }
 
   getMessagesForUser(container: string) {

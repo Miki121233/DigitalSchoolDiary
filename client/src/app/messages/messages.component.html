@@ -1,3 +1,24 @@
+<div>
+    <h2>Wyślij wiadomość do dowolnej osoby:</h2>
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"></i></span>
+        <input 
+            type="text" 
+            [(ngModel)]="contains" 
+            class="form-control" 
+            placeholder="Wyszukaj osobę..." 
+            aria-label="Wyszukaj osobę..." 
+            aria-describedby="basic-addon1"
+            (input)="search()"
+            style="max-width: 300px;"
+            />
+    </div>
+    <ul>
+        <li *ngFor="let person of filteredUsers" [routerLink]="['/wiadomosci', person.id]">
+            <p>{{person.lastName}} {{person.firstName}}</p>
+        </li>
+    </ul>
+  </div>
 <div class="mb-4 d-flex">
     <div class="btn-group" name="container">
         <button 
@@ -22,17 +43,23 @@
 </div>
 
 <div class="row" *ngIf="!messages || messages.length === 0">
-    <h3>Brak wiadomości</h3>
+    <h3 *ngIf="container === 'Unread'">Brak nowych wiadomości</h3>
+    <h3 *ngIf="container !== 'Unread'">Brak wiadomości</h3>
 </div>
 
 <div class="row" *ngIf="messages && messages.length > 0">
     <table class="table table-hover" style="cursor: pointer;">
         <thead>
-            <tr>
-                <th style="width: 40%;">Wiadomość</th>
-                <th style="width: 20%;">Od / Do</th>
+            <tr *ngIf="user && user.accountType==='Teacher'">
+                <th style="width: 35%;">Wiadomość</th>
+                <th style="width: 25%;">Od / Do</th>
                 <th style="width: 20%;">Wysłano / Odebrano</th>
                 <th style="width: 20%;"></th>
+            </tr>
+            <tr *ngIf="user && user.accountType!=='Teacher'">
+                <th style="width: 45%;">Wiadomość</th>
+                <th style="width: 30%;">Od / Do</th>
+                <th style="width: 25%;">Wysłano / Odebrano</th>
             </tr>
         </thead>
         <tbody class="align-middle">
@@ -44,18 +71,14 @@
                 <td>{{message.content}}</td>
                 <td>
                     <div *ngIf="container === 'Outbox'">
-                        <!-- <img 
-                            class="img-circle rounded-circle me-2"
-                            src="{{message.recipientPhotoUrl || './assets/user.png'}}" 
-                            alt="recipient photo"> -->
-                        <strong>{{message.recipientFullName | titlecase}}</strong>
+                        <strong *ngIf="message.recipientAccountType==='Teacher'">{{message.recipientFullName | titlecase}} | Nauczyciel <i class="fa-solid fa-user-tie"></i></strong>
+                        <strong *ngIf="message.recipientAccountType==='Parent'">{{message.recipientFullName | titlecase}} | Rodzic <i class="fa-solid fa-user"></i></strong>
+                        <strong *ngIf="message.recipientAccountType==='Student'">{{message.recipientFullName | titlecase}} | Uczeń <i class="fa-solid fa-user-graduate"></i></strong>
                     </div>
                     <div *ngIf="container !== 'Outbox'">
-                        <!-- <img 
-                            class="img-circle rounded-circle me-2"
-                            src="{{message.senderPhotoUrl || './assets/user.png'}}" 
-                            alt="sender photo"> -->
-                        <strong>{{message.senderFullName | titlecase}}</strong>
+                        <strong *ngIf="message.senderAccountType==='Teacher'">{{message.senderFullName | titlecase}} | Nauczyciel <i class="fa-solid fa-user-tie"></i></strong>
+                        <strong *ngIf="message.senderAccountType==='Parent'">{{message.senderFullName | titlecase}} | Rodzic <i class="fa-solid fa-user"></i></strong>
+                        <strong *ngIf="message.senderAccountType==='Student'">{{message.senderFullName | titlecase}} | Uczeń <i class="fa-solid fa-user-graduate"></i></strong>
                     </div>
                 </td>
                 <td>{{message.messageSent + 'Z' | timeago}}</td>

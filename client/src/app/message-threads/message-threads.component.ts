@@ -19,7 +19,6 @@ import { MessageContent } from '../_models/messageContent';
 export class MessageThreadsComponent {
   @ViewChild('messageForm') messageForm?: NgForm
   recipientId?: number;
-  recipient?: User;
   user: User | null = null;
   messages: Message[] = [];
   messageContent: MessageContent | null = null;
@@ -39,7 +38,6 @@ export class MessageThreadsComponent {
     });
     this.route.paramMap.subscribe(params => {
       this.recipientId = parseInt(params.get('userId')!)
-      this.getRecipient();
     });
     this.getMessageThread();
   }
@@ -49,21 +47,9 @@ export class MessageThreadsComponent {
       this.messagesService.getMessagesForThread(this.user.id, this.recipientId).subscribe({
         next: messages => {
           this.messages = messages
-          console.log('messages');
-          console.log(messages);
-          
         }
       });
     }
-  }
-
-  getRecipient() {
-    if (this.recipientId)
-      this.userService.getUser(this.recipientId).subscribe({
-        next: response => {
-          this.recipient = response
-        }
-      })
   }
 
   sendMessage() {

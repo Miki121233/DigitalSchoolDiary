@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, take } from "rxjs";
 import { environment } from "src/environments/environment.development";
@@ -31,6 +31,15 @@ export class UserService {
     //id jako string bo problem z paramMap.get('id')
     getUser(id: string | number) {
       return this.http.get<User>(this.baseUrl + 'users/' + id);
+    }
+
+    getUsersContainingString(contains: string) {
+      let params = new HttpParams();
+      params = params.append('contains', contains);
+      console.log('params');
+      console.log(params);
+      
+      return this.http.get<User[]>(this.baseUrl + 'users/search', { params });
     }
 
     getParentWithChildrenIds(id: number) {

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -5,6 +6,8 @@ using API.Data;
 using API.Dtos;
 using API.Entities;
 using AutoMapper;
+using AutoMapper.Execution;
+using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -38,6 +41,40 @@ public class UsersController : BaseApiController
         var user = await _context.Users.FindAsync(id);
         
         return _mapper.Map<MemberDto>(user);
+    }
+
+    [HttpGet("search")]
+    public ActionResult<IEnumerable<MemberDto>> GetUsersContainingString([FromQuery] string contains)
+    {
+        var resultLastName = _context.Users.AsEnumerable()
+            .Where(x => x.LastName
+            .Contains(contains, StringComparison.OrdinalIgnoreCase))
+            .ToList();
+
+        var resultFirstName = _context.Users.AsEnumerable()
+            .Where(x => x.FirstName
+            .Contains(contains, StringComparison.OrdinalIgnoreCase))
+            .ToList();
+
+        foreach (var result in resultFirstName)
+        {
+            if (resultLastName.Any(x => x.Id == result.Id)) { }
+            else resultLastName.Add(result);
+
+            // var samePersonCheck = resultLastName.FirstOrDefault(x => x.Id == id);
+            // if (samePersonCheck != null) 
+            // {
+            //     resultLastName.Remove(samePersonCheck);
+            // }
+        };
+
+        var resultAll = resultLastName
+            .OrderBy(x => x.LastName)
+            .ThenBy(x => x.FirstName);
+
+        var members = _mapper.Map<IEnumerable<MemberDto>>(resultAll);
+
+        return members.ToList();
     }
 
     [HttpGet("{id}/grades")]
