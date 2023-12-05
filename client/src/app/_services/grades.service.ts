@@ -31,7 +31,9 @@ export class GradesService {
   postGradeForUser(id: number, grade: Grade) {
     return this.http.post<Grade>(this.baseUrl + 'grades/' + id, grade);
   }
-   // [HttpPost("{studentId}")]
-  // public async Task<ActionResult<Grade>> PostGrade(GradeDto gradeDto, int studentId)
-  // {
+  
+  deleteGrade(id: number) {
+    return this.http.delete<Grade>(this.baseUrl + 'grades/' + id);
+  }
+
 }

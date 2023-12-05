@@ -22,6 +22,7 @@
                                     <th>Ocena</th>
                                     <th>Data wystawienia oceny</th>
                                     <th>Nauczyciel wystawiający</th>
+                                    <th>Akcje</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -30,6 +31,7 @@
                                     <td>{{ grade.value }}</td>
                                     <td>{{ grade.date | date:'dd-MM-yyyy'}}</td>
                                     <td>{{ grade.teacherFullName }}</td>
+                                    <td><button class="btn btn-danger" style="scale: 80%;" (click)="deleteGrade(grade)">Usuń</button></td>
                                 </tr>
                             </tbody>
                         </table>

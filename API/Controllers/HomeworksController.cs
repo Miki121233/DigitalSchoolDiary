@@ -44,7 +44,7 @@ public class HomeworksController : BaseApiController
     }
 
     [HttpPost("{classId}")] //sprawdzic jeszcze czy przedmiot jest w bazie klasy
-    public async Task<ActionResult<Homework>> AddHomeworkToClass(int classId, PostHomeworkDto homeworkDto)
+    public async Task<ActionResult<HomeworkDto>> AddHomeworkToClass(int classId, PostHomeworkDto homeworkDto)
     {
         var classFromId = await _context.Classes.FindAsync(classId);
         if (classFromId is null) return BadRequest("Nie ma klasy o podanym id");
@@ -68,7 +68,24 @@ public class HomeworksController : BaseApiController
         _context.Homeworks.Add(homework);
         await _context.SaveChangesAsync();
 
-        return homework;
+        var homeworkDtoForReturn = _mapper.Map<HomeworkDto>(homework);
+        homeworkDtoForReturn.TeacherFullName = teacher.LastName + " " + teacher.FirstName;
+
+        return homeworkDtoForReturn;
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteHomework(int id)
+    {
+        if (id == 0) BadRequest("Nie podano poprawnego id");
+
+        var homework = await _context.Homeworks.FindAsync(id);
+        if (homework is null) BadRequest("Zadanie o podanym id nie istnieje");
+
+        _context.Homeworks.Remove(homework);
+        await _context.SaveChangesAsync();
+
+        return Ok();
     }
 
 }

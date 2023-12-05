@@ -11,6 +11,8 @@ import { PostHomeworkDto } from '../_models/postHomeworkDto';
 import { ClassesService } from '../_services/classes.service';
 import { formatDistanceToNow } from 'date-fns';
 import { pl } from 'date-fns/locale';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-homework',
@@ -30,7 +32,8 @@ export class HomeworkComponent implements OnInit{
   homeworkDto: PostHomeworkDto | null = null;
 
   constructor(private route: ActivatedRoute, private homeworksService: HomeworksService, private accountService: AccountService,
-    private toastr: ToastrService, private datePipe: DatePipe, private classesService: ClassesService) {
+    private toastr: ToastrService, private datePipe: DatePipe, private classesService: ClassesService,
+    private dialog: MatDialog) {
     this.accountService.currentUser$.pipe(take(1)).subscribe({
       next: user => this.user = user
     })
@@ -54,7 +57,6 @@ export class HomeworkComponent implements OnInit{
   }
 
   assignHomework() {
-    console.log(this.descriptionForm + ', ' + this.commentForm +', '+this.deadlineForm);
     const formattedDeadline = this.datePipe.transform(this.deadlineForm, 'dd-MM-yyyy');
 
     if(this.descriptionForm && this.subjectId && this.user)
@@ -65,17 +67,15 @@ export class HomeworkComponent implements OnInit{
       }
     if(this.commentForm && this.homeworkDto) this.homeworkDto.comment = this.commentForm;
     if(this.deadlineForm && this.homeworkDto) this.homeworkDto.deadline = this.deadlineForm;
-    console.log(this.homeworkDto)
     if(this.classId && this.homeworkDto) {
       console.log(this.homeworkDto)
       this.homeworksService.postHomeworkForClass(this.classId, this.homeworkDto).subscribe({
         next: response => {
-          console.log(response)
+          this.toastr.success(`Opublikowano zadanie ${this.descriptionForm} dla klasy ${this.schoolId} do dnia: ${formattedDeadline}`);
+          this.homeworks.push(response);
         },
         error: err => console.log(err.error)
       });
-      this.toastr.success(`Opublikowano zadanie ${this.descriptionForm} dla klasy ${this.schoolId} do dnia: ${formattedDeadline}`);
-
     }
   }
 
@@ -89,16 +89,33 @@ export class HomeworkComponent implements OnInit{
 
   timeToEvent(date: Date) : string {
     const formattedDate = this.datePipe.transform(date, 'yyyy-MM-dd');
-    console.log('data przed:')
-    console.log(formattedDate)
     if (formattedDate) {
         const parsedDate = new Date(formattedDate);
-        console.log('data:')
-        console.log(parsedDate)
         return formatDistanceToNow(parsedDate, { addSuffix: true, locale: pl });
       } else {
         return 'Brak terminu';
       }
+  }
+
+  deleteHomework(homework: Homework) {
+    const confirmationDialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '250px',
+      data: { message: 'Czy na pewno chcesz usunąć to zadanie?' },
+    });
+  
+    confirmationDialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.homeworksService.deleteHomework(homework.id).subscribe({
+          next: _ => {
+            this.toastr.success('Zadanie o nazwie: ' + homework.description + ' zostało usunięte');
+            this.homeworks = this.homeworks.filter(h => h.id !== homework.id);
+          },
+          error: error => {
+            this.toastr.error(error.error);
+          }
+        })
+      }
+    });
   }
 
 }

@@ -74,7 +74,7 @@ public class GradesController : BaseApiController
     }
 
     [HttpPost("{studentId}")]
-    public async Task<ActionResult<Grade>> PostGrade(PostGradeDto gradeDto, int studentId) //sprawdzic jeszcze czy przedmiot jest w bazie klasy
+    public async Task<ActionResult<GradeDto>> PostGrade(PostGradeDto gradeDto, int studentId) //sprawdzic jeszcze czy przedmiot jest w bazie klasy
     {
         var student = _context.Users.FirstOrDefault(x => x.Id == studentId);
 
@@ -103,7 +103,29 @@ public class GradesController : BaseApiController
         _context.Grades.Add(grade);
         await _context.SaveChangesAsync();
 
-        return Ok(grade);
+        var gradeDtoForReturn = _mapper.Map<GradeDto>(grade);
+        gradeDtoForReturn.TeacherFullName = teacher.LastName + " " + teacher.FirstName;
+
+        return gradeDtoForReturn;
     }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteGrade(int id)
+    {
+        if (id == 0) BadRequest("Nie podano poprawnego id");
+
+        var grade = await _context.Grades.FindAsync(id);
+        if (grade is null) BadRequest("Ocena o podanym id nie istnieje");
+
+        var student = await _context.Students.Include(x => x.Grades).FirstOrDefaultAsync(t => t.Grades.Any(e => e.Id == id));
+        if (student is null) BadRequest("Ocena nie ma swojego studenta");
+
+        student.Grades.Remove(grade); // nie jest to koniecznosc
+        _context.Grades.Remove(grade);
+        await _context.SaveChangesAsync();
+
+        return Ok();
+    }
+
 
 }

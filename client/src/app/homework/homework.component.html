@@ -4,11 +4,12 @@
     <table class="styled-table" *ngIf="homeworks.length > 0">
         <thead>
             <tr>
-                <th>Opis zadania</th>
-                <th>Komentarz do zadania</th>
-                <th>Data wystawienia zadania</th>
-                <th>Termin zadania</th>
-                <th>Nauczyciel wystawiający</th>
+                <th style="width: 20%;">Opis zadania</th>
+                <th style="width: 20%;">Komentarz do zadania</th>
+                <th style="width: 15%;">Data wystawienia zadania</th>
+                <th style="width: 15%;">Termin zadania</th>
+                <th style="width: 15%;">Nauczyciel wystawiający</th>
+                <th style="width: 15%;">Akcje</th>
             </tr>
         </thead>
         <tbody>
@@ -22,6 +23,7 @@
                     <!-- {{ homework.deadline | date:'dd-MM-yyyy'}}</td> -->
                     {{homework.deadline | date:'dd-MM-yyyy'}} ({{timeToEvent(homework.deadline)}}) </td>
                 <td>{{ homework.teacherFullName }}</td>
+                <td><button class="btn btn-danger" style="scale: 80%;" (click)="deleteHomework(homework)">Usuń</button></td>
             </tr>
         </tbody>
     </table>

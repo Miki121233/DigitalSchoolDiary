@@ -13,6 +13,8 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { SchoolSubject } from '../_models/schoolSubject';
 import { SubjectsService } from '../_services/subjects.service';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-grades',
@@ -33,9 +35,9 @@ export class GradesComponent implements OnInit {
   grades: Grade[] = [];
   subject: SchoolSubject | null = null;
 
-  constructor(private route: ActivatedRoute, private accountService: AccountService, private http: HttpClient, 
-    private classesService: ClassesService, private gradesService: GradesService, private fb: FormBuilder,
-    private toastr: ToastrService, private subjectsService: SubjectsService) {
+  constructor(private route: ActivatedRoute, private accountService: AccountService, 
+    private classesService: ClassesService, private gradesService: GradesService,
+    private toastr: ToastrService, private subjectsService: SubjectsService, private dialog: MatDialog) {
     this.accountService.currentUser$.pipe(take(1)).subscribe({
       next: user => this.user = user
     })
@@ -124,10 +126,11 @@ export class GradesComponent implements OnInit {
       }
 
       this.gradesService.postGradeForUser(student.id, this.gradePost).subscribe({
-        next: () => {
+        next: response => {
           this.toastr.success(`Wystawiono ocenę ${this.gradeValues[index]} dla ${student.firstName} 
           ${student.lastName} z opisem: ${this.gradeDescriptions[index]}`);
-          
+
+          this.studentsForDisplay[index].grades.push(response);
         },
         error: error => {
           console.log('Błędy z przypisaniem ocen: ' + error.error)
@@ -142,6 +145,30 @@ export class GradesComponent implements OnInit {
     for (let i = 0; i < this.students.length; i++) {
       this.assignGrade(this.students[i], i);
     }
+  }
+
+  deleteGrade(grade: Grade) {
+    const confirmationDialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '250px',
+      data: { message: 'Czy na pewno chcesz usunąć tą ocenę?' },
+    });
+  
+    confirmationDialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.gradesService.deleteGrade(grade.id!).subscribe({
+          next: () => {
+            this.toastr.success('Usunieto ocenę z opisem: ' + grade.description);
+            const studentIndex = this.studentsForDisplay.findIndex((student: { grades: Grade[]; }) => student.grades.some(g => g.id === grade.id));
+            if (studentIndex !== -1) {
+              this.studentsForDisplay[studentIndex].grades = this.studentsForDisplay[studentIndex].grades.filter((g: { id: number | undefined; }) => g.id !== grade.id);
+            }
+          },
+          error: error => {
+            this.toastr.error(error.error);
+          }
+        })
+      }
+    });
   }
 
 }

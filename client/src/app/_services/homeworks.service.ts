@@ -17,6 +17,10 @@ export class HomeworksService {
   }
 
   postHomeworkForClass(classId: number | string, homeworkDto: PostHomeworkDto) {
-    return this.http.post(this.baseUrl + 'homeworks/' + classId, homeworkDto);
+    return this.http.post<Homework>(this.baseUrl + 'homeworks/' + classId, homeworkDto);
+  }
+
+  deleteHomework(id: number) {
+    return this.http.delete(this.baseUrl+ 'homeworks/' + id);
   }
 }
