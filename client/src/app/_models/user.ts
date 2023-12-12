@@ -1,4 +1,5 @@
 import { Grade } from "./grade";
+import { Note } from "./note";
 import { StudentChildren } from "./studentChildren";
 
 export interface User {
@@ -9,6 +10,7 @@ export interface User {
     accountType: string;
     token: string;
     classId?: number; //if student
-    grades?: Grade[]; //if student
+    // grades?: Grade[]; //if student
+    // notes?: Note[];
     studentChildren?: StudentChildren[] //if parent 
 }

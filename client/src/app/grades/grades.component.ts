@@ -22,8 +22,6 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./grades.component.css']
 })
 export class GradesComponent implements OnInit {
-  baseUrl = environment.apiUrl;
-  //class: Class | any;
   classId: string | undefined;
   description: string = '';
   gradeDescriptions: string[] = [];
@@ -120,7 +118,7 @@ export class GradesComponent implements OnInit {
         this.toastr.error("Proszę wprowadzić opis oceny")
         return;
       }
-      if (this.gradePost.value < 0 || this.gradePost.value > 6 || this.gradePost.value === 0) {
+      if (this.gradePost.value <= 0 || this.gradePost.value > 6 || !this.gradePost.value) {
         this.toastr.error("Ocena musi być pomiędzy 1 - 6")
         return;
       }

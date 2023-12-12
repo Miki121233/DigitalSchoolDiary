@@ -68,11 +68,13 @@ export class ScheduleEventDialogComponent {
   }
 
   getPersonFromId() {
-    this.userService.getUser(this.data.event.assignedTeacherId).subscribe({
-      next: response => {
-        if (response)
-          this.assignedUser = response
-      }
-    });
+    if (this.data.event.assignedTeacherId) {
+      this.userService.getUser(this.data.event.assignedTeacherId).subscribe({
+        next: response => {
+          if (response)
+            this.assignedUser = response
+        }
+      });
+    }
   }
 }

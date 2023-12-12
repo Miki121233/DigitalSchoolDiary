@@ -98,46 +98,48 @@ export class ScheduleComponent {
   }
 
   handleEventClick(arg: any) {
-    if (arg.event && this.events) {
-      var eventFromClick = arg.event.toPlainObject();
-      this.events.forEach(event => {
-        if (eventFromClick.id == event.id) { // == porównuje wartosci
-          event.start = arg.event._instance.range.start;
-          event.startHours = eventFromClick.extendedProps.startHours;
-          event.endHours = eventFromClick.extendedProps.endHours;
-          event.assignedTeacherId = eventFromClick.extendedProps.assignedTeacherId;
-          console.log('event');
-          console.log(event);
-          console.log('eventFromClick');
-          console.log(eventFromClick);
-          
-          const dialogRef = this.dialog.open(ScheduleEventDialogComponent, {
-            width: '300px',
-            data: { title: event.title, event: event, showDeleteButton: true },
-          });
-          dialogRef.afterClosed().subscribe((result) => {
-            if (result) {
-              const eventFromResult = result.data.event;
-              const calendarApi = this.fullCalendar.getApi();
-              const eventStart = new Date(eventFromResult.start);
-              eventStart.setHours(parseInt(eventFromResult.startHours.split(':')[0], 10), parseInt(eventFromResult.startHours.split(':')[1], 10));
-              const eventEnd= new Date(eventFromResult.end);
-              eventEnd.setHours(parseInt(eventFromResult.endHours.split(':')[0], 10), parseInt(eventFromResult.endHours.split(':')[1], 10));
-              event.start = eventStart;
-              event.end = eventEnd;
+    if (this.user && this.user.accountType==='Teacher') {
+      if (arg.event && this.events) {
+        var eventFromClick = arg.event.toPlainObject();
+        this.events.forEach(event => {
+          if (eventFromClick.id == event.id) { // == porównuje wartosci
+            event.start = arg.event._instance.range.start;
+            event.startHours = eventFromClick.extendedProps.startHours;
+            event.endHours = eventFromClick.extendedProps.endHours;
+            event.assignedTeacherId = eventFromClick.extendedProps.assignedTeacherId;
+            console.log('event');
+            console.log(event);
+            console.log('eventFromClick');
+            console.log(eventFromClick);
+            
+            const dialogRef = this.dialog.open(ScheduleEventDialogComponent, {
+              width: '300px',
+              data: { title: event.title, event: event, showDeleteButton: true },
+            });
+            dialogRef.afterClosed().subscribe((result) => {
+              if (result) {
+                const eventFromResult = result.data.event;
+                const calendarApi = this.fullCalendar.getApi();
+                const eventStart = new Date(eventFromResult.start);
+                eventStart.setHours(parseInt(eventFromResult.startHours.split(':')[0], 10), parseInt(eventFromResult.startHours.split(':')[1], 10));
+                const eventEnd= new Date(eventFromResult.end);
+                eventEnd.setHours(parseInt(eventFromResult.endHours.split(':')[0], 10), parseInt(eventFromResult.endHours.split(':')[1], 10));
+                event.start = eventStart;
+                event.end = eventEnd;
 
-              if (result.action === 'delete') {
-                this.deleteEvent(event.id);
-              } 
-              else if (result.action === 'save') {
-                this.editEvent(event.id, event);
-              } 
-              else { } //anulowanie
-              calendarApi.refetchEvents();
-            }
-         });
-        }
-      });
+                if (result.action === 'delete') {
+                  this.deleteEvent(event.id);
+                } 
+                else if (result.action === 'save') {
+                  this.editEvent(event.id, event);
+                } 
+                else { } //anulowanie
+                calendarApi.refetchEvents();
+              }
+          });
+          }
+        });
+      }
     }
   }
   

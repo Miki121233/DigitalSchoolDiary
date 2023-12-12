@@ -1,0 +1,94 @@
+<ng-container *ngIf="!studentsForDisplay || studentsForDisplay.length === 0">
+    <strong>Brak przypisanych studentów do tej klasy!</strong>
+</ng-container>
+
+<div *ngIf="studentsForDisplay && studentsForDisplay.length > 0 && user && user.accountType === 'Teacher'" class="notes-container">
+    <h2>Uczniowie tej klasy i ich uwagi:</h2>
+    <div class="accordion-container">
+        <accordion [isAnimated]="true" [closeOthers]="true">
+            <ng-container *ngFor="let student of studentsForDisplay">
+                <accordion-group class="accordion-group">
+                    <div class="accordion-heading" accordion-heading>
+                        <i class="fa-solid fa-user-graduate"></i>
+                        <span>  {{student.firstName}} {{student.lastName}}</span>
+                    </div>
+                    <div class="accordion-body">
+                        <p *ngIf="student.notes.length === 0">Brak przydzielonych uwag</p>
+                        <table *ngIf="student.notes.length > 0" class="styled-table-accordion">
+                            <thead>
+                                <tr>
+                                    <th>Opis uwagi</th>
+                                    <th>Typ uwagi</th>
+                                    <th>Data wystawienia</th>
+                                    <th>Nauczyciel wystawiający</th>
+                                    <th>Akcje</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let note of student.notes">
+                                    <td>{{ note.description }}</td>
+                                    <td *ngIf="note.isPositive===true">Pozytywna</td>
+                                    <td *ngIf="note.isPositive===false">Negatywna</td>
+                                    <td>{{ note.created | date:'dd-MM-yyyy'}}</td>
+                                    <td>{{ note.teacherFullName }}</td>
+                                    <td><button class="btn btn-danger" style="scale: 80%;" (click)="deleteNote(note)">Usuń</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </accordion-group>
+            </ng-container>
+        </accordion>
+    </div>
+    <div>
+        <h2>Przydzielanie uwag:</h2>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th style="width: 30%;">Wybór osoby</th>
+                    <th style="width: 35%;">Opis uwagi</th>
+                    <th style="width: 20%;">Typ uwagi</th>
+                    <th style="width: 15%;">Akcje</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="input-group">
+                            <span style="height: 40px;" class="input-group-text" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"></i></span>
+                            <input 
+                                type="text" 
+                                [(ngModel)]="contains" 
+                                class="form-control" 
+                                [placeholder]="selectedPersonName ? selectedPersonName : 'Wyszukaj osobę...'" 
+                                aria-label="Wyszukaj osobę..." 
+                                aria-describedby="basic-addon1"
+                                (input)="search()"
+                                style="max-width: 300px; height: 40px;"
+                                />
+                        </div>
+                    </td>
+                    <td>
+                        <input type="text" [(ngModel)]="noteDescription" placeholder="Opis uwagi" [value]="noteDescription">
+                    </td>
+                    <td>
+                        <select class="form-select" aria-label="Wybierz rodzaj uwagi" [(ngModel)]="isPositive" [ngStyle]="{'background-color': isPositive ? '#4CAF50' : '#ff3a33'}">
+                            <option [ngValue]="true" style="background-color: #4CAF50;">Pozytywna</option>
+                            <option [ngValue]="false" style="background-color: #ff3a33;">Negatywna</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button class="btn btn-outline-primary" (click)="assignNote()">Wystaw uwagę</button>
+                    </td>
+                </tr>
+                <tr *ngIf="contains !== ''">
+                    <ul>
+                        <li *ngFor="let person of filteredUsers" (click)="assignFormStudentId(person)">
+                            <p>{{person.lastName}} {{person.firstName}}</p>
+                        </li>
+                    </ul>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

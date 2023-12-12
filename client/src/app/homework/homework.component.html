@@ -2,14 +2,21 @@
     <p *ngIf="homeworks.length === 0">Brak przydzielonych zadań domowych</p>
     <h2 *ngIf="homeworks.length > 0">Zadania przydzielone dla tej klasy:</h2>
     <table class="styled-table" *ngIf="homeworks.length > 0">
-        <thead>
-            <tr>
+        <thead *ngIf="user">
+            <tr *ngIf="user.accountType === 'Teacher'">
                 <th style="width: 20%;">Opis zadania</th>
-                <th style="width: 20%;">Komentarz do zadania</th>
+                <th style="width: 25%;">Komentarz do zadania</th>
                 <th style="width: 15%;">Data wystawienia zadania</th>
                 <th style="width: 15%;">Termin zadania</th>
                 <th style="width: 15%;">Nauczyciel wystawiający</th>
-                <th style="width: 15%;">Akcje</th>
+                <th style="width: 10%;">Akcje</th>
+            </tr>
+            <tr *ngIf="user.accountType !== 'Teacher'">
+                <th style="width: 30%;">Opis zadania</th>
+                <th style="width: 25%;">Komentarz do zadania</th>
+                <th style="width: 15%;">Data wystawienia zadania</th>
+                <th style="width: 15%;">Termin zadania</th>
+                <th style="width: 15%;">Nauczyciel wystawiający</th>
             </tr>
         </thead>
         <tbody>
@@ -20,10 +27,9 @@
                 <td *ngIf="homework.deadline.toString() === '0001-01-01T00:00:00'">
                     Brak daty</td>
                 <td *ngIf="homework.deadline.toString() !== '0001-01-01T00:00:00'">
-                    <!-- {{ homework.deadline | date:'dd-MM-yyyy'}}</td> -->
                     {{homework.deadline | date:'dd-MM-yyyy'}} ({{timeToEvent(homework.deadline)}}) </td>
                 <td>{{ homework.teacherFullName }}</td>
-                <td><button class="btn btn-danger" style="scale: 80%;" (click)="deleteHomework(homework)">Usuń</button></td>
+                <td *ngIf="user && user.accountType === 'Teacher'"><button class="btn btn-danger" style="scale: 80%;" (click)="deleteHomework(homework)">Usuń</button></td>
             </tr>
         </tbody>
     </table>
@@ -35,12 +41,10 @@
         <table class="styled-table">
             <thead>
                 <tr>
-                    <th>Opis zadania</th>
-                    <th>Komentarz do zadania</th>
-                    <!-- <th>Data wystawienia zadania</th> -->
-                    <th>Termin oddania</th>
-                    <!-- <th>Id Nauczyciela wystawiającego</th> -->
-                    <th>Akcje</th>
+                    <th style="width: 30%;">Opis zadania</th>
+                    <th style="width: 30%;">Komentarz do zadania</th>
+                    <th style="width: 20%;">Termin oddania</th>
+                    <th style="width: 20%;">Akcje</th>
                 </tr>
             </thead>
             <tbody>
@@ -62,7 +66,7 @@
                         >
                     </td>
                     <td>
-                        <button (click)="assignHomework()">Opublikuj zadanie</button>
+                        <button class="btn btn-outline-primary" style="scale: 90%;" (click)="assignHomework()">Opublikuj zadanie</button>
                     </td>
                 </tr>
             </tbody>

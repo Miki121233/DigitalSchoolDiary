@@ -76,11 +76,9 @@ public class GradesController : BaseApiController
     [HttpPost("{studentId}")]
     public async Task<ActionResult<GradeDto>> PostGrade(PostGradeDto gradeDto, int studentId) //sprawdzic jeszcze czy przedmiot jest w bazie klasy
     {
-        var student = _context.Users.FirstOrDefault(x => x.Id == studentId);
+        var student = _context.Students.FirstOrDefault(x => x.Id == studentId);
 
         if (student is null) return BadRequest("Zły adres id studenta!");
-
-        if (student.AccountType != "Student") return BadRequest("Id nie należy do studenta!"); 
 
         var teacher = await _context.Teachers.FindAsync(gradeDto.TeacherId);
 

@@ -56,14 +56,14 @@ export class ClassesListComponent implements OnInit {
         else if (currentPath.includes('/plan')) {
           this.router.navigate(['plan', this.user.classId])
         } 
+        else if (currentPath.includes('/uwagi')) {
+          this.router.navigate(['uwagi', this.user.classId, this.user.id])
+        } 
         else {
           console.log("Błąd ze ścieżkami");
         }
       }
-      // if(this.user?.accountType === "Parent") {
-      //   this.router.navigateByUrl('wybor-dziecka');
-      //   return;
-      // }
+      // przypadek routingu dla dziecka rodzica jest uwzględniony w select-child-list
     }
     return;
   }

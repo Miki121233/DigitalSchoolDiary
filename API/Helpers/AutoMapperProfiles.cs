@@ -18,7 +18,8 @@ public class AutoMapperProfiles : Profile
         CreateMap<Message, MessageDto>()
             .ForMember(x => x.SenderAccountType, x => x.MapFrom(x => x.Sender.AccountType))
             .ForMember(x => x.RecipientAccountType, x => x.MapFrom(x => x.Recipient.AccountType));
-
+        CreateMap<Note, NoteDto>();
+        CreateMap<Student, StudentNotesDto>();
 
     }
 }

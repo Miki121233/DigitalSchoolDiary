@@ -8,6 +8,8 @@ import { ToastrService } from 'ngx-toastr';
 import { TimeagoIntl } from 'ngx-timeago';
 import { strings as polishStrings } from "ngx-timeago/language-strings/pl";
 import { UserService } from '../_services/user.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-messages',
@@ -22,7 +24,8 @@ export class MessagesComponent implements OnInit {
   filteredUsers: User[] = [];
 
   constructor(private messagesService: MessagesService, private accountService: AccountService,
-    private toastr: ToastrService, intl: TimeagoIntl, private userService: UserService) {
+    private toastr: ToastrService, intl: TimeagoIntl, private userService: UserService,
+    private dialog: MatDialog) {
     intl.strings = polishStrings;
     intl.changes.next();
     accountService.currentUser$.pipe(take(1)).subscribe({
@@ -59,11 +62,20 @@ export class MessagesComponent implements OnInit {
   }
 
   deleteMessage(messageId: number) {
-    this.messagesService.deleteMessage(messageId).subscribe({
-      next: () => {
-        this.messages?.splice(this.messages.findIndex(m => m.id === messageId), 1)
-        this.toastr.success("Wiadomość została usunięta");
+    const confirmationDialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '250px',
+      data: { message: 'Czy na pewno chcesz usunąć tą wiadomość?' },
+    });
+  
+    confirmationDialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.messagesService.deleteMessage(messageId).subscribe({
+          next: () => {
+            this.messages?.splice(this.messages.findIndex(m => m.id === messageId), 1)
+            this.toastr.success("Wiadomość została usunięta");
+          }
+        })
       }
-    })
+    });
   }
 }

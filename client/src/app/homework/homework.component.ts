@@ -58,24 +58,27 @@ export class HomeworkComponent implements OnInit{
 
   assignHomework() {
     const formattedDeadline = this.datePipe.transform(this.deadlineForm, 'dd-MM-yyyy');
-
-    if(this.descriptionForm && this.subjectId && this.user)
+    if(this.user && this.user.accountType === 'Teacher') {
       this.homeworkDto = {
-        description: this.descriptionForm,
+        description: this.descriptionForm!,
         teacherId: this.user.id,
-        subjectId: this.subjectId 
+        subjectId: this.subjectId!
       }
-    if(this.commentForm && this.homeworkDto) this.homeworkDto.comment = this.commentForm;
-    if(this.deadlineForm && this.homeworkDto) this.homeworkDto.deadline = this.deadlineForm;
-    if(this.classId && this.homeworkDto) {
-      console.log(this.homeworkDto)
-      this.homeworksService.postHomeworkForClass(this.classId, this.homeworkDto).subscribe({
-        next: response => {
-          this.toastr.success(`Opublikowano zadanie ${this.descriptionForm} dla klasy ${this.schoolId} do dnia: ${formattedDeadline}`);
-          this.homeworks.push(response);
-        },
-        error: err => console.log(err.error)
-      });
+      if(!this.homeworkDto.description) {
+        this.toastr.error('Proszę wpisać opis do zadania')
+      }
+      if(this.commentForm && this.homeworkDto) this.homeworkDto.comment = this.commentForm;
+      if(this.deadlineForm && this.homeworkDto) this.homeworkDto.deadline = this.deadlineForm;
+      if(this.classId && this.homeworkDto) {
+        console.log(this.homeworkDto)
+        this.homeworksService.postHomeworkForClass(this.classId, this.homeworkDto).subscribe({
+          next: response => {
+            this.toastr.success(`Opublikowano zadanie ${this.descriptionForm} dla klasy ${this.schoolId} do dnia: ${formattedDeadline}`);
+            this.homeworks.push(response);
+          },
+          error: err => console.log(err.error)
+        });
+      }
     }
   }
 

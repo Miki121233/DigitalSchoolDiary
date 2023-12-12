@@ -25,18 +25,13 @@ export class UserGradesComponent {
       next: user => {
         if (user) {
           this.user = user
-          console.log('user');
-          console.log(user);
         }
       }
     });
     this.userService.currentChild$.pipe(take(1)).subscribe({
       next: child => {
         if (child) {
-          this.child = child; 
-          console.log('child');
-          
-          console.log(this.child);
+          this.child = child;
         }
       }
     });

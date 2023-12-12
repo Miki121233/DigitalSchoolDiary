@@ -1,0 +1,22 @@
+<div *ngIf="user">
+    <p *ngIf="notes.length === 0">Brak uwag</p>
+    <table *ngIf="notes.length>0" class="table">
+      <thead>
+        <tr>
+          <th>Opis uwagi</th>
+          <th>Typ uwagi</th>
+          <th>Data wystawienia uwagi</th>
+          <th>Nauczyciel wystawiający</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let note of notes" [ngStyle]="{'background-color': note.isPositive ? '#4CAF50' : '#FF5733'}">
+          <td>{{ note.description }}</td>
+          <td *ngIf="note.isPositive">Pozytywna</td>
+          <td *ngIf="!note.isPositive">Negatywna</td>
+          <td>{{ note.created | date:'dd-MM-yyyy' }}</td>
+          <td>{{ note.teacherFullName }}</td>
+        </tr>
+      </tbody>
+    </table>
+</div>

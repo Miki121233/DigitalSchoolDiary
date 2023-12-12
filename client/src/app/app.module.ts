@@ -19,7 +19,6 @@ import { HomeworkComponent } from './homework/homework.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { MessagesComponent } from './messages/messages.component';
 import { CalendarComponent } from './calendar/calendar.component';
-import { CommentsComponent } from './comments/comments.component';
 import { ParentRegisterComponent } from './parent-register/parent-register.component';
 import { ClassesListComponent } from './classes/classes-list/classes-list.component';
 import { ClassesCardComponent } from './classes/classes-card/classes-card.component';
@@ -42,6 +41,8 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { MessageThreadsComponent } from './message-threads/message-threads.component';
 import { TimeagoCustomFormatter, TimeagoFormatter, TimeagoIntl, TimeagoModule } from "ngx-timeago";
+import { NotesComponent } from './notes/notes.component';
+import { UserNotesComponent } from './user/user-notes/user-notes.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,7 +57,6 @@ import { TimeagoCustomFormatter, TimeagoFormatter, TimeagoIntl, TimeagoModule } 
     ScheduleComponent,
     MessagesComponent,
     CalendarComponent,
-    CommentsComponent,
     ParentRegisterComponent,
     ClassesListComponent,
     ClassesCardComponent,
@@ -67,7 +67,9 @@ import { TimeagoCustomFormatter, TimeagoFormatter, TimeagoIntl, TimeagoModule } 
     ScheduleEventDialogComponent,
     TeacherScheduleComponent,
     ConfirmationDialogComponent,
-    MessageThreadsComponent
+    MessageThreadsComponent,
+    NotesComponent,
+    UserNotesComponent
   ],
   imports: [
     BrowserModule,

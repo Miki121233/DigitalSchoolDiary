@@ -1,0 +1,173 @@
+/* Dodatkowe style */
+.notes-container {
+    margin: 20px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+  
+li {
+    background-color: #f8f9fa;
+    border: 2px solid #dee2e6; 
+    padding: 5px;
+    max-width: 200px; 
+    margin-left: 45px;
+    text-align: justify;
+}
+
+li:hover {
+    color: white;
+    background-color: #a0a7af;
+}
+
+/* Nowa stylizacja tabeli */
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.styled-table th, .styled-table td {
+    padding: 15px;
+    text-align: left;
+}
+
+.styled-table thead {
+    background-color: #3498db;
+    color: #ffffff;
+}
+
+.styled-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.styled-table th, .styled-table td {
+    border-bottom: 1px solid #ddd;
+}
+
+/* Dodatkowe pola nad "Opis" */
+.styled-table th:nth-child(3) {
+    position: relative;
+}
+
+.styled-table th:nth-child(3)::before {
+    content: "";
+    display: block;
+    height: 10px;
+}
+
+/* Dostosowanie inputów */
+.styled-table input[type="text"],
+.styled-table input[type="number"],
+.styled-table input[type="text"].change-all-descriptions {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.change-all-descriptions {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.change-all-descriptions:hover {
+    background-color: #2980b9;
+}
+
+/* Dodatkowe style dla accordionów */
+.accordion-container {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.accordion-group {
+    font-size: 130%;
+}
+
+/* Dodatkowe style dla tabeli w accordionie */
+.styled-table-accordion {
+    width: 75%;
+    border-collapse: collapse;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    height: 50%;
+}
+
+.styled-table-accordion th, .styled-table-accordion td {
+    padding: 10px; /* Zmniejszono padding */
+    text-align: left;
+    font-size: 14px; /* Zmniejszono rozmiar czcionki */
+}
+
+.styled-table-accordion thead {
+    background-color: #3498db;
+    color: #ffffff;
+}
+
+.styled-table-accordion tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.styled-table-accordion th, .styled-table-accordion td {
+    border-bottom: 1px solid #ddd;
+}
+
+/* Dostosowanie inputów */
+.styled-table-accordion input[type="text"],
+.styled-table-accordion input[type="number"] {
+    width: 100%;
+    padding: 8px; /* Zmniejszono padding */
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 8px; /* Zmniejszono margines */
+}
+
+/* Dodatkowe pola nad "Opis" */
+.styled-table-accordion th:nth-child(3) {
+    position: relative;
+}
+
+.styled-table-accordion th:nth-child(3)::before {
+    content: "";
+    display: block;
+    height: 8px; /* Zmniejszono wysokość */
+}
+
+/* Dostosowanie inputu dla "Zmień wszystkie opisy" */
+.styled-table-accordion input.change-all-descriptions {
+    width: calc(100% - 20px); /* Odejmujemy 20px, aby uwzględnić padding i border */
+    padding: 8px; /* Zmniejszono padding */
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 8px; /* Zmniejszono margines */
+}
+
+.styled-table-accordion input.change-all-descriptions:hover {
+    background-color: #2980b9;
+}
+
+.subject-name {
+    border: 2px solid #3498db; /* Obramowanie - niebieski kolor */
+    padding: 10px; /* Wewnętrzny odstęp */
+    color: #3498db; /* Kolor tekstu - niebieski kolor */
+    border-radius: 15px;
+    border-left-width: 150px;
+    border-right-width: 150px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }

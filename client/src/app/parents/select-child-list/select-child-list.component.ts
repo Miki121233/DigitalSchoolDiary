@@ -31,7 +31,7 @@ export class SelectChildListComponent {
     });
   }
 
-  getRouterLink(classId: number): string {
+  getRouterLink(classId: number, childId: number): string {
     const currentPath = window.location.pathname;
 
     if (this.user) {
@@ -43,6 +43,9 @@ export class SelectChildListComponent {
       } 
       else if (currentPath.includes('/plan')) {
         return `/plan/${classId}`;
+      } 
+      else if (currentPath.includes('/uwagi')) {
+        return `/uwagi/${classId}/${childId}`;
       } 
       else {
         // Domyślnie, jeśli nie pasuje do żadnej ścieżki
