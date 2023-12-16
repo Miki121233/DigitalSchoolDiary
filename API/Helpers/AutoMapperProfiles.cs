@@ -14,6 +14,7 @@ public class AutoMapperProfiles : Profile
         CreateMap<Event, EventDtoForClass>(); //assignedTeacherId osobno
         CreateMap<Event, EventDtoForTeacher>();
         CreateMap<Grade, GradeDto>();
+        CreateMap<Attendance, AttendanceDto>();
         CreateMap<Homework, HomeworkDto>();
         CreateMap<Message, MessageDto>()
             .ForMember(x => x.SenderAccountType, x => x.MapFrom(x => x.Sender.AccountType))

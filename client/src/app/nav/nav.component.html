@@ -9,6 +9,9 @@
             <li class="nav-item">
               <a class="nav-link" routerLink="/zadania" routerLinkActive="active">Zadania domowe</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/obecnosc" routerLinkActive="active">Obecność</a>
+            </li>
             <li class="nav-item" *ngIf="currentUser.accountType !== 'Teacher'">
               <a class="nav-link" routerLink="/plan" routerLinkActive="active">Plan zajęć</a>
             </li>

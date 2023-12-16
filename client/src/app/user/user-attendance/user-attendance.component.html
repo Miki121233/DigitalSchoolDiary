@@ -1,0 +1,20 @@
+<div *ngIf="user">
+    <p *ngIf="attendances.length === 0">Brak wystawionych obecności z wybranego przedmiotu</p>
+    <table *ngIf="attendances.length>0" class="table">
+      <thead>
+        <tr>
+          <th>Opis obecności</th>
+          <th>Obecność</th>
+          <th>Data wystawienia obecności</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let attendance of attendances">
+          <td>{{ attendance.description }}</td>
+          <td *ngIf="attendance.value">Obecny</td>
+          <td *ngIf="!attendance.value">Nieobecny</td>
+          <td>{{ attendance.date | date:'dd-MM-yyyy' }}</td>
+        </tr>
+      </tbody>
+    </table>
+</div>

@@ -53,6 +53,9 @@ export class ClassesListComponent implements OnInit {
         else if (currentPath.includes('/zadania')) {
           this.router.navigate(['zadania', this.user.classId])
         } 
+        else if (currentPath.includes('/obecnosc')) {
+          this.router.navigate(['obecnosc', this.user.classId])
+        } 
         else if (currentPath.includes('/plan')) {
           this.router.navigate(['plan', this.user.classId])
         } 

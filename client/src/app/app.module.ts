@@ -42,6 +42,8 @@ import { MessageThreadsComponent } from './message-threads/message-threads.compo
 import { TimeagoCustomFormatter, TimeagoFormatter, TimeagoIntl, TimeagoModule } from "ngx-timeago";
 import { NotesComponent } from './notes/notes.component';
 import { UserNotesComponent } from './user/user-notes/user-notes.component';
+import { AttendanceComponent } from './attendance/attendance.component';
+import { UserAttendanceComponent } from './user/user-attendance/user-attendance.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -67,7 +69,9 @@ import { UserNotesComponent } from './user/user-notes/user-notes.component';
     ConfirmationDialogComponent,
     MessageThreadsComponent,
     NotesComponent,
-    UserNotesComponent
+    UserNotesComponent,
+    AttendanceComponent,
+    UserAttendanceComponent
   ],
   imports: [
     BrowserModule,

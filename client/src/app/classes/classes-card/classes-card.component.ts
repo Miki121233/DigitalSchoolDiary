@@ -19,6 +19,9 @@ export class ClassesCardComponent {
     else if (currentPath.includes('/zadania')) {
       return `/zadania/${classId}`;
     } 
+    else if (currentPath.includes('/obecnosc')) {
+      return `/obecnosc/${classId}`;
+    }
     else if (currentPath.includes('/plan')) {
       return `/plan/${classId}`;
     } 

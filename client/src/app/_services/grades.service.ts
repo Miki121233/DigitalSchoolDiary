@@ -11,11 +11,7 @@ export class GradesService {
 
   constructor(private http: HttpClient) { }
 
-  getGradesFromClassId(id: number) {
-    return this.http.get<Grade[]>(this.baseUrl + 'grades/' + id);
-  }
-
-  getGradesForStudentFromId(id: number) {
+  getGradesForStudentFromId(id: number) { //nieuzywane
     return this.http.get<Grade[]>(this.baseUrl + 'users/'+ id + '/grades');
   }
 

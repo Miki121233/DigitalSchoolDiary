@@ -22,6 +22,7 @@ public class DataContext : DbContext
     public DbSet<Message> Messages { get; set; }
     public DbSet<Note> Notes { get; set; }
     public DbSet<Calendar> Calendars { get; set; }
+    public DbSet<Attendance> Attendances { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

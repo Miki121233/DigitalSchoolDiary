@@ -1,0 +1,81 @@
+<ng-container *ngIf="students.length === 0">
+    <strong>Brak przypisanych studentów do tej klasy!</strong>
+</ng-container>
+
+<div *ngIf="students.length > 0 && user && user.accountType === 'Teacher'" class="attendances-container">
+    <h1 class="subject-name">{{subject?.name?.toUpperCase()}}</h1>
+    <h2>Uczniowie tej klasy i ich obecności:</h2>
+    <div class="accordion-container">
+        <accordion [isAnimated]="true" [closeOthers]="true">
+            <ng-container *ngFor="let student of studentsForDisplay">
+                <accordion-group class="accordion-group">
+                    <div class="accordion-heading" accordion-heading>
+                        <i class="fa-solid fa-user-graduate"></i>
+                        <span>  {{student.firstName}} {{student.lastName}}</span>
+                    </div>
+                    <div class="accordion-body">
+                        <p *ngIf="student.attendances.length === 0">Brak przydzielonych obecności</p>
+                        <table *ngIf="student.attendances.length > 0" class="styled-table-accordion">
+                            <thead>
+                                <tr>
+                                    <th>Opis obecności</th>
+                                    <th>Wartość</th>
+                                    <th>Data wystawienia obecności</th>
+                                    <th>Nauczyciel wystawiający</th>
+                                    <th>Akcje</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let attendance of student.attendances">
+                                    <td>{{ attendance.description }}</td>
+                                    <td *ngIf="attendance.value">Obecny</td>
+                                    <td *ngIf="!attendance.value">Nieobecny</td>
+                                    <td>{{ attendance.date | date:'dd-MM-yyyy'}}</td>
+                                    <td>{{ attendance.teacherFullName }}</td>
+                                    <td><button class="btn btn-danger" style="scale: 80%;" (click)="deleteAttendance(attendance)">Usuń</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </accordion-group>
+            </ng-container>
+        </accordion>
+    </div>
+    <div>
+        <h2>Przydzielanie obecności:</h2>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Imię</th>
+                    <th>Nazwisko</th>
+                    <th>
+                        <input type="text" [(ngModel)]="description" placeholder="Zmień wszystkie opisy" class="change-all-descriptions" (input)="updateDescriptions()">
+                    </th>
+                    <th>Ocena</th>
+                    <th>Akcje</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let student of students; let i = index">
+                    <td>{{student.firstName}}</td>
+                    <td>{{student.lastName}}</td>
+                    <td>
+                        <input type="text" [(ngModel)]="attendanceDescriptions[i]" placeholder="Opis obecności" [value]="attendanceDescriptions[i]" class="attendance-description-input">
+                    </td>
+                    <td>
+                        <select class="form-select attendance-input" aria-label="Wybierz rodzaj uwagi" [(ngModel)]="attendanceValues[i]" [ngStyle]="{'background-color': attendanceValues[i] ? '#4CAF50' : '#ff3a33'}">
+                            <option [ngValue]="true" style="background-color: #4CAF50;">Pozytywna</option>
+                            <option [ngValue]="false" style="background-color: #ff3a33;">Negatywna</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button (click)="assignAttendance(student, i)">Wystaw obecność</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="text-align: right; margin-top: 10px; margin-right: 25px;">
+            <button (click)="assignAllAttendances()">Wystaw wszystkie obecności</button>
+        </div>
+    </div>
+</div>

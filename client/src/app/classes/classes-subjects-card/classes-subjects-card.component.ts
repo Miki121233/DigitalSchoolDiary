@@ -33,55 +33,45 @@ export class ClassesSubjectsCardComponent{
     });
   }
 
-  getRouterLinkForTeacher(): string {
+  getRouterLink(): string {
     const currentPath = window.location.pathname;
-
-    if (currentPath.includes('/oceny')) {
-      return `/oceny/${this.classId}/${this.subject.id}`;
-    } 
-    else if (currentPath.includes('/zadania')) {
-      return `/zadania/${this.classId}/${this.subject.id}`;
-    } 
-    else {
-      // Domyślnie, jeśli nie pasuje do żadnej ścieżki
-      return `error`;
-    }
-  }
-
-  getRouterLinkForStudent(): string {
-    const currentPath = window.location.pathname;
-
     if (this.user) {
-      if (currentPath.includes('/oceny')) {
-        return `/oceny/${this.classId}/${this.subject.id}/${this.user.id}`;
-      } 
-      else if (currentPath.includes('/zadania')) {
-        return `/zadania/${this.classId}/${this.subject.id}`;
-      } 
-      else {
-        // Domyślnie, jeśli nie pasuje do żadnej ścieżki
-        return `error`;
+      if (this.user.accountType === 'Teacher') {
+        if (currentPath.includes('/oceny')) {
+          return `/oceny/${this.classId}/${this.subject.id}`;
+        } 
+        else if (currentPath.includes('/zadania')) {
+          return `/zadania/${this.classId}/${this.subject.id}`;
+        } 
+        else if (currentPath.includes('/obecnosc')) {
+          return `/obecnosc/${this.classId}/${this.subject.id}`;
+        } 
+      }
+      else if (this.user.accountType === 'Student') {
+        if (currentPath.includes('/oceny')) {
+          return `/oceny/${this.classId}/${this.subject.id}/${this.user.id}`;
+        } 
+        else if (currentPath.includes('/zadania')) {
+          return `/zadania/${this.classId}/${this.subject.id}`;
+        } 
+        else if (currentPath.includes('/obecnosc')) {
+          return `/obecnosc/${this.classId}/${this.subject.id}/${this.user.id}`;
+        } 
+      }
+      else if (this.user.accountType === 'Parent' && this.child) {
+        if (currentPath.includes('/oceny')) {
+          return `/oceny/${this.classId}/${this.subject.id}/${this.child.id}`;
+        } 
+        else if (currentPath.includes('/zadania')) {
+          return `/zadania/${this.classId}/${this.subject.id}`;
+        } 
+        else if (currentPath.includes('/obecnosc')) {
+          return `/obecnosc/${this.classId}/${this.subject.id}/${this.child.id}`;
+        } 
       }
     }
-    else return "**";
-  }
 
-  getRouterLinkForParent(): string {
-    const currentPath = window.location.pathname;
-
-    if (this.child) {
-      if (currentPath.includes('/oceny')) {
-        return `/oceny/${this.classId}/${this.subject.id}/${this.child.id}`;
-      } 
-      else if (currentPath.includes('/zadania')) {
-        return `/zadania/${this.classId}/${this.subject.id}`;
-      } 
-      else {
-        // Domyślnie, jeśli nie pasuje do żadnej ścieżki
-        return `error`;
-      }
-    }
-    else return "**";
+    return `error`;
   }
 
   log() {

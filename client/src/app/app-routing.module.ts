@@ -19,6 +19,8 @@ import { TeacherScheduleComponent } from './teacher-schedule/teacher-schedule.co
 import { MessageThreadsComponent } from './message-threads/message-threads.component';
 import { NotesComponent } from './notes/notes.component';
 import { UserNotesComponent } from './user/user-notes/user-notes.component';
+import { AttendanceComponent } from './attendance/attendance.component';
+import { UserAttendanceComponent } from './user/user-attendance/user-attendance.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -36,6 +38,10 @@ const routes: Routes = [
       {path: 'zadania', component: ClassesListComponent},
       {path: 'zadania/:classId', component: ClassesSubjectsListComponent},
       {path: 'zadania/:classId/:subjectId', component: HomeworkComponent},
+      {path: 'obecnosc', component: ClassesListComponent},
+      {path: 'obecnosc/:classId', component: ClassesSubjectsListComponent},
+      {path: 'obecnosc/:classId/:subjectId', component: AttendanceComponent},
+      {path: 'obecnosc/:classId/:subjectId/:userId', component: UserAttendanceComponent},
       {path: 'plany', component: TeacherScheduleComponent},
       {path: 'plan', component: ClassesListComponent},
       {path: 'plan/:classId', component: ScheduleComponent},
