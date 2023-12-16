@@ -33,6 +33,10 @@ try
 {
     var context = services.GetRequiredService<DataContext>();
     await context.Database.MigrateAsync();
+    
+    var seed = new Seed(context);
+    await seed.SeedSchoolCalendar();
+    
 }
 catch (Exception ex)
 {

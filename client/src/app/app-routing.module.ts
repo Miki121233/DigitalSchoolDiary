@@ -7,7 +7,6 @@ import { GradesComponent } from './grades/grades.component';
 import { HomeworkComponent } from './homework/homework.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { MessagesComponent } from './messages/messages.component';
-import { CalendarComponent } from './calendar/calendar.component';
 import { ParentRegisterComponent } from './parent-register/parent-register.component';
 import { ClassesListComponent } from './classes/classes-list/classes-list.component';
 import { classDetailedResolver } from './_resolvers/class-detailed.resolver';
@@ -42,7 +41,7 @@ const routes: Routes = [
       {path: 'plan/:classId', component: ScheduleComponent},
       {path: 'wiadomosci', component: MessagesComponent},
       {path: 'wiadomosci/:userId', component: MessageThreadsComponent},
-      {path: 'kalendarz', component: CalendarComponent},
+      {path: 'kalendarz', component: ScheduleComponent},
       {path: 'uwagi', component: ClassesListComponent},
       {path: 'uwagi/:classId', component: NotesComponent},
       {path: 'uwagi/:classId/:userId', component: UserNotesComponent},

@@ -18,7 +18,6 @@ import { GradesComponent } from './grades/grades.component';
 import { HomeworkComponent } from './homework/homework.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { MessagesComponent } from './messages/messages.component';
-import { CalendarComponent } from './calendar/calendar.component';
 import { ParentRegisterComponent } from './parent-register/parent-register.component';
 import { ClassesListComponent } from './classes/classes-list/classes-list.component';
 import { ClassesCardComponent } from './classes/classes-card/classes-card.component';
@@ -56,7 +55,6 @@ import { UserNotesComponent } from './user/user-notes/user-notes.component';
     HomeworkComponent,
     ScheduleComponent,
     MessagesComponent,
-    CalendarComponent,
     ParentRegisterComponent,
     ClassesListComponent,
     ClassesCardComponent,

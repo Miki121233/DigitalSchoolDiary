@@ -48,6 +48,29 @@ public class EventsController : BaseApiController
         return eventDtos;
     }
 
+    [HttpGet("calendars/{calendarId}")]
+    public async Task<ActionResult<IEnumerable<EventDtoForClass>>> GetEventsFromCalendarId(int calendarId)
+    {
+        var calendarFromId = await _context.Calendars.Include(x => x.Events).FirstOrDefaultAsync(x => x.Id == calendarId);
+        if (calendarFromId is null) return BadRequest("Kalendarz o podanym adresie id nie istnieje");
+
+        List<EventDtoForClass> eventDtos = _mapper.Map<List<EventDtoForClass>>(calendarFromId.Events);
+
+        var teacherAssigned = new Teacher();
+        foreach (var eventIteration in eventDtos)
+        {
+            teacherAssigned = await _context.Teachers.Include(x => x.Events).FirstOrDefaultAsync(t => t.Events.Any(e => e.Id == eventIteration.Id));
+            if (teacherAssigned != null)
+            {
+                eventIteration.AssignedTeacherId = teacherAssigned.Id;
+                eventIteration.AssignedTeacherFirstName = teacherAssigned.FirstName;
+                eventIteration.AssignedTeacherLastName = teacherAssigned.LastName;
+            }
+        }
+
+        return eventDtos;
+    }
+
     [HttpGet("teachers/{teacherId}")]
     public async Task<ActionResult<IEnumerable<EventDtoForTeacher>>> LoadTeacherEventsFromId(int teacherId)
     {
@@ -60,7 +83,7 @@ public class EventsController : BaseApiController
         foreach (var eventIteration in eventDtos)
         {
             classAssigned = await _context.Classes.Include(x => x.Events).FirstOrDefaultAsync(t => t.Events.Any(e => e.Id == eventIteration.Id));
-            eventIteration.ClassSchoolId = classAssigned.SchoolId;
+            if (classAssigned != null) eventIteration.ClassSchoolId = classAssigned.SchoolId;
         }
 
         return eventDtos;
@@ -130,7 +153,7 @@ public class EventsController : BaseApiController
     }
 
     [HttpPost("classes/{classId}")]
-    public async Task<ActionResult<Event>> PostEvent(int classId, PostEventDto eventDto) //sprawdzic jeszcze czy przedmiot jest w bazie klasy
+    public async Task<ActionResult<Event>> PostEventForClass(int classId, PostEventDto eventDto)
     {
         var classFromId = await _context.Classes.FindAsync(classId);
         if (classFromId is null) return NotFound("Nie ma klasy o podanym id");
@@ -150,6 +173,27 @@ public class EventsController : BaseApiController
         return eventForReturn;
     }
 
+    [HttpPost("calendars/{calendarId}")]
+    public async Task<ActionResult<Event>> PostEventForCalendar(int calendarId, PostEventDto eventDto)
+    {
+        var calendarFromId = await _context.Calendars.FindAsync(calendarId);
+        if (calendarFromId is null) return NotFound("Nie ma kalendarza o podanym id");
+        
+        var creator = await _context.Teachers.FindAsync(eventDto.CreatorId);
+        if (creator is null) return BadRequest("Nie ma nauczyciela o podanym id");  
+
+        var eventForReturn = _mapper.Map<Event>(eventDto);
+
+        var assignedPerson = await _context.Teachers.FindAsync(eventDto.AssignedTeacherId);
+        if (assignedPerson != null)
+            assignedPerson.Events.Add(eventForReturn);
+
+        calendarFromId.Events.Add(eventForReturn);
+        await _context.SaveChangesAsync();
+
+        return eventForReturn;
+    }
+
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteEvent(int id)
     {
@@ -157,14 +201,13 @@ public class EventsController : BaseApiController
         if (eventFromId is null) return NotFound("Nie ma wydarzenia o podanym id");
 
         var assignedClass = await _context.Classes.Include(x => x.Events).FirstOrDefaultAsync(t => t.Events.Any(e => e.Id == id));
-        if (assignedClass is null) return BadRequest("Wydarzenie nie ma przypisanej klasy");
-        assignedClass.Events.Remove(eventFromId);
+        if (assignedClass != null) assignedClass.Events.Remove(eventFromId);
+
+        var assignedCalendar = await _context.Calendars.Include(x => x.Events).FirstOrDefaultAsync(t => t.Events.Any(e => e.Id == id));
+        if (assignedCalendar != null) assignedCalendar.Events.Remove(eventFromId);
 
         var assignedTeacher = await _context.Teachers.Include(x => x.Events).FirstOrDefaultAsync(t => t.Events.Any(e => e.Id == id));
-        if (assignedTeacher != null) 
-        {
-            assignedTeacher.Events.Remove(eventFromId);
-        }
+        if (assignedTeacher != null) assignedTeacher.Events.Remove(eventFromId);
         
         _context.Events.Remove(eventFromId);
         await _context.SaveChangesAsync();

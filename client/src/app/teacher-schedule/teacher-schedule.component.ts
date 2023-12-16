@@ -56,7 +56,7 @@ export class TeacherScheduleComponent {
   handleEventContent(arg: any): string {
     const event = arg.event;
     
-    if (event.extendedProps.classSchoolId != 0 && typeof(event.extendedProps.classSchoolId) !== typeof(undefined)) {
+    if (event.extendedProps.classSchoolId && event.extendedProps.classSchoolId != 0) {
       const description = ' - ' + event.extendedProps.classSchoolId;
       return `${event.title} ${description}`;
     }

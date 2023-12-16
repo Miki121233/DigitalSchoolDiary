@@ -23,7 +23,7 @@ import { ConfirmationDialogComponent } from "../confirmation-dialog/confirmation
 })
 export class ScheduleComponent {
   @ViewChild('fullCalendar') fullCalendar!: FullCalendarComponent; // Dodana inicjalizacja
-  classId: string | null = null;
+  classId: number | null = null;
   events: ScheduleEvent[] | null = null;
   user: User | null = null;
   child?: StudentChildren
@@ -46,7 +46,7 @@ export class ScheduleComponent {
         }
       }});
     this.route.paramMap.subscribe(params => {
-      this.classId = params.get('classId');
+      this.classId = parseInt(params.get('classId')!);
     });
     this.loadEventsFromClass();
   }
@@ -263,18 +263,34 @@ export class ScheduleComponent {
   }
 
   postEventForClass(event: ScheduleEvent) {
-    if(this.classId && this.user) {
+    if(this.user) {
       event.creatorId = this.user.id
-      this.eventsService.postEventForClass(this.classId, event).subscribe({
-        next: _ => {
-          this.toastr.success("Pomyślnie utworzono wydarzenie")
-          this.loadEventsFromClass();
-      },
-        error: error => {
-          console.log(error.error)
-          this.toastr.error("Błąd z utworzeniem wydarzenia")
-        }
-      });
+
+      const currentPath = window.location.pathname;
+      if (currentPath.includes('/plan') && this.classId) {
+        this.eventsService.postEventForClass(this.classId, event).subscribe({
+          next: _ => {
+            this.toastr.success("Pomyślnie utworzono wydarzenie")
+            this.loadEventsFromClass();
+        },
+          error: error => {
+            console.log(error.error)
+            this.toastr.error("Błąd z utworzeniem wydarzenia")
+          }
+        });
+      } 
+      else if (currentPath.includes('/kalendarz')) {
+        this.eventsService.postEventForCalendar(1, event).subscribe({
+          next: _ => {
+            this.toastr.success("Pomyślnie utworzono wydarzenie")
+            this.loadEventsFromClass();
+        },
+          error: error => {
+            console.log(error.error)
+            this.toastr.error("Błąd z utworzeniem wydarzenia")
+          }
+        });
+      }
     }
     else {
       this.toastr.error("Błąd z utworzeniem wydarzenia")
@@ -307,34 +323,65 @@ export class ScheduleComponent {
   }
 
   loadEventsFromClass() {
-    if(this.classId)
-    this.eventsService.getEventsFromClassId(this.classId).subscribe({
-      next: response => {
-        this.events = response
-        this.events.forEach(event => {
-          if(event.repeatWeekly && event.repeatWeekly == true) {
-            const dayOfWeek = new Date(event.start).getDay();
-            event.daysOfWeek = [dayOfWeek]
-            event.startTime = event.startHours;
-            event.endTime = event.endHours;
+    const currentPath = window.location.pathname;
+    if (currentPath.includes('/plan') && this.classId) {
+      this.eventsService.getEventsFromClassId(this.classId).subscribe({
+        next: response => {
+          this.events = response
+          this.events.forEach(event => {
+            if(event.repeatWeekly && event.repeatWeekly == true) {
+              const dayOfWeek = new Date(event.start).getDay();
+              event.daysOfWeek = [dayOfWeek]
+              event.startTime = event.startHours;
+              event.endTime = event.endHours;
+    
+            }
+            else if(!event.repeatWeekly || event.repeatWeekly == false ) {
+              event.startTime = undefined;
+              event.endTime = undefined;
+              event.daysOfWeek = undefined;
+            }
+          });
   
-          }
-          else if(!event.repeatWeekly || event.repeatWeekly == false ) {
-            event.startTime = undefined;
-            event.endTime = undefined;
-            event.daysOfWeek = undefined;
-          }
-        });
-
-        console.log('loaded events')
-        console.log(this.events)
-
-        this.calendarOptions.events = this.events;
-      },
-      error: error => {
-        this.toastr.error("Problem z załadowaniem wydarzeń")
-      }
-    });
+          console.log('loaded events')
+          console.log(this.events)
+  
+          this.calendarOptions.events = this.events;
+        },
+        error: error => {
+          this.toastr.error("Problem z załadowaniem wydarzeń")
+        }
+      });
+    } 
+    else if (currentPath.includes('/kalendarz')) {
+      this.eventsService.getEventsFromCalendarId(1).subscribe({
+        next: response => {
+          this.events = response
+          this.events.forEach(event => {
+            if(event.repeatWeekly && event.repeatWeekly == true) {
+              const dayOfWeek = new Date(event.start).getDay();
+              event.daysOfWeek = [dayOfWeek]
+              event.startTime = event.startHours;
+              event.endTime = event.endHours;
+    
+            }
+            else if(!event.repeatWeekly || event.repeatWeekly == false ) {
+              event.startTime = undefined;
+              event.endTime = undefined;
+              event.daysOfWeek = undefined;
+            }
+          });
+  
+          console.log('loaded events')
+          console.log(this.events)
+  
+          this.calendarOptions.events = this.events;
+        },
+        error: error => {
+          this.toastr.error("Problem z załadowaniem wydarzeń")
+        }
+      });
+    }
   }
 
 }
