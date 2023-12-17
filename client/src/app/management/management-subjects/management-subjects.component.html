@@ -1,0 +1,32 @@
+<div *ngIf="subjects">
+    <h2>Przypisane przedmioty:</h2>
+    <ul *ngFor="let subject of subjects">
+        <li style="font-size: large;">{{subject.name}}
+            <button 
+            style="scale: 70%; margin-left: 10px;" 
+            class="btn btn-danger"
+            (click)="deleteSubject(subject)"
+            >Usuń permamentnie</button>
+        </li>
+    </ul>
+</div>
+<div *ngIf="subjects.length === 0">
+    <h2>Brak przypisanych przedmiotów do tej klasy</h2>
+</div>
+<div>
+    <h2>Dodaj przedmiot:</h2>
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Nazwa przedmiotu</th>
+                <th style="padding-left: 20px;">Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input type="text" style="width: 300px; margin-top: 10px;" [(ngModel)]="subjectName" placeholder="Wpisz nazwę przedmiotu..."></td>
+                <td><button class="btn btn-primary" style="scale: 90%;" (click)="createNewSubject()">Utwórz nowy przedmiot</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

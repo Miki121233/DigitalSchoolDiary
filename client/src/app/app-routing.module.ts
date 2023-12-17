@@ -23,6 +23,7 @@ import { AttendanceComponent } from './attendance/attendance.component';
 import { UserAttendanceComponent } from './user/user-attendance/user-attendance.component';
 import { ManagementClassesComponent } from './management/management-classes/management-classes.component';
 import { ManagementClassesListComponent } from './management/management-classes-list/management-classes-list.component';
+import { ManagementSubjectsComponent } from './management/management-subjects/management-subjects.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -56,6 +57,7 @@ const routes: Routes = [
       {path: 'rejestracja-rodzica', component: ParentRegisterComponent},
       {path: 'zarzadzanie-klasami', component: ManagementClassesListComponent},
       {path: 'zarzadzanie-klasami/:classId', component: ManagementClassesComponent},
+      {path: 'zarzadzanie-przedmiotami', component: ManagementSubjectsComponent},
       
     ]
   },

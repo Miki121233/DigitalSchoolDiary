@@ -60,6 +60,9 @@ public class SubjectsController : BaseApiController
     [HttpPost]
     public async Task<ActionResult<Subject>> AddSubjectAsync(SubjectDto subjectDto)
     {
+        var existingSubject = await _context.Subjects.FirstOrDefaultAsync(x => x.Name == subjectDto.Name);
+        if (existingSubject != null) return BadRequest("Istnieje już przedmiot o podanej nazwie!");
+
         var subject = new Subject
         {
             Name = subjectDto.Name
@@ -69,5 +72,17 @@ public class SubjectsController : BaseApiController
         await _context.SaveChangesAsync();
 
         return subject;
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteSubject(int id)
+    {
+        var subject = await _context.Subjects.FindAsync(id);
+        if (subject is null) BadRequest("Nie ma przedmiotu o podanym id");
+
+        _context.Subjects.Remove(subject);
+        await _context.SaveChangesAsync();
+
+        return Ok();
     }
 }

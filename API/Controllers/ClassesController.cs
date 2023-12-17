@@ -83,7 +83,7 @@ public class ClassesController : BaseApiController
         return classSearched.Subjects;
     }
 
-    [HttpPost("{id}/subjects")]
+    [HttpPost("{id}/subjects")] //niepotrzebne
     public async Task<ActionResult<IEnumerable<Subject>>> AddSubjectToClassAsync(int id, SubjectDto subjectDto)
     {
         var classFromId = await _context.Classes.FindAsync(id);

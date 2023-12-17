@@ -85,10 +85,19 @@ export class ManagementClassesComponent {
 
   removeSubject(subject: SchoolSubject) {
     if (this.classId) {
-      this.classesService.removeSubjectFromClass(this.classId, subject.id).subscribe({
-        next: () => {
-          this.subjects = this.subjects.filter(x => x.id !== subject.id);
-          this.toastr.success('Pomyślnie odpięto przedmiot');
+      const confirmationDialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        width: '250px',
+        data: { message: 'Czy na pewno chcesz odpiąć ten przedmiot? Nie zostanie on usunięty, a jedynie odpięty z tej klasy' },
+      });
+    
+      confirmationDialogRef.afterClosed().subscribe(result => {
+        if (result === true) {
+          this.classesService.removeSubjectFromClass(this.classId!, subject.id).subscribe({
+            next: () => {
+              this.subjects = this.subjects.filter(x => x.id !== subject.id);
+              this.toastr.success('Pomyślnie odpięto przedmiot');
+            }
+          });
         }
       });
     }
@@ -96,10 +105,19 @@ export class ManagementClassesComponent {
 
   removeStudent(student: User) {
     if (this.classId) {
-      this.classesService.removeStudentFromClass(this.classId, student.id).subscribe({
-        next: () => {
-          this.students = this.students.filter(x => x.id !== student.id);
-          this.toastr.success('Pomyślnie odpięto ucznia');
+      const confirmationDialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        width: '250px',
+        data: { message: 'Czy na pewno chcesz odpiąć tego ucznia? Nie zostanie on usunięty, a jedynie odpięty z tej klasy' },
+      });
+    
+      confirmationDialogRef.afterClosed().subscribe(result => {
+        if (result === true) {
+          this.classesService.removeStudentFromClass(this.classId!, student.id).subscribe({
+            next: () => {
+              this.students = this.students.filter(x => x.id !== student.id);
+              this.toastr.success('Pomyślnie odpięto ucznia');
+            }
+          });
         }
       });
     }
