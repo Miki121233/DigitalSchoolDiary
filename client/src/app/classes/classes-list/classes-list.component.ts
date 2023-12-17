@@ -26,7 +26,7 @@ export class ClassesListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if(this.user && this.user.accountType === 'Teacher')
+    if(this.user && (this.user.accountType === 'Teacher' || this.user.accountType === 'Director'))
       this.loadClasses();
   }
 
@@ -41,7 +41,7 @@ export class ClassesListComponent implements OnInit {
 
   checkIfTeacher() {
     if(this.user) {
-      if(this.user?.accountType === "Teacher") {
+      if(this.user.accountType === 'Teacher' || this.user.accountType === 'Director') {
         return;
       }
       if(this.user?.accountType === "Student") {

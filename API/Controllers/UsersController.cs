@@ -65,6 +65,11 @@ public class UsersController : BaseApiController
                 resultAll = resultAll.OfType<Teacher>().ToList();
             } 
             break;
+            case "Students":
+            {
+                resultAll = resultAll.OfType<Student>().ToList();
+            } 
+            break;
 
             default:
             { } 
@@ -81,11 +86,8 @@ public class UsersController : BaseApiController
     [HttpGet("{id}/grades")]
     public async Task<ActionResult<IEnumerable<Grade>>> GetGradesForStudentFromId(int id)
     {
-        var user = await _context.Users.FindAsync(id);
-
-        if (user is null) return BadRequest("Zły adres id studenta!");
-
-        if (user.AccountType == "Teacher" || user.AccountType == "Parent") return BadRequest("Tylko uczniowie mają oceny!");
+        var student = await _context.Students.FindAsync(id);
+        if (student is null) return BadRequest("Zły adres id studenta!");
 
         return await _context.Grades.Where(x => x.StudentId == id).ToListAsync(); 
     }
@@ -93,11 +95,8 @@ public class UsersController : BaseApiController
     [HttpGet("{id}/grades/{subjectId}")]
     public async Task<ActionResult<IEnumerable<Grade>>> getGradesForStudentFromIdAndSubjectId(int id, int subjectId)
     {
-        var user = await _context.Users.FindAsync(id);
-
-        if (user is null) return BadRequest("Zły adres id studenta!");
-
-        if (user.AccountType == "Teacher" || user.AccountType == "Parent") return BadRequest("Tylko uczniowie mają oceny!");
+        var student = await _context.Students.FindAsync(id);
+        if (student is null) return BadRequest("Zły adres id studenta!");
 
         return await _context.Grades.Where(x => x.StudentId == id).Where(x => x.Subject.Id == subjectId).ToListAsync(); 
     }
@@ -106,21 +105,19 @@ public class UsersController : BaseApiController
     public async Task<ActionResult<ParentDto>> GetParentWithChildrenIds(int id)
     {
         var parent = await _context.Parents.Include(x => x.StudentChildren).FirstOrDefaultAsync(x => x.Id == id);
-
         if (parent is null) return BadRequest("Zły adres id rodzica!");
-
-        if (parent.AccountType != "Parent") return BadRequest("Konto nie należy do rodzica!");
 
         List<StudentChildrenDto> childrenDtos = new();
         foreach (var child in parent.StudentChildren)
         {
-            childrenDtos.Add(new StudentChildrenDto()
+            var studentChildrenDto = new StudentChildrenDto()
             {
                 Id = child.Id,
                 FirstName = child.FirstName,
                 LastName = child.LastName,
-                ClassId = child.ClassId
-            });
+            };
+            if (child.ClassId != null) studentChildrenDto.ClassId = (int)child.ClassId;
+            childrenDtos.Add(studentChildrenDto);
         };
 
         var parentDto = new ParentDto

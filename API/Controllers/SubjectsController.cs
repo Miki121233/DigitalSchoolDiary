@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
 using API.Dtos;
@@ -31,6 +33,18 @@ public class SubjectsController : BaseApiController
         if (subject is null) return BadRequest("Taki przedmiot nie istnieje");
 
         return subject;
+    }
+
+    [HttpGet("search")]
+    public ActionResult<IEnumerable<Subject>> GetSubjectsContainingString([FromQuery] string contains)
+    {
+        var resultName = _context.Subjects
+            .AsEnumerable()
+            .Where(x => x.Name
+            .Contains(contains, StringComparison.OrdinalIgnoreCase))
+            .OrderBy(x => x.Name);
+
+        return resultName.ToList();
     }
 
     // [HttpGet("{name}")]

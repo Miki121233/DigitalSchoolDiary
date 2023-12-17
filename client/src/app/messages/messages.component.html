@@ -50,13 +50,13 @@
 <div class="row" *ngIf="messages && messages.length > 0">
     <table class="table table-hover" style="cursor: pointer;">
         <thead>
-            <tr *ngIf="user && user.accountType==='Teacher'">
+            <tr *ngIf="user && (user.accountType === 'Teacher' || user.accountType === 'Director')">
                 <th style="width: 35%;">Wiadomość</th>
                 <th style="width: 25%;">Od / Do</th>
                 <th style="width: 20%;">Wysłano / Odebrano</th>
                 <th style="width: 20%;"></th>
             </tr>
-            <tr *ngIf="user && user.accountType!=='Teacher'">
+            <tr *ngIf="user && (user.accountType === 'Student' || user.accountType === 'Parent')">
                 <th style="width: 45%;">Wiadomość</th>
                 <th style="width: 30%;">Od / Do</th>
                 <th style="width: 25%;">Wysłano / Odebrano</th>
@@ -72,17 +72,19 @@
                 <td>
                     <div *ngIf="container === 'Outbox'">
                         <strong *ngIf="message.recipientAccountType==='Teacher'">{{message.recipientFullName | titlecase}} | Nauczyciel <i class="fa-solid fa-user-tie"></i></strong>
+                        <strong *ngIf="message.recipientAccountType==='Director'">{{message.recipientFullName | titlecase}} | Dyrektor <i class="fa-solid fa-user-tie"></i></strong>
                         <strong *ngIf="message.recipientAccountType==='Parent'">{{message.recipientFullName | titlecase}} | Rodzic <i class="fa-solid fa-user"></i></strong>
                         <strong *ngIf="message.recipientAccountType==='Student'">{{message.recipientFullName | titlecase}} | Uczeń <i class="fa-solid fa-user-graduate"></i></strong>
                     </div>
                     <div *ngIf="container !== 'Outbox'">
                         <strong *ngIf="message.senderAccountType==='Teacher'">{{message.senderFullName | titlecase}} | Nauczyciel <i class="fa-solid fa-user-tie"></i></strong>
+                        <strong *ngIf="message.senderAccountType==='Director'">{{message.senderFullName | titlecase}} | Dyrektor <i class="fa-solid fa-user-tie"></i></strong>
                         <strong *ngIf="message.senderAccountType==='Parent'">{{message.senderFullName | titlecase}} | Rodzic <i class="fa-solid fa-user"></i></strong>
                         <strong *ngIf="message.senderAccountType==='Student'">{{message.senderFullName | titlecase}} | Uczeń <i class="fa-solid fa-user-graduate"></i></strong>
                     </div>
                 </td>
                 <td>{{message.messageSent + 'Z' | timeago}}</td>
-                <td *ngIf="user && user.accountType==='Teacher'">
+                <td *ngIf="user && (user.accountType === 'Teacher' || user.accountType === 'Director')">
                     <button (click)="$event.stopPropagation()" (click)="deleteMessage(message.id)" class="btn btn-danger">Usuń wiadomość</button>
                 </td>
             </tr>

@@ -2,7 +2,7 @@
     <strong>Brak przypisanych studentów do tej klasy!</strong>
 </ng-container>
 
-<div *ngIf="students.length > 0 && user && user.accountType === 'Teacher'" class="attendances-container">
+<div *ngIf="students.length > 0 && user && (user.accountType === 'Teacher' || user.accountType === 'Director')" class="attendances-container">
     <h1 class="subject-name">{{subject?.name?.toUpperCase()}}</h1>
     <h2>Uczniowie tej klasy i ich obecności:</h2>
     <div class="accordion-container">
@@ -51,7 +51,7 @@
                     <th>
                         <input type="text" [(ngModel)]="description" placeholder="Zmień wszystkie opisy" class="change-all-descriptions" (input)="updateDescriptions()">
                     </th>
-                    <th>Ocena</th>
+                    <th>Wartość</th>
                     <th>Akcje</th>
                 </tr>
             </thead>
@@ -64,18 +64,18 @@
                     </td>
                     <td>
                         <select class="form-select attendance-input" aria-label="Wybierz rodzaj uwagi" [(ngModel)]="attendanceValues[i]" [ngStyle]="{'background-color': attendanceValues[i] ? '#4CAF50' : '#ff3a33'}">
-                            <option [ngValue]="true" style="background-color: #4CAF50;">Pozytywna</option>
-                            <option [ngValue]="false" style="background-color: #ff3a33;">Negatywna</option>
+                            <option [ngValue]="true" style="background-color: #4CAF50;">Obecny</option>
+                            <option [ngValue]="false" style="background-color: #ff3a33;">Nieobecny</option>
                         </select>
                     </td>
                     <td>
-                        <button (click)="assignAttendance(student, i)">Wystaw obecność</button>
+                        <button class="btn btn-outline-primary" style="scale: 90%;" (click)="assignAttendance(student, i)">Wystaw obecność</button>
                     </td>
                 </tr>
             </tbody>
         </table>
         <div style="text-align: right; margin-top: 10px; margin-right: 25px;">
-            <button (click)="assignAllAttendances()">Wystaw wszystkie obecności</button>
+            <button class="btn btn-outline-primary" (click)="assignAllAttendances()">Wystaw wszystkie obecności</button>
         </div>
     </div>
 </div>

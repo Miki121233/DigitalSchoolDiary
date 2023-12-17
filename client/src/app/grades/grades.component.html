@@ -2,7 +2,7 @@
     <strong>Brak przypisanych studentów do tej klasy!</strong>
 </ng-container>
 
-<div *ngIf="students.length > 0 && user && user.accountType === 'Teacher'" class="grades-container">
+<div *ngIf="students.length > 0 && user && (user.accountType === 'Teacher' || user.accountType === 'Director')" class="grades-container">
     <h1 class="subject-name">{{subject?.name?.toUpperCase()}}</h1>
     <h2>Uczniowie tej klasy i ich oceny:</h2>
     <div class="accordion-container">
@@ -65,13 +65,13 @@
                         <input type="number" [(ngModel)]="gradeValues[i]" placeholder="Ocena" [value]="gradeValues[i]" class="grade-input">
                     </td>
                     <td>
-                        <button (click)="assignGrade(student, i)">Wystaw ocenę</button>
+                        <button class="btn btn-outline-primary" style="scale: 90%;" (click)="assignGrade(student, i)">Wystaw ocenę</button>
                     </td>
                 </tr>
             </tbody>
         </table>
         <div style="text-align: right; margin-top: 10px; margin-right: 25px;">
-            <button (click)="assignAllGrades()">Wystaw wszystkie oceny</button>
+            <button class="btn btn-outline-primary" (click)="assignAllGrades()">Wystaw wszystkie oceny</button>
         </div>
     </div>
 </div>

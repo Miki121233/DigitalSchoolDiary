@@ -23,7 +23,7 @@ export class ScheduleEventDialogComponent {
   filteredUsers: User[] = [];
   assignedUser?: User;
 
-  constructor(private dialog: MatDialog, public dialogRef: MatDialogRef<ScheduleEventDialogComponent>,
+  constructor(public dialogRef: MatDialogRef<ScheduleEventDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, private userService: UserService) {
     this.bsConfig = {
       dateInputFormat: 'HH:mm DD-MM-YYYY', // Format wyświetlania daty i godziny
@@ -50,6 +50,8 @@ export class ScheduleEventDialogComponent {
   assignPerson(person: User) {
     this.data.event.assignedTeacherId = person.id;
     this.getPersonFromId();
+    this.contains = '';
+    this.filteredUsers = [];
   }
 
   deleteAssigned() {
@@ -64,6 +66,9 @@ export class ScheduleEventDialogComponent {
           this.filteredUsers = response
         }
       })
+    }
+    else {
+      this.filteredUsers = [];
     }
   }
 

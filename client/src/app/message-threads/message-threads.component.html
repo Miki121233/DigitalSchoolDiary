@@ -27,6 +27,7 @@
                     <div *ngIf="user.id === message.recipientId">
                         <span class="chat-img float-end">
                             <h3 *ngIf="message.senderAccountType==='Teacher'">{{message.senderFullName}} | Nauczyciel <i class="fa-solid fa-user-tie"></i></h3>
+                            <h3 *ngIf="message.senderAccountType==='Director'">{{message.senderFullName}} | Dyrektor <i class="fa-solid fa-user-tie"></i></h3>
                             <h3 *ngIf="message.senderAccountType==='Parent'">{{message.senderFullName}} | Rodzic <i class="fa-solid fa-user"></i></h3>
                             <h3 *ngIf="message.senderAccountType==='Student'">{{message.senderFullName}} | Uczeń <i class="fa-solid fa-user-graduate"></i></h3>
                         </span>

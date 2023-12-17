@@ -1,4 +1,4 @@
-<div *ngIf="user && user.accountType==='Teacher'">
+<div *ngIf="user && (user.accountType === 'Teacher' || user.accountType === 'Director')">
     <button class="btn btn-primary" *ngIf="!teacherScheduleSwitch" (click)="switchTeacherSchedule()"><h2>Wyświetl swój grafik</h2></button>
     <button class="btn btn-primary" *ngIf="teacherScheduleSwitch" (click)="switchTeacherSchedule()"><h2>Ukryj swój grafik</h2></button>
     <div *ngIf="teacherScheduleSwitch">

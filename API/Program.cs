@@ -36,7 +36,7 @@ try
     
     var seed = new Seed(context);
     await seed.SeedSchoolCalendar();
-    
+    await seed.SeedDirectorAccount();
 }
 catch (Exception ex)
 {

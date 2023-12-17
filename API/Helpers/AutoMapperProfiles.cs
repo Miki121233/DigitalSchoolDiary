@@ -21,6 +21,7 @@ public class AutoMapperProfiles : Profile
             .ForMember(x => x.RecipientAccountType, x => x.MapFrom(x => x.Recipient.AccountType));
         CreateMap<Note, NoteDto>();
         CreateMap<Student, StudentNotesDto>();
+        CreateMap<Class, GetClassDto>();
 
     }
 }

@@ -320,32 +320,27 @@ namespace API.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("ClassId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClassId");
-
                     b.ToTable("Subjects");
                 });
 
-            modelBuilder.Entity("ClassTeacher", b =>
+            modelBuilder.Entity("ClassSubject", b =>
                 {
                     b.Property<int>("ClassesId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("TeachersId")
+                    b.Property<int>("SubjectsId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("ClassesId", "TeachersId");
+                    b.HasKey("ClassesId", "SubjectsId");
 
-                    b.HasIndex("TeachersId");
+                    b.HasIndex("SubjectsId");
 
-                    b.ToTable("TeacherToClass", (string)null);
+                    b.ToTable("ClassSubjects", (string)null);
                 });
 
             modelBuilder.Entity("ParentStudent", b =>
@@ -374,7 +369,7 @@ namespace API.Data.Migrations
                 {
                     b.HasBaseType("API.Entities.AppUser");
 
-                    b.Property<int>("ClassId")
+                    b.Property<int?>("ClassId")
                         .HasColumnType("INTEGER");
 
                     b.HasIndex("ClassId");
@@ -386,7 +381,31 @@ namespace API.Data.Migrations
                 {
                     b.HasBaseType("API.Entities.AppUser");
 
+                    b.Property<int?>("ClassId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasIndex("ClassId");
+
+                    b.ToTable("Users", t =>
+                        {
+                            t.Property("ClassId")
+                                .HasColumnName("Teacher_ClassId");
+                        });
+
                     b.HasDiscriminator().HasValue("Teacher");
+                });
+
+            modelBuilder.Entity("API.Entities.Director", b =>
+                {
+                    b.HasBaseType("API.Entities.Teacher");
+
+                    b.ToTable("Users", t =>
+                        {
+                            t.Property("ClassId")
+                                .HasColumnName("Teacher_ClassId");
+                        });
+
+                    b.HasDiscriminator().HasValue("Director");
                 });
 
             modelBuilder.Entity("API.Entities.Attendance", b =>
@@ -469,14 +488,7 @@ namespace API.Data.Migrations
                         .HasForeignKey("StudentId");
                 });
 
-            modelBuilder.Entity("API.Entities.Subject", b =>
-                {
-                    b.HasOne("API.Entities.Class", null)
-                        .WithMany("Subjects")
-                        .HasForeignKey("ClassId");
-                });
-
-            modelBuilder.Entity("ClassTeacher", b =>
+            modelBuilder.Entity("ClassSubject", b =>
                 {
                     b.HasOne("API.Entities.Class", null)
                         .WithMany()
@@ -484,9 +496,9 @@ namespace API.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("API.Entities.Teacher", null)
+                    b.HasOne("API.Entities.Subject", null)
                         .WithMany()
-                        .HasForeignKey("TeachersId")
+                        .HasForeignKey("SubjectsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -510,9 +522,14 @@ namespace API.Data.Migrations
                 {
                     b.HasOne("API.Entities.Class", null)
                         .WithMany("Students")
-                        .HasForeignKey("ClassId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ClassId");
+                });
+
+            modelBuilder.Entity("API.Entities.Teacher", b =>
+                {
+                    b.HasOne("API.Entities.Class", null)
+                        .WithMany("Teachers")
+                        .HasForeignKey("ClassId");
                 });
 
             modelBuilder.Entity("API.Entities.AppUser", b =>
@@ -533,7 +550,7 @@ namespace API.Data.Migrations
 
                     b.Navigation("Students");
 
-                    b.Navigation("Subjects");
+                    b.Navigation("Teachers");
                 });
 
             modelBuilder.Entity("API.Entities.Student", b =>

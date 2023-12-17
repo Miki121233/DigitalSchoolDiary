@@ -40,8 +40,7 @@ public class AccountController : BaseApiController
                     PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
                     PasswordSalt = hmac.Key,
                     DateOfBirth = registerDto.DateOfBirth,
-                    Gender = registerDto.Gender,
-                    ClassId = 1 //ogarnac jakies hashe do tego zeby klasy byly na starcie przypisane juz
+                    Gender = registerDto.Gender
                 };
                 break;
             case "Teacher":
@@ -73,7 +72,7 @@ public class AccountController : BaseApiController
             AccountType = user.AccountType,
         };
 
-        if(user is Student student) userDto.ClassId = student.ClassId;
+        if(user is Student student && student.ClassId != null) userDto.ClassId = (int)student.ClassId;
 
         return userDto;
     } 
@@ -139,7 +138,7 @@ public class AccountController : BaseApiController
             AccountType = user.AccountType
         };
 
-        if(user is Student student) userDto.ClassId = student.ClassId;
+        if(user is Student student && student.ClassId != null) userDto.ClassId = (int)student.ClassId;
 
         return userDto;
     }

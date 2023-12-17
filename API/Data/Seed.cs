@@ -1,3 +1,5 @@
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using API.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +25,27 @@ public class Seed
         };
 
         await _context.Calendars.AddAsync(newCalendar);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task SeedDirectorAccount()
+    {
+        if (await _context.Directors.AnyAsync()) return;
+
+        using var hmac = new HMACSHA512();
+
+        var password = "ad";
+
+        var director = new Director
+        {
+            FirstName = "Dariusz",
+            LastName = "Dębowy",
+            Username = "adad",
+            PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password)),
+            PasswordSalt = hmac.Key,
+        };
+
+        await _context.Directors.AddAsync(director);
         await _context.SaveChangesAsync();
     }
 }

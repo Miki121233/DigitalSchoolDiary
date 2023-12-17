@@ -1,0 +1,91 @@
+<div>
+    <h1 class="subject-name">Klasa {{classSchoolId?.toUpperCase()}}</h1>
+    <div *ngIf="subjects">
+        <h2>Przypisane przedmioty:</h2>
+        <ul *ngFor="let subject of subjects">
+            <li style="font-size: large;">{{subject.name}}
+                <button 
+                style="scale: 70%; margin-left: 15px;" 
+                class="btn btn-danger"
+                (click)="removeSubject(subject)"
+                >Odepnij</button>
+            </li>
+        </ul>
+    </div>
+    <div *ngIf="subjects.length === 0">
+        <h2>Brak przypisanych przedmiotów do tej klasy</h2>
+    </div>
+    <div class="row styled-list">
+        <div class="mat-form-field input-group">
+            <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"></i></span>
+            <input 
+                type="text" 
+                [(ngModel)]="subjectContains" 
+                class="form-control" 
+                [placeholder]="selectedSubjectName ? selectedSubjectName : 'Wyszukaj przedmiot...'" 
+                aria-label="Wyszukaj przedmiot..." 
+                aria-describedby="basic-addon1"
+                (input)="searchSubject()"
+                style="max-width: 300px; height: 40px;"
+                />
+        </div>
+        <ul>
+            <li *ngFor="let subject of filteredSubjects" (click)="assignFormSubjectId(subject)">
+                <p>{{subject.name}}</p>
+            </li>
+        </ul>
+        <button 
+            class="btn btn-outline-primary" 
+            style="max-width: 200px; max-height: 50px; margin: 15px;" 
+            (click)="addSubjectToClass()">Przypisz przedmiot
+        </button>
+    </div>
+
+    <div *ngIf="students">
+        <h2>Przypisani uczniowie:</h2>
+        <ul *ngFor="let student of students">
+            <li style="font-size: large;">{{student.firstName}} {{student.lastName}}
+                <button 
+                style="scale: 70%; margin-left: 15px;" 
+                class="btn btn-danger"
+                (click)="removeStudent(student)"
+                >Odepnij</button></li>
+        </ul>
+    </div>
+    <div *ngIf="students.length === 0">
+        <h2>Brak przypisanych uczniów do tej klasy</h2>
+    </div>
+    <div class="row styled-list">
+        <div class="mat-form-field input-group">
+            <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"></i></span>
+            <input 
+                type="text" 
+                [(ngModel)]="userContains" 
+                class="form-control" 
+                [placeholder]="selectedPersonName ? selectedPersonName : 'Wyszukaj osobę...'" 
+                aria-label="Wyszukaj osobę..." 
+                aria-describedby="basic-addon1"
+                (input)="searchUser()"
+                style="max-width: 300px; height: 40px;"
+                />
+        </div>
+        <ul>
+            <li *ngFor="let person of filteredUsers" (click)="assignFormStudentId(person)">
+                <p>{{person.lastName}} {{person.firstName}}</p>
+            </li>
+        </ul>
+        <button 
+            class="btn btn-outline-primary" 
+            style="max-width: 200px; max-height: 50px; margin: 15px;" 
+            (click)="addStudentToClass()">Przypisz ucznia
+        </button>
+    </div>
+    <div class="row mt-2">
+        <h2>Akcje</h2>
+        <button 
+            class="btn btn-danger" 
+            style="max-width: 200px; max-height: 50px; margin: 15px;" 
+            (click)="deleteClass()">Usuń klasę
+        </button>
+    </div>
+</div>

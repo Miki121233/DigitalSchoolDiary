@@ -8,7 +8,7 @@ public class Student : AppUser
         AccountType = "Student";
     }
     public List<Parent> Parents { get; set; } = new();
-    public int ClassId { get; set; }
+    public int? ClassId { get; set; } = null;
     public List<Grade> Grades { get; set; } = new();
     public List<Attendance> Attendances { get; set; } = new();
     public List<Note> Notes { get; set; } = new();

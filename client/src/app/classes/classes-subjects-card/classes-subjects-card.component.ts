@@ -36,7 +36,7 @@ export class ClassesSubjectsCardComponent{
   getRouterLink(): string {
     const currentPath = window.location.pathname;
     if (this.user) {
-      if (this.user.accountType === 'Teacher') {
+      if (this.user.accountType === 'Teacher' || this.user.accountType === 'Director') {
         if (currentPath.includes('/oceny')) {
           return `/oceny/${this.classId}/${this.subject.id}`;
         } 

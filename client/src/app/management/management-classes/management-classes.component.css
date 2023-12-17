@@ -1,0 +1,30 @@
+.subject-name {
+    border: 2px solid #3498db;
+    padding: 10px; 
+    color: #3498db;
+    border-radius: 15px;
+    border-left-width: 150px;
+    border-right-width: 150px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.styled-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+  
+.styled-list li {
+    background-color: #f8f9fa;
+    border: 2px solid #dee2e6; 
+    padding: 5px;
+    max-width: 200px; 
+    margin-left: 45px;
+    text-align: justify;
+}
+
+.styled-list li:hover {
+    color: white;
+    background-color: #a0a7af;
+}

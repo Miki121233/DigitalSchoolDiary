@@ -14,6 +14,7 @@ public class DataContext : DbContext
     public DbSet<Parent> Parents { get; set; }
     public DbSet<Student> Students { get; set; }
     public DbSet<Teacher> Teachers { get; set; }
+    public DbSet<Director> Directors { get; set; }
     public DbSet<Class> Classes { get; set; }
     public DbSet<Grade> Grades { get; set; }
     public DbSet<Subject> Subjects { get; set; }
@@ -48,8 +49,9 @@ public class DataContext : DbContext
         // });
 
         builder.Entity<Class>(opt => {
-            opt.HasMany(x => x.Teachers).WithMany(x => x.Classes).UsingEntity(x => x.ToTable("TeacherToClass"));
-           // opt.HasMany(x => x.Students).WithOne(x => x.Class).HasForeignKey(x => x.ClassId);
+            opt.HasMany(c => c.Subjects)
+                .WithMany(s => s.Classes)
+                .UsingEntity(j => j.ToTable("ClassSubjects"));
         });
 
         builder.Entity<Message>(opt =>{

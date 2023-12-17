@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "src/environments/environment.development";
 import { SchoolSubject } from "../_models/schoolSubject";
@@ -17,7 +17,14 @@ export class SubjectsService {
     }
 
     // string bo wyciagam to z url
-    getSubjectsFromClassId(id: string) {
+    getSubjectsFromClassId(id: string | number) {
         return this.http.get<SchoolSubject[]>(this.baseUrl + 'classes/' + id + '/subjects');
+    }
+
+    getSubjectsContainingString(contains: string) {
+        let params = new HttpParams();
+        params = params.append('contains', contains);
+
+        return this.http.get<SchoolSubject[]>(this.baseUrl + 'subjects/search', { params });
     }
 }

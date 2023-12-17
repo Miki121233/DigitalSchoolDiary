@@ -1,0 +1,14 @@
+<div *ngIf="user && user.accountType === 'Director'">
+  <div class="row">
+    <h2 class="mb-2">Wybierz klasę:</h2>
+    <div class="col-2" *ngFor="let class of classes">
+      <app-management-classes-card [class]="class"></app-management-classes-card>
+    </div>
+  </div>
+  <div class="row">
+    <button class="btn btn-outline-primary" style="max-width: 150px; max-height: 50px; margin: 15px;" (click)="addClass()">Dodaj klasę</button>
+  </div>
+</div>
+<div *ngIf="!user">
+    <h2>Brak klas - dodaj nowe klasy</h2>
+</div>

@@ -3,7 +3,7 @@
     <h2 *ngIf="homeworks.length > 0">Zadania przydzielone dla tej klasy:</h2>
     <table class="styled-table" *ngIf="homeworks.length > 0">
         <thead *ngIf="user">
-            <tr *ngIf="user.accountType === 'Teacher'">
+            <tr *ngIf="user.accountType === 'Teacher' || user.accountType === 'Director'">
                 <th style="width: 20%;">Opis zadania</th>
                 <th style="width: 25%;">Komentarz do zadania</th>
                 <th style="width: 15%;">Data wystawienia zadania</th>
@@ -11,7 +11,7 @@
                 <th style="width: 15%;">Nauczyciel wystawiający</th>
                 <th style="width: 10%;">Akcje</th>
             </tr>
-            <tr *ngIf="user.accountType !== 'Teacher'">
+            <tr *ngIf="user.accountType === 'Student' || user.accountType === 'Parent'">
                 <th style="width: 30%;">Opis zadania</th>
                 <th style="width: 25%;">Komentarz do zadania</th>
                 <th style="width: 15%;">Data wystawienia zadania</th>
@@ -29,13 +29,13 @@
                 <td *ngIf="homework.deadline.toString() !== '0001-01-01T00:00:00'">
                     {{homework.deadline | date:'dd-MM-yyyy'}} ({{timeToEvent(homework.deadline)}}) </td>
                 <td>{{ homework.teacherFullName }}</td>
-                <td *ngIf="user && user.accountType === 'Teacher'"><button class="btn btn-danger" style="scale: 80%;" (click)="deleteHomework(homework)">Usuń</button></td>
+                <td *ngIf="user && (user.accountType === 'Teacher' || user.accountType === 'Director')"><button class="btn btn-danger" style="scale: 80%;" (click)="deleteHomework(homework)">Usuń</button></td>
             </tr>
         </tbody>
     </table>
 </div>
 
-<div *ngIf="user && user.accountType === 'Teacher'">
+<div *ngIf="user && (user.accountType === 'Teacher' || user.accountType === 'Director')">
     <div>
         <h2>Przydziel nowe zadanie dla klasy:</h2>
         <table class="styled-table">

@@ -3,6 +3,17 @@
     margin: 20px;
 }
 
+.styled-table input[type="text"],
+.styled-table input[type="number"],
+.styled-table input[type="text"].change-all-descriptions {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
 /* Nowa stylizacja tabeli */
 .styled-table {
     width: 80%;

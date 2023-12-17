@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using API.Data;
 using API.Dtos;
 using API.Entities;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,17 +12,22 @@ namespace API.Controllers;
 public class ClassesController : BaseApiController
 {
     private readonly DataContext _context;
-    public ClassesController(DataContext context)
+    private readonly IMapper _mapper;
+
+    public ClassesController(DataContext context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
 
     [HttpGet]
-    public async Task<IEnumerable<Class>> GetClassesAsync()
+    public async Task<IEnumerable<GetClassDto>> GetClassesAsync()
     {
         var classes = await _context.Classes.Include(x => x.Students).ToListAsync();
 
-        return classes;
+        var classDto = _mapper.Map<IEnumerable<GetClassDto>>(classes);
+
+        return classDto.ToList();
     }
 
     [HttpGet("{id}")]
@@ -35,11 +41,10 @@ public class ClassesController : BaseApiController
     [HttpGet("{id}/students")]
     public async Task<ActionResult<IEnumerable<Student>>> GetStudentsFromClassAsync(int id)
     {
-        var users = await _context.Students.Where(x => x.ClassId == id).ToListAsync();
+        var students = await _context.Students.Where(x => x.ClassId == id).ToListAsync();
+        if (students is null) return BadRequest("Ta klasa nie zawiera jeszcze studentów");
 
-        if (users is null) return BadRequest("Ta klasa nie zawiera jeszcze studentów");
-
-        return users.OrderBy(x => x.LastName).OrderBy(x => x.FirstName).ToList();
+        return students.OrderBy(x => x.LastName).OrderBy(x => x.FirstName).ToList();
     }
 
     [HttpGet("{id}/grades")]   //classes/1/grades
@@ -102,7 +107,7 @@ public class ClassesController : BaseApiController
     }
 
     [HttpPost] 
-    public async Task<ActionResult<IEnumerable<Class>>> CreateClass(ClassDto classDto)
+    public async Task<ActionResult<GetClassDto>> CreateClass(ClassDto classDto)
     {
         var classForComparison = _context.Classes.FirstOrDefault(x => x.Year == classDto.Year);
         if(classForComparison != null)
@@ -118,7 +123,79 @@ public class ClassesController : BaseApiController
         _context.Classes.Add(classModel);
         await _context.SaveChangesAsync();
 
-        return Ok(classModel);
+        var classDtoForReturn = new GetClassDto()
+        {
+            Id = classModel.Id,
+            SchoolId = classModel.SchoolId
+        };
+
+        return classDtoForReturn;
+    }
+
+    [HttpPost("{id}/students/{studentId}")] 
+    public async Task<ActionResult<Student>> AddStudentToClass(int id, int studentId)
+    {
+        var classFromId = await _context.Classes.FindAsync(id);
+        if (classFromId is null) return BadRequest("Nie ma klasy o podanym id");
+
+        var student = await _context.Students.FindAsync(studentId);
+        if (student is null) return BadRequest("Nie ma ucznia o podanym id");
+
+        classFromId.Students.Add(student);
+        student.ClassId = id;
+
+        await _context.SaveChangesAsync();
+
+        return student;
+    }
+
+    [HttpDelete("{id}/students/{studentId}")] 
+    public async Task<ActionResult> DeleteStudentFromClass(int id, int studentId)
+    {
+        var classFromId = await _context.Classes.Include(x => x.Students).FirstOrDefaultAsync(x => x.Id == id);
+        if (classFromId is null) return BadRequest("Nie ma klasy o podanym id");
+
+        var student = classFromId.Students.FirstOrDefault(x => x.Id == studentId);
+        if (student is null) return BadRequest("Nie ma ucznia o podanym id");
+
+        classFromId.Students.Remove(student);
+        student.ClassId = null;
+
+        await _context.SaveChangesAsync();
+
+        return Ok();
+    }
+
+    [HttpPost("{id}/subjects/{subjectId}")] 
+    public async Task<ActionResult<Subject>> AddSubjectToClass(int id, int subjectId)
+    {
+        var classFromId = await _context.Classes.FindAsync(id);
+        if (classFromId is null) return BadRequest("Nie ma klasy o podanym id");
+
+        var subject = await _context.Subjects.FindAsync(subjectId);
+        if (subject is null) return BadRequest("Nie ma przedmiotu o podanym id");
+
+        classFromId.Subjects.Add(subject);
+
+        await _context.SaveChangesAsync();
+
+        return subject;
+    }
+
+    [HttpDelete("{id}/subjects/{subjectId}")] 
+    public async Task<ActionResult> DeleteSubjectFromClass(int id, int subjectId)
+    {
+        var classFromId = await _context.Classes.Include(x => x.Subjects).FirstOrDefaultAsync(x => x.Id == id);
+        if (classFromId is null) return BadRequest("Nie ma klasy o podanym id");
+
+        var subject = classFromId.Subjects.FirstOrDefault(x => x.Id == subjectId);
+        if (subject is null) return BadRequest("Nie ma przedmiotu o podanym id");
+
+        classFromId.Subjects.Remove(subject);
+
+        await _context.SaveChangesAsync();
+
+        return Ok();
     }
 
     [HttpGet("get-school-id/{classId}")]
@@ -129,5 +206,24 @@ public class ClassesController : BaseApiController
 
         return classFromId.SchoolId;
     }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteClass(int id)
+    {
+        var classFromId = await _context.Classes.FindAsync(id);
+        if (classFromId is null) return BadRequest("Nie ma klasy o podanym id");
+
+        var studentsFromClass = _context.Students.Where(x => x.ClassId == id);
+        foreach (var student in studentsFromClass)
+        {
+            student.ClassId = 0;
+        }
+
+        _context.Classes.Remove(classFromId);
+        await _context.SaveChangesAsync();
+
+        return Ok();
+    }
+
 
 }

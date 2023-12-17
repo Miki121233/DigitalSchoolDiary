@@ -58,7 +58,7 @@ export class HomeworkComponent implements OnInit{
 
   assignHomework() {
     const formattedDeadline = this.datePipe.transform(this.deadlineForm, 'dd-MM-yyyy');
-    if(this.user && this.user.accountType === 'Teacher') {
+    if(this.user && (this.user.accountType === 'Teacher' || this.user.accountType === 'Director')) {
       this.homeworkDto = {
         description: this.descriptionForm!,
         teacherId: this.user.id,

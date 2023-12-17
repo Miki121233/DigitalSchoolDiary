@@ -1,0 +1,16 @@
+<div mat-dialog-content>
+    <mat-dialog-content><h3><strong>{{ data.message }}</strong></h3></mat-dialog-content>
+    <div class="mat-form-field">
+        <label>Rok porządkowy (w szkole podstawowej od 1 - 8):</label>
+        <p><input type="number" matInput [(ngModel)]="data.year" /></p>
+    </div>
+    <div class="mat-form-field">
+        <label>Oznaczenie (litera alfabetu):</label>
+        <p><input type="text" matInput [(ngModel)]="data.classLetterId" /></p>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button class="btn btn-success" mat-button [mat-dialog-close]="{ data: data, action: 'save' }" cdkFocusInitial>Zapisz</button>
+    <button class="btn btn-warning" mat-button (click)="onNoClick()">Anuluj</button>
+</div>
+  

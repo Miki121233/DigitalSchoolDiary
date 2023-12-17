@@ -2,7 +2,7 @@
     <strong>Brak przypisanych studentów do tej klasy!</strong>
 </ng-container>
 
-<div *ngIf="studentsForDisplay && studentsForDisplay.length > 0 && user && user.accountType === 'Teacher'" class="notes-container">
+<div *ngIf="studentsForDisplay && studentsForDisplay.length > 0 && user && (user.accountType === 'Teacher' || user.accountType === 'Director')" class="notes-container">
     <h2>Uczniowie tej klasy i ich uwagi:</h2>
     <div class="accordion-container">
         <accordion [isAnimated]="true" [closeOthers]="true">

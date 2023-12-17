@@ -48,6 +48,8 @@ export class NotesComponent {
 
   search() {
     if (this.contains) {
+      this.formStudent = null;
+      this.selectedPersonName = 'Wyszukaj osobę...';
       this.filteredUsers = this.studentsForDisplay.filter((student: { firstName: string; lastName: string; }) =>
         student.firstName.toLowerCase().includes(this.contains.toLowerCase()) ||
         student.lastName.toLowerCase().includes(this.contains.toLowerCase())
@@ -60,7 +62,7 @@ export class NotesComponent {
   }
 
   assignNote() {
-    if (this.user && this.user.accountType === 'Teacher') {
+    if (this.user && (this.user.accountType === 'Teacher' || this.user.accountType === 'Director')) {
       this.postNote = {
         description: this.noteDescription!,
         isPositive: this.isPositive!,

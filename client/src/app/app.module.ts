@@ -44,6 +44,10 @@ import { NotesComponent } from './notes/notes.component';
 import { UserNotesComponent } from './user/user-notes/user-notes.component';
 import { AttendanceComponent } from './attendance/attendance.component';
 import { UserAttendanceComponent } from './user/user-attendance/user-attendance.component';
+import { ManagementClassesComponent } from './management/management-classes/management-classes.component';
+import { ManagementClassesListComponent } from './management/management-classes-list/management-classes-list.component';
+import { ManagementClassesCardComponent } from './management/management-classes-card/management-classes-card.component';
+import { ClassCreationDialogComponent } from './management/class-creation-dialog/class-creation-dialog.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -71,7 +75,11 @@ import { UserAttendanceComponent } from './user/user-attendance/user-attendance.
     NotesComponent,
     UserNotesComponent,
     AttendanceComponent,
-    UserAttendanceComponent
+    UserAttendanceComponent,
+    ManagementClassesComponent,
+    ManagementClassesListComponent,
+    ManagementClassesCardComponent,
+    ClassCreationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -91,11 +99,11 @@ import { UserAttendanceComponent } from './user/user-attendance/user-attendance.
       provide: DateAdapter,
       useFactory: adapterFactory
     }),
-    //NgbModule,
+    NgbModule,
     FullCalendarModule,
     MatDialogModule,
     TimepickerModule.forRoot(),
-    TimeagoModule.forRoot({formatter: { provide: TimeagoFormatter, useClass: TimeagoCustomFormatter }})
+    TimeagoModule.forRoot({formatter: { provide: TimeagoFormatter, useClass: TimeagoCustomFormatter }}),
   ],
   providers: [
     DatePipe,

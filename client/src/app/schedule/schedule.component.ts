@@ -98,7 +98,7 @@ export class ScheduleComponent {
   }
 
   handleEventClick(arg: any) {
-    if (this.user && this.user.accountType==='Teacher') {
+    if (this.user && (this.user.accountType === 'Teacher' || this.user.accountType === 'Director')) {
       if (arg.event && this.events) {
         var eventFromClick = arg.event.toPlainObject();
         this.events.forEach(event => {
@@ -144,7 +144,7 @@ export class ScheduleComponent {
   }
   
   handleDateClick(arg: any) { //dodanie eventu przez klikniecie na kalendarz
-    if (this.user && this.user.accountType==='Teacher') {
+    if (this.user && ((this.user.accountType === 'Teacher' || this.user.accountType === 'Director'))) {
       const startDate = arg.date;
       //const endDate = new Date(arg.date);
       //endDate.setDate(startDate.getDate() + 1);

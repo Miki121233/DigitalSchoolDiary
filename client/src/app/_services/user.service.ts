@@ -48,6 +48,14 @@ export class UserService {
       return this.http.get<User[]>(this.baseUrl + 'users/search', { params });
     }
 
+    getStudentsContainingString(contains: string) {
+      let params = new HttpParams();
+      params = params.append('contains', contains);
+      params = params.append('group', 'Students');
+      
+      return this.http.get<User[]>(this.baseUrl + 'users/search', { params });
+    }
+
     getParentWithChildrenIds(id: number) {
       return this.http.get<User>(this.baseUrl + 'users/parent/' + id);
     }

@@ -21,6 +21,8 @@ import { NotesComponent } from './notes/notes.component';
 import { UserNotesComponent } from './user/user-notes/user-notes.component';
 import { AttendanceComponent } from './attendance/attendance.component';
 import { UserAttendanceComponent } from './user/user-attendance/user-attendance.component';
+import { ManagementClassesComponent } from './management/management-classes/management-classes.component';
+import { ManagementClassesListComponent } from './management/management-classes-list/management-classes-list.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -52,6 +54,8 @@ const routes: Routes = [
       {path: 'uwagi/:classId', component: NotesComponent},
       {path: 'uwagi/:classId/:userId', component: UserNotesComponent},
       {path: 'rejestracja-rodzica', component: ParentRegisterComponent},
+      {path: 'zarzadzanie-klasami', component: ManagementClassesListComponent},
+      {path: 'zarzadzanie-klasami/:classId', component: ManagementClassesComponent},
       
     ]
   },

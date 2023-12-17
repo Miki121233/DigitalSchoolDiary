@@ -1,21 +1,66 @@
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <div class="container">
-      <a class="navbar-brand" routerLink="/">Szkolny dziennik elektroniczny</a>
+      <a class="navbar-brand" routerLink="/">
+        <!-- <img class="rounded-circle me-1" src="./assets/logo.jpg" width="30" height="30"> -->
+        Szkolny dziennik elektroniczny
+      </a>
         <ul class="navbar-nav me-auto mb-2 mb-md-0" *ngIf="(accountService.currentUser$ | async) as currentUser">
           <ng-container *ngIf="accountService.currentUser$"> <!-- Universal for all account types -->
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/oceny" routerLinkActive="active">Oceny</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/zadania" routerLinkActive="active">Zadania domowe</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/obecnosc" routerLinkActive="active">Obecność</a>
-            </li>
-            <li class="nav-item" *ngIf="currentUser.accountType !== 'Teacher'">
+            <ng-container *ngIf="currentUser.accountType !== 'Director'">
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/oceny" routerLinkActive="active">Oceny</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/zadania" routerLinkActive="active">Zadania domowe</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/obecnosc" routerLinkActive="active">Obecność</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/uwagi" routerLinkActive="active">Uwagi</a>
+              </li>
+            </ng-container>
+            <ng-container *ngIf="currentUser.accountType === 'Director'">
+              <li class="nav-item dropdown" ngbDropdown>
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" ngbDropdownToggle>
+                  Moduły nauczyciela
+                </a>
+                <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="navbarDropdown">
+                  <li ngbDropdownItem>
+                    <a class="dropdown-item" routerLink="/oceny" routerLinkActive="active">Oceny</a>
+                  </li>
+                  <li ngbDropdownItem>
+                    <a class="dropdown-item" routerLink="/zadania" routerLinkActive="active">Zadania domowe</a>
+                  </li>
+                  <li ngbDropdownItem>
+                    <a class="dropdown-item" routerLink="/obecnosc" routerLinkActive="active">Obecność</a>
+                  </li>
+                  <li ngbDropdownItem>
+                    <a class="dropdown-item" routerLink="/uwagi" routerLinkActive="active">Uwagi</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item dropdown" ngbDropdown>
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" ngbDropdownToggle>
+                  Zarządzanie
+                </a>
+                <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="navbarDropdown">
+                  <li ngbDropdownItem>
+                    <a class="dropdown-item" routerLink="/zarzadzanie-klasami" routerLinkActive="active">Klasy</a>
+                  </li>
+                  <li ngbDropdownItem>
+                    <a class="dropdown-item" routerLink="/zarzadzanie-przedmiotami" routerLinkActive="active">Przedmioty</a>
+                  </li>
+                  <li ngbDropdownItem>
+                    <a class="dropdown-item" routerLink="/zarzadzanie-uzytkownikami" routerLinkActive="active">Użytkownicy</a>
+                  </li>
+                </ul>
+              </li>
+            </ng-container>
+            <li class="nav-item" *ngIf="currentUser.accountType === 'Student' || currentUser.accountType === 'Parent'">
               <a class="nav-link" routerLink="/plan" routerLinkActive="active">Plan zajęć</a>
             </li>
-            <li class="nav-item" *ngIf="currentUser.accountType === 'Teacher'">
+            <li class="nav-item" *ngIf="currentUser.accountType === 'Teacher' || currentUser.accountType === 'Director'">
               <a class="nav-link" routerLink="/plany" routerLinkActive="active">Grafik / Plany zajęć klas</a>
             </li>
             <li class="nav-item">
@@ -24,23 +69,13 @@
             <li class="nav-item">
               <a class="nav-link" routerLink="/kalendarz" routerLinkActive="active">Kalendarz szkolny</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/uwagi" routerLinkActive="active">Uwagi</a>
-            </li>
-          </ng-container>
-
-          <!-- Template for now -->
-          <ng-container *ngIf="accountService.currentUser$ && (currentUser.accountType === 'Student') || (currentUser.accountType === 'Parent')">
-            
-          </ng-container>
-          <ng-container *ngIf="accountService.currentUser$ && currentUser.accountType === 'Teacher'">
-            
           </ng-container>
         </ul>
 
         <div class="dropdown" *ngIf="(accountService.currentUser$ | async) as currentUser" dropdown>
           <a class="btn btn-outline-secondary dropdown-toogle text-light" *ngIf="currentUser.accountType === 'Student'" dropdownToggle>{{currentUser.firstName}} {{currentUser.lastName}} | Uczeń</a>
           <a class="btn btn-outline-secondary dropdown-toogle text-light" *ngIf="currentUser.accountType === 'Teacher'" dropdownToggle>{{currentUser.firstName}} {{currentUser.lastName}} | Nauczyciel</a>
+          <a class="btn btn-outline-secondary dropdown-toogle text-light" *ngIf="currentUser.accountType === 'Director'" dropdownToggle>{{currentUser.firstName}} {{currentUser.lastName}} | Dyrektor</a>
           <a class="btn btn-outline-secondary dropdown-toogle text-light" *ngIf="currentUser.accountType === 'Parent'" dropdownToggle>{{currentUser.firstName}} {{currentUser.lastName}} | Rodzic</a>
           <div class="dropdown-menu" *dropdownMenu>
             <a class="dropdown-item">Edytuj profil</a>
