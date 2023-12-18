@@ -1,0 +1,19 @@
+<div *ngIf="members">
+    <h2>Użytkownicy tej aplikacji:</h2>
+    <ul *ngFor="let member of members">
+        <li style="font-size: large;">
+            <span *ngIf="member.accountType === 'Teacher'">{{member.firstName}} {{member.lastName}} | Nauczyciel</span>
+            <span *ngIf="member.accountType === 'Director'">{{member.firstName}} {{member.lastName}} | Dyrektor</span>
+            <span *ngIf="member.accountType === 'Student'">{{member.firstName}} {{member.lastName}} | Uczeń</span>
+            <span *ngIf="member.accountType === 'Parent'">{{member.firstName}} {{member.lastName}} | Rodzic</span>
+            <button 
+            style="scale: 70%; margin-left: 10px;" 
+            class="btn btn-danger"
+            (click)="deleteUser(member)"
+            >Usuń permamentnie</button>
+        </li>
+    </ul>
+</div>
+<div *ngIf="members.length === 0">
+    <p>Jeśli widzisz to okno to wystąpił błąd z załadowaniem użytkowników</p>
+</div>

@@ -28,6 +28,10 @@ export class UserService {
       });
     }
 
+    getAllMembers() {
+      return this.http.get<Member[]>(this.baseUrl + 'users');
+    }
+
     //id jako string bo problem z paramMap.get('id')
     getUser(id: string | number) {
       return this.http.get<User>(this.baseUrl + 'users/' + id);
@@ -66,6 +70,10 @@ export class UserService {
       
       localStorage.setItem('child', JSON.stringify(child));
       this.currentChildSource.next(child);
+    }
+
+    deleteUser(id: number) {
+      return this.http.delete(this.baseUrl + 'users/' + id);
     }
   
 }

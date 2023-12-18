@@ -49,6 +49,7 @@ import { ManagementClassesListComponent } from './management/management-classes-
 import { ManagementClassesCardComponent } from './management/management-classes-card/management-classes-card.component';
 import { ClassCreationDialogComponent } from './management/class-creation-dialog/class-creation-dialog.component';
 import { ManagementSubjectsComponent } from './management/management-subjects/management-subjects.component';
+import { ManagementUsersComponent } from './management/management-users/management-users.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -81,7 +82,8 @@ import { ManagementSubjectsComponent } from './management/management-subjects/ma
     ManagementClassesListComponent,
     ManagementClassesCardComponent,
     ClassCreationDialogComponent,
-    ManagementSubjectsComponent
+    ManagementSubjectsComponent,
+    ManagementUsersComponent
   ],
   imports: [
     BrowserModule,

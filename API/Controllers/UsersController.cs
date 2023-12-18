@@ -133,4 +133,16 @@ public class UsersController : BaseApiController
         return parentDto; 
     }
 
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteUser(int id)
+    {
+        var user = await _context.Users.FindAsync(id);
+        if (user is null) return BadRequest("Nie ma użytkownika o podanym id");
+
+        _context.Users.Remove(user);
+        await _context.SaveChangesAsync();
+
+        return Ok();
+    }
+
 }
