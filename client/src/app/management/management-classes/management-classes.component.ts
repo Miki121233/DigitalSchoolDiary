@@ -67,7 +67,8 @@ export class ManagementClassesComponent {
         next: response => {
           this.toastr.success('Przypisano przemiot ' + this.formSubject?.name + ' do tej klasy');
           this.subjects.push(response);
-        }
+        },
+        error: error => this.toastr.error(error.error)
       })
     }
   }
@@ -78,7 +79,8 @@ export class ManagementClassesComponent {
         next: response => {
           this.toastr.success('Przypisano ' + this.formStudent?.firstName + ' ' + this.formStudent?.lastName + ' do tej klasy');
           this.students.push(response);
-        }
+        },
+        error: error => this.toastr.error(error.error)
       })
     }
   }

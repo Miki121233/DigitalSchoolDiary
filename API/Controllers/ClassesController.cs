@@ -135,11 +135,14 @@ public class ClassesController : BaseApiController
     [HttpPost("{id}/students/{studentId}")] 
     public async Task<ActionResult<Student>> AddStudentToClass(int id, int studentId)
     {
-        var classFromId = await _context.Classes.FindAsync(id);
+        var classFromId = await _context.Classes.Include(x => x.Students).FirstOrDefaultAsync(x => x.Id == id);
         if (classFromId is null) return BadRequest("Nie ma klasy o podanym id");
 
         var student = await _context.Students.FindAsync(studentId);
         if (student is null) return BadRequest("Nie ma ucznia o podanym id");
+
+        var alreadyExists = classFromId.Students.Any(x => x.Id == studentId);
+        if (alreadyExists) return BadRequest("Ta osoba jest już przypisana do tej klasy");
 
         classFromId.Students.Add(student);
         student.ClassId = id;
@@ -169,11 +172,14 @@ public class ClassesController : BaseApiController
     [HttpPost("{id}/subjects/{subjectId}")] 
     public async Task<ActionResult<Subject>> AddSubjectToClass(int id, int subjectId)
     {
-        var classFromId = await _context.Classes.FindAsync(id);
+        var classFromId = await _context.Classes.Include(x => x.Subjects).FirstOrDefaultAsync(x => x.Id == id);
         if (classFromId is null) return BadRequest("Nie ma klasy o podanym id");
 
         var subject = await _context.Subjects.FindAsync(subjectId);
         if (subject is null) return BadRequest("Nie ma przedmiotu o podanym id");
+
+        var alreadyExists = classFromId.Subjects.Any(x => x.Name == subject.Name);
+        if (alreadyExists) return BadRequest("Ten przedmiot jest już przypisany do tej klasy");
 
         classFromId.Subjects.Add(subject);
 

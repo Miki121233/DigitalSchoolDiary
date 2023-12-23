@@ -1,8 +1,8 @@
 <div class="container mt-5">
     <ng-container *ngIf="!(accountService.currentUser$ | async)">
       <div style="text-align: center;">
-        <h1>Ucz się mądrze, nie ciężko</h1>
-        <p class="lead">Bądź smart z naszym dziennikiem!</p>
+        <h1>Edukacja w zasięgu ręki</h1>
+        <p class="lead">Ułatw sobie naukę z naszym dziennikiem!</p>
         <div class="text-center">
           <button routerLink="/rejestracja" routerLinkActive="active" class="btn btn-primary btn-lg me-2">Utwórz nowe konto</button>
           <button class="btn btn-primary btn-info btn-lg">Dowiedz się więcej</button>
@@ -13,7 +13,7 @@
     <ng-container *ngIf="(accountService.currentUser$ | async) as user">
       <div style="text-align: center;">
         <h1>Witaj {{user.firstName}}</h1>
-        <p class="lead">Bądź smart z naszym dziennikiem!</p>
+        <p class="lead">Ułatw sobie naukę z naszym dziennikiem!</p>
         <div class="text-center">
           <button class="btn btn-primary btn-info btn-lg">Dowiedz się więcej</button>
         </div>
