@@ -1,0 +1,30 @@
+<div mat-dialog-content>
+    <div class="mat-form-field">
+      <label>Nazwa:</label>
+      <p><strong>{{data.event.title}}</strong></p>
+    </div>
+    <div class="mat-form-field">
+      <label>Data:</label>
+      <p><strong>{{data.event.start | date:'dd-MM-yyyy'}}</strong></p>
+    </div>
+    <div class="mat-form-field">
+      <label>Godzina rozpoczęcia:</label>
+      <p><strong>{{data.event.startHours}}</strong></p>
+    </div>
+    <div class="mat-form-field">
+      <label>Godzina zakończenia:</label>
+      <p><strong>{{data.event.endHours}}</strong></p>
+    </div>
+    <div class="mat-form-field">
+      <label>Czy wydarzenie jest cotygodniowe?</label>
+      <p><strong *ngIf="data.event.repeatWeekly === true">Tak</strong></p>
+      <p><strong *ngIf="data.event.repeatWeekly === false">Nie</strong></p>
+    </div>
+    <div class="one-line" *ngIf="assignedUser">
+      <label>Osoba przypisana do wydarzenia:</label>
+      <span>
+        <p><strong>{{assignedUser.lastName}} {{assignedUser.firstName}}</strong></p>
+      </span>
+    </div>
+</div>
+  

@@ -80,7 +80,7 @@ public class NotesController : BaseApiController
     }
 
     [HttpPost("students/{studentId}")]
-    public async Task<ActionResult<NoteDto>> PostNote(PostNoteDto noteDto, int studentId) //sprawdzic jeszcze czy przedmiot jest w bazie klasy
+    public async Task<ActionResult<NoteDto>> PostNote(PostNoteDto noteDto, int studentId)
     {
         var student = _context.Students.Include(x => x.Notes).FirstOrDefault(x => x.Id == studentId);
 

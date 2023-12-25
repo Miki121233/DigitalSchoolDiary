@@ -7,7 +7,6 @@ import { MessagesService } from '../_services/messages.service';
 import { Message } from '../_models/message';
 import { strings as polishStrings } from "ngx-timeago/language-strings/pl";
 import { TimeagoIntl } from 'ngx-timeago';
-import { UserService } from '../_services/user.service';
 import { NgForm } from '@angular/forms';
 import { MessageContent } from '../_models/messageContent';
 
@@ -25,11 +24,9 @@ export class MessageThreadsComponent {
   content = '';
 
   constructor(private accountService: AccountService, private route: ActivatedRoute,
-    private messagesService: MessagesService, intl: TimeagoIntl, private userService: UserService) {
+    private messagesService: MessagesService, intl: TimeagoIntl) {
     intl.strings = polishStrings;
     intl.changes.next();
-    console.log('intl.strings');
-    console.log(intl.strings);
     
     accountService.currentUser$.pipe(take(1)).subscribe({
       next: user => {
@@ -58,8 +55,6 @@ export class MessageThreadsComponent {
       this.content = '';
       this.messagesService.sendMessage(this.user.id, this.recipientId, this.messageContent).subscribe({
         next: () => {
-          // this.messages.push(message)
-          // this.messageForm?.reset()
           this.getMessageThread();
         }
       })

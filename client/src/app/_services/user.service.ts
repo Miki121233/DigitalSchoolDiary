@@ -4,9 +4,7 @@ import { BehaviorSubject, take } from "rxjs";
 import { environment } from "src/environments/environment.development";
 import { Member } from "../_models/member";
 import { User } from "../_models/user";
-import { UserParams } from "../_models/userParams";
 import { AccountService } from "./account.service";
-import { Grade } from "../_models/grade";
 import { StudentChildren } from "../_models/studentChildren";
 
 @Injectable({
@@ -32,7 +30,6 @@ export class UserService {
       return this.http.get<Member[]>(this.baseUrl + 'users');
     }
 
-    //id jako string bo problem z paramMap.get('id')
     getUser(id: string | number) {
       return this.http.get<User>(this.baseUrl + 'users/' + id);
     }

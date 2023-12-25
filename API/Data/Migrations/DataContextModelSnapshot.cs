@@ -381,29 +381,12 @@ namespace API.Data.Migrations
                 {
                     b.HasBaseType("API.Entities.AppUser");
 
-                    b.Property<int?>("ClassId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasIndex("ClassId");
-
-                    b.ToTable("Users", t =>
-                        {
-                            t.Property("ClassId")
-                                .HasColumnName("Teacher_ClassId");
-                        });
-
                     b.HasDiscriminator().HasValue("Teacher");
                 });
 
             modelBuilder.Entity("API.Entities.Director", b =>
                 {
                     b.HasBaseType("API.Entities.Teacher");
-
-                    b.ToTable("Users", t =>
-                        {
-                            t.Property("ClassId")
-                                .HasColumnName("Teacher_ClassId");
-                        });
 
                     b.HasDiscriminator().HasValue("Director");
                 });
@@ -525,13 +508,6 @@ namespace API.Data.Migrations
                         .HasForeignKey("ClassId");
                 });
 
-            modelBuilder.Entity("API.Entities.Teacher", b =>
-                {
-                    b.HasOne("API.Entities.Class", null)
-                        .WithMany("Teachers")
-                        .HasForeignKey("ClassId");
-                });
-
             modelBuilder.Entity("API.Entities.AppUser", b =>
                 {
                     b.Navigation("MessagesReceived");
@@ -549,8 +525,6 @@ namespace API.Data.Migrations
                     b.Navigation("Events");
 
                     b.Navigation("Students");
-
-                    b.Navigation("Teachers");
                 });
 
             modelBuilder.Entity("API.Entities.Student", b =>

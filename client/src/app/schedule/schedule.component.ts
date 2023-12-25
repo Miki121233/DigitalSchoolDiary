@@ -15,6 +15,7 @@ import { UserService } from "../_services/user.service";
 import { StudentChildren } from "../_models/studentChildren";
 import { ActivatedRoute } from "@angular/router";
 import { ConfirmationDialogComponent } from "../confirmation-dialog/confirmation-dialog.component";
+import { ScheduleEventViewDialogComponent } from "../schedule-event-view-dialog/schedule-event-view-dialog.component";
 
 @Component({
   selector: 'app-schedule',
@@ -107,10 +108,6 @@ export class ScheduleComponent {
             event.startHours = eventFromClick.extendedProps.startHours;
             event.endHours = eventFromClick.extendedProps.endHours;
             event.assignedTeacherId = eventFromClick.extendedProps.assignedTeacherId;
-            console.log('event');
-            console.log(event);
-            console.log('eventFromClick');
-            console.log(eventFromClick);
             
             const dialogRef = this.dialog.open(ScheduleEventDialogComponent, {
               width: '300px',
@@ -141,13 +138,34 @@ export class ScheduleComponent {
         });
       }
     }
+    else if(this.user && (this.user.accountType === 'Student' || this.user.accountType === 'Parent')) {
+      if (arg.event && this.events) {
+        var eventFromClick = arg.event.toPlainObject();
+        this.events.forEach(event => {
+          if (eventFromClick.id == event.id) { // == porównuje wartosci
+            event.start = arg.event._instance.range.start;
+            event.startHours = eventFromClick.extendedProps.startHours;
+            event.endHours = eventFromClick.extendedProps.endHours;
+            event.assignedTeacherId = eventFromClick.extendedProps.assignedTeacherId;
+            
+            const dialogRef = this.dialog.open(ScheduleEventViewDialogComponent, {
+              width: '300px',
+              data: { title: event.title, event: event, showDeleteButton: true },
+            });
+            // dialogRef.afterClosed().subscribe((result) => {
+            //   if (result) {
+               
+            //   }
+            // });
+          }
+        });
+      }
+    }
   }
   
   handleDateClick(arg: any) { //dodanie eventu przez klikniecie na kalendarz
     if (this.user && ((this.user.accountType === 'Teacher' || this.user.accountType === 'Director'))) {
       const startDate = arg.date;
-      //const endDate = new Date(arg.date);
-      //endDate.setDate(startDate.getDate() + 1);
       var startHour;
       var endHour;
 
@@ -196,7 +214,6 @@ export class ScheduleComponent {
           startHours: startHour, 
           endHours: endHour,
           editable: true
-          //startRecur: startDate
         });
 
       }
@@ -225,8 +242,6 @@ export class ScheduleComponent {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         const event = result.data.event;
-        console.log('event 11111')
-        console.log(event)
         const calendarApi = this.fullCalendar.getApi();
 
         if(event.repeatWeekly && event.repeatWeekly == true) {
@@ -329,6 +344,7 @@ export class ScheduleComponent {
         next: response => {
           this.events = response
           this.events.forEach(event => {
+            event.editable = false;
             if(event.repeatWeekly && event.repeatWeekly == true) {
               const dayOfWeek = new Date(event.start).getDay();
               event.daysOfWeek = [dayOfWeek]
@@ -343,12 +359,9 @@ export class ScheduleComponent {
             }
           });
   
-          console.log('loaded events')
-          console.log(this.events)
-  
           this.calendarOptions.events = this.events;
         },
-        error: error => {
+        error: () => {
           this.toastr.error("Problem z załadowaniem wydarzeń")
         }
       });
@@ -371,9 +384,6 @@ export class ScheduleComponent {
               event.daysOfWeek = undefined;
             }
           });
-  
-          console.log('loaded events')
-          console.log(this.events)
   
           this.calendarOptions.events = this.events;
         },

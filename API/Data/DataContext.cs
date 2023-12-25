@@ -9,7 +9,6 @@ public class DataContext : DbContext
         
     }
 
-
     public DbSet<AppUser> Users { get; set; }
     public DbSet<Parent> Parents { get; set; }
     public DbSet<Student> Students { get; set; }
@@ -41,12 +40,7 @@ public class DataContext : DbContext
 
         builder.Entity<Student>(opt => {
             opt.HasMany(x => x.Parents).WithMany(x => x.StudentChildren);
-            //opt.HasOne(x => x.Class).WithMany(x => x.Students).HasForeignKey(x => x.ClassId).OnDelete(DeleteBehavior.Restrict);
         });
-
-        // builder.Entity<Teacher>(opt => {
-        //     opt.HasMany(x => x.Students).WithMany(x => x.Teachers).UsingEntity(x => x.ToTable("StudentToTeacher"));
-        // });
 
         builder.Entity<Class>(opt => {
             opt.HasMany(c => c.Subjects)

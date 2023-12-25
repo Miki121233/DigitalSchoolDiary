@@ -1,15 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '../_models/user';
 import { AccountService } from '../_services/account.service';
-import { Subject, take } from 'rxjs';
-import { Class } from '../_models/class';
-import { environment } from 'src/environments/environment.development';
-import { HttpClient } from '@angular/common/http';
+import { take } from 'rxjs';
 import { ClassesService } from '../_services/classes.service';
 import { GradesService } from '../_services/grades.service';
 import { Grade } from '../_models/grade';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { SchoolSubject } from '../_models/schoolSubject';
 import { SubjectsService } from '../_services/subjects.service';
@@ -42,12 +38,6 @@ export class GradesComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    // this.route.data.subscribe({
-    //   next: data => {
-    //     this.class = data['class'];
-    //     this.getStudentsFromClass(this.class.id);
-    //   }
-    // });
     this.route.paramMap.subscribe(params => {
       this.classId = params.get('classId')!
       this.getStudentsFromClass(this.classId);
@@ -67,13 +57,11 @@ export class GradesComponent implements OnInit {
   }
 
   getStudentGrades() {
-    //if (this.classId && this.subject)
     this.route.paramMap.subscribe(params => {
       if (this.classId)
         this.gradesService.getStudentsGrades(this.classId, params.get('subjectId')!).subscribe({
           next: response => {
            this.studentsForDisplay = response
-           console.log(this.studentsForDisplay)
           }
       });
       else console.log('Problem z getStudentGrades()' + this.classId + this.subject);
@@ -87,7 +75,6 @@ export class GradesComponent implements OnInit {
   }
 
   updateDescriptions() {
-    // Ta funkcja jest wywoływana przy zmianach w polu "Opis"
     for (let i = 0; i < this.gradeDescriptions.length; i++) {
       this.gradeDescriptions[i] = this.description;
     }
@@ -95,7 +82,7 @@ export class GradesComponent implements OnInit {
 
   getSubjectFromUrl() {
     this.route.paramMap.subscribe(params => {
-      const subjectId = params.get('subjectId');
+      const subjectId = parseInt(params.get('subjectId')!);
       if (subjectId)
       this.subjectsService.getSubjectFromId(subjectId).subscribe({
         next: response => {
@@ -134,7 +121,7 @@ export class GradesComponent implements OnInit {
           console.log('Błędy z przypisaniem ocen: ' + error.error)
         }
       });
-      this.getGradesFromClassId(); // mozliwe ze to za duzo razy sie niepotrzebnie wykonuje, ewentualne obejscie to pole refresh
+      this.getGradesFromClassId();
       this.getStudentGrades();
     }
   }

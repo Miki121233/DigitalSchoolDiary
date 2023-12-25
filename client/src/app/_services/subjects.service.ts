@@ -16,12 +16,10 @@ export class SubjectsService {
         return this.http.get<SchoolSubject[]>(this.baseUrl + 'subjects/');
     }
 
-    // string bo wyciagam to z url
-    getSubjectFromId(id: string) {
+    getSubjectFromId(id: number) {
         return this.http.get<SchoolSubject>(this.baseUrl + 'subjects/' + id);
     }
 
-    // string bo wyciagam to z url
     getSubjectsFromClassId(id: string | number) {
         return this.http.get<SchoolSubject[]>(this.baseUrl + 'classes/' + id + '/subjects');
     }

@@ -11,7 +11,7 @@ export class GradesService {
 
   constructor(private http: HttpClient) { }
 
-  getGradesForStudentFromId(id: number) { //nieuzywane
+  getGradesForStudentFromId(id: number) { // unused
     return this.http.get<Grade[]>(this.baseUrl + 'users/'+ id + '/grades');
   }
 
@@ -19,7 +19,6 @@ export class GradesService {
     return this.http.get<Grade[]>(this.baseUrl + 'users/'+ studentId + '/grades/' + subjectId);
   }
 
-  //id string bo paramget
   getStudentsGrades(classId: string, subjectId: string) {
     return this.http.get(this.baseUrl + 'grades/' + classId + '/' + subjectId);  
   }

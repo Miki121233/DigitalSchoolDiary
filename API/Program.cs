@@ -41,7 +41,7 @@ try
 catch (Exception ex)
 {
     var logger = services.GetService<ILogger<Program>>();
-    logger.LogError(ex, "An error occurred during migration");
+    logger.LogError(ex, "An error occurred during migration or seeding data");
 }
 
 app.Run();

@@ -9,10 +9,7 @@ import { ScheduleComponent } from './schedule/schedule.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ParentRegisterComponent } from './parent-register/parent-register.component';
 import { ClassesListComponent } from './classes/classes-list/classes-list.component';
-import { classDetailedResolver } from './_resolvers/class-detailed.resolver';
-import { userDetailedResolver } from './_resolvers/user-detailed.resolver';
 import { UserGradesComponent } from './user/user-grades/user-grades.component';
-import { classSubjectDetailedResolver } from './_resolvers/class-subject-detailed.resolver';
 import { ClassesSubjectsListComponent } from './classes/classes-subjects-list/classes-subjects-list.component';
 import { SelectChildListComponent } from './parents/select-child-list/select-child-list.component';
 import { TeacherScheduleComponent } from './teacher-schedule/teacher-schedule.component';
@@ -34,10 +31,9 @@ const routes: Routes = [
     canActivate: [authGuard],
     children: [
       {path: 'oceny', component: ClassesListComponent},
-      {path: 'oceny/:classId', component: ClassesSubjectsListComponent},//, resolve: {class: classDetailedResolver}},
-      {path: 'oceny/:classId/:subjectId', component: GradesComponent},//, resolve: {class: classSubjectDetailedResolver}},
-      //{path: 'uzytkownik/:id/oceny', component: UserGradesComponent}, //resolve: {class: userDetailedResolver}},
-      {path: 'oceny/:classId/:subjectId/:userId', component: UserGradesComponent}, //resolve: {class: userDetailedResolver}},
+      {path: 'oceny/:classId', component: ClassesSubjectsListComponent},
+      {path: 'oceny/:classId/:subjectId', component: GradesComponent},
+      {path: 'oceny/:classId/:subjectId/:userId', component: UserGradesComponent},
       {path: 'wybor-dziecka', component: SelectChildListComponent},
       {path: 'zadania', component: ClassesListComponent},
       {path: 'zadania/:classId', component: ClassesSubjectsListComponent},

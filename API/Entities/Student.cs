@@ -12,6 +12,4 @@ public class Student : AppUser
     public List<Grade> Grades { get; set; } = new();
     public List<Attendance> Attendances { get; set; } = new();
     public List<Note> Notes { get; set; } = new();
-
-    //public Class Class { get; set; } - circular error
 }

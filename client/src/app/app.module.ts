@@ -50,6 +50,7 @@ import { ManagementClassesCardComponent } from './management/management-classes-
 import { ClassCreationDialogComponent } from './management/class-creation-dialog/class-creation-dialog.component';
 import { ManagementSubjectsComponent } from './management/management-subjects/management-subjects.component';
 import { ManagementUsersComponent } from './management/management-users/management-users.component';
+import { ScheduleEventViewDialogComponent } from './schedule-event-view-dialog/schedule-event-view-dialog.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -83,7 +84,8 @@ import { ManagementUsersComponent } from './management/management-users/manageme
     ManagementClassesCardComponent,
     ClassCreationDialogComponent,
     ManagementSubjectsComponent,
-    ManagementUsersComponent
+    ManagementUsersComponent,
+    ScheduleEventViewDialogComponent
   ],
   imports: [
     BrowserModule,

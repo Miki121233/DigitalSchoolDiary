@@ -47,11 +47,9 @@ public class ClassesController : BaseApiController
         return students.OrderBy(x => x.LastName).OrderBy(x => x.FirstName).ToList();
     }
 
-    [HttpGet("{id}/grades")]   //classes/1/grades
+    [HttpGet("{id}/grades")] //classes/1/grades
     public ActionResult<IEnumerable<Grade>> GetGradesFromClassId(int id)
     {
-        // ocena ma studentid => student ma studentid i classid przypisana => ja mam classid
-        // musze wziac z classid class=> z class
         var classFromId = _context.Classes.Find(id);
 
         if (classFromId is null) return BadRequest("Nie ma klasy o podanym Id");
@@ -83,7 +81,7 @@ public class ClassesController : BaseApiController
         return classSearched.Subjects;
     }
 
-    [HttpPost("{id}/subjects")] //niepotrzebne
+    [HttpPost("{id}/subjects")]
     public async Task<ActionResult<IEnumerable<Subject>>> AddSubjectToClassAsync(int id, SubjectDto subjectDto)
     {
         var classFromId = await _context.Classes.FindAsync(id);

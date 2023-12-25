@@ -19,7 +19,6 @@ export class ClassesListComponent implements OnInit {
     this.accountService.currentUser$.pipe(take(1)).subscribe({
       next: user => {
         this.user = user
-        console.log(user)
       }
     });
     this.checkIfTeacher();
@@ -33,7 +32,6 @@ export class ClassesListComponent implements OnInit {
   loadClasses() {
     this.classesService.getClasses().subscribe({
       next:response => { 
-        console.log(response),
         this.classes = response
       }
     });

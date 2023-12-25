@@ -1,11 +1,8 @@
 import { Component, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { take } from 'rxjs';
-import { SchoolSubject } from 'src/app/_models/schoolSubject';
 import { StudentChildren } from 'src/app/_models/studentChildren';
 import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
-import { SubjectsService } from 'src/app/_services/subjects.service';
 import { UserService } from 'src/app/_services/user.service';
 
 @Component({
@@ -19,8 +16,7 @@ export class ClassesSubjectsCardComponent{
   user: User | null = null;
   child: StudentChildren | null = null;
 
-  constructor(private subjectsService: SubjectsService, private accountService: AccountService, private route: ActivatedRoute,
-    private userService: UserService) { 
+  constructor(private accountService: AccountService, private userService: UserService) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe({
       next: user => {
         this.user = user
@@ -74,12 +70,4 @@ export class ClassesSubjectsCardComponent{
     return `error`;
   }
 
-  log() {
-    if (this.subject)
-    console.log(this.subject)
-    else console.log('ni ma')
-    console.log(this.classId)
-  }
-
-  
 }

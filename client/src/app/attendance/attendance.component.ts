@@ -62,7 +62,6 @@ export class AttendanceComponent {
           this.attendancesService.getStudentsAttendances(this.classId, params.get('subjectId')!).subscribe({
             next: response => {
              this.studentsForDisplay = response
-             console.log(this.studentsForDisplay)
             }
         });
         else console.log('Problem z getStudentAttendances()' + this.classId + this.subject);
@@ -76,7 +75,6 @@ export class AttendanceComponent {
     }
   
     updateDescriptions() {
-      // Ta funkcja jest wywoływana przy zmianach w polu "Opis"
       for (let i = 0; i < this.attendanceDescriptions.length; i++) {
         this.attendanceDescriptions[i] = this.description;
       }
@@ -84,7 +82,7 @@ export class AttendanceComponent {
   
     getSubjectFromUrl() {
       this.route.paramMap.subscribe(params => {
-        const subjectId = params.get('subjectId');
+        const subjectId = parseInt(params.get('subjectId')!);
         if (subjectId)
         this.subjectsService.getSubjectFromId(subjectId).subscribe({
           next: response => {
@@ -120,7 +118,7 @@ export class AttendanceComponent {
             this.studentsForDisplay[index].attendances.push(response);
           },
           error: error => {
-            console.log('Błędy z przypisaniem obecności: ' + error.error)
+            this.toastr.error('Błąd z przypisaniem obecności');
           }
         });
         this.getAttendancesFromClassId();

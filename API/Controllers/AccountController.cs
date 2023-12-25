@@ -5,6 +5,7 @@ using API.Data;
 using API.Dtos;
 using API.Entities;
 using API.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,7 +21,8 @@ public class AccountController : BaseApiController
         _tokenService = tokenService;
     }
 
-    [HttpPost("register")] // POST: api/account/register
+    [AllowAnonymous]
+    [HttpPost("register")] // api/account/register
     public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
     {
         if (await UserExists(registerDto.Username)) return BadRequest("Nazwa użytkownika jest już zajęta");
@@ -36,7 +38,7 @@ public class AccountController : BaseApiController
                 {
                     FirstName = registerDto.FirstName,
                     LastName = registerDto.LastName,
-                    Username = registerDto.Username.ToLower(),
+                    Username = registerDto.Username,
                     PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
                     PasswordSalt = hmac.Key,
                     DateOfBirth = registerDto.DateOfBirth,
@@ -48,7 +50,7 @@ public class AccountController : BaseApiController
                 {
                     FirstName = registerDto.FirstName,
                     LastName = registerDto.LastName,
-                    Username = registerDto.Username.ToLower(),
+                    Username = registerDto.Username,
                     PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
                     PasswordSalt = hmac.Key,
                     DateOfBirth = registerDto.DateOfBirth,
@@ -112,6 +114,7 @@ public class AccountController : BaseApiController
         };
     } 
 
+    [AllowAnonymous]
     [HttpPost("login")]  
     public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)  
     {

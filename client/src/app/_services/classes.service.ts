@@ -13,11 +13,8 @@ import { SchoolSubject } from '../_models/schoolSubject';
 export class ClassesService {
   baseUrl = environment.apiUrl;
 
-
   constructor(private http: HttpClient) { }
 
-  //id jako number | string bo problem z paramMap.get('id') - chce miec stringa
-  
   getClass(id: number | string) {
     return this.http.get<Class>(this.baseUrl + 'classes/' + id);
   }

@@ -14,7 +14,5 @@ public class Event
     public bool RepeatWeekly { get; set; }
     public bool Editable { get; set; } = true;
     public bool AllDay { get; set; } = false;
-    //to w Liscie nauczyciela
-    //public int AssignedTeacherId { get; set; }
     public int CreatorId { get; set; }
 }

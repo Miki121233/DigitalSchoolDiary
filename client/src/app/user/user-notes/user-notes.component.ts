@@ -45,7 +45,7 @@ export class UserNotesComponent {
         });
       }
     }
-    if(this.user?.accountType === 'Parent') {
+    else if(this.user?.accountType === 'Parent') {
       if(this.child) {
         this.notesService.getNotesForStudent(this.child.id).subscribe({
           next: response => {

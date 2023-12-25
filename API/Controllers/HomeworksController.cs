@@ -43,7 +43,7 @@ public class HomeworksController : BaseApiController
         return homeworkDto.ToList();
     }
 
-    [HttpPost("{classId}")] //sprawdzic jeszcze czy przedmiot jest w bazie klasy
+    [HttpPost("{classId}")]
     public async Task<ActionResult<HomeworkDto>> AddHomeworkToClass(int classId, PostHomeworkDto homeworkDto)
     {
         var classFromId = await _context.Classes.FindAsync(classId);

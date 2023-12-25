@@ -47,16 +47,6 @@ public class SubjectsController : BaseApiController
         return resultName.ToList();
     }
 
-    // [HttpGet("{name}")]
-    // public async Task<ActionResult<Subject>> GetSubjectFromName(string name)
-    // {   
-    //     var subject = await _context.Subjects.FirstOrDefaultAsync(x => x.Name.ToLower() == name.ToLower());
-
-    //     if (subject is null) return BadRequest("Taki przedmiot nie istnieje");
-
-    //     return subject;
-    // }
-
     [HttpPost]
     public async Task<ActionResult<Subject>> AddSubjectAsync(SubjectDto subjectDto)
     {

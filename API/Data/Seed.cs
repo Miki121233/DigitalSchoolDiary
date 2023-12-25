@@ -1,3 +1,4 @@
+using System;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,13 +35,14 @@ public class Seed
 
         using var hmac = new HMACSHA512();
 
-        var password = "ad";
+        var password = "hasło";
 
         var director = new Director
         {
             FirstName = "Dariusz",
             LastName = "Dębowy",
-            Username = "adad",
+            Username = "admin",
+            Gender = "male",
             PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password)),
             PasswordSalt = hmac.Key,
         };

@@ -5,7 +5,7 @@
         <p class="lead">Ułatw sobie naukę z naszym dziennikiem!</p>
         <div class="text-center">
           <button routerLink="/rejestracja" routerLinkActive="active" class="btn btn-primary btn-lg me-2">Utwórz nowe konto</button>
-          <button class="btn btn-primary btn-info btn-lg">Dowiedz się więcej</button>
+          <!-- <button class="btn btn-primary btn-info btn-lg">Dowiedz się więcej</button> -->
         </div>
       </div>
     </ng-container>
@@ -13,10 +13,12 @@
     <ng-container *ngIf="(accountService.currentUser$ | async) as user">
       <div style="text-align: center;">
         <h1>Witaj {{user.firstName}}</h1>
-        <p class="lead">Ułatw sobie naukę z naszym dziennikiem!</p>
-        <div class="text-center">
+        <p *ngIf="user.accountType === 'Student'" class="lead">Ułatw sobie naukę z naszym dziennikiem!</p>
+        <p *ngIf="user.accountType === 'Parent'" class="lead">Z tym dziennikiem prosto i wygodnie sprawdzisz oceny swojego dziecka!</p>
+        <p *ngIf="(user.accountType === 'Teacher') || (user.accountType === 'Director')" class="lead">Ułatw sobie zarządzanie z naszym dziennikiem!</p>
+        <!-- <div class="text-center">
           <button class="btn btn-primary btn-info btn-lg">Dowiedz się więcej</button>
-        </div>
+        </div> -->
       </div>
       <h2>Dni do końca roku szkolnego: {{daysRemaining}}</h2>
       <div class="loading-bar-container">

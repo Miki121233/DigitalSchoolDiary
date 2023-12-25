@@ -78,7 +78,7 @@
           <a class="btn btn-outline-secondary dropdown-toogle text-light" *ngIf="currentUser.accountType === 'Director'" dropdownToggle>{{currentUser.firstName}} {{currentUser.lastName}} | Dyrektor</a>
           <a class="btn btn-outline-secondary dropdown-toogle text-light" *ngIf="currentUser.accountType === 'Parent'" dropdownToggle>{{currentUser.firstName}} {{currentUser.lastName}} | Rodzic</a>
           <div class="dropdown-menu" *dropdownMenu>
-            <a class="dropdown-item">Edytuj profil</a>
+            <!-- <a class="dropdown-item">Edytuj profil</a> -->
             <a class="dropdown-item" *ngIf="currentUser.accountType === 'Student'" routerLink="/rejestracja-rodzica" routerLinkActive="">Rejestracja rodzica</a>
             <a class="dropdown-item" (click)="logout()">Wyloguj się</a>
           </div>

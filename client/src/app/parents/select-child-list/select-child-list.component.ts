@@ -18,7 +18,6 @@ export class SelectChildListComponent {
       next: user => this.user = user
     })
     this.getParentWithChildrenIds();
-    console.log(this.user)
   }
 
   getParentWithChildrenIds() {

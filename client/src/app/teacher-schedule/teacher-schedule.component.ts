@@ -8,6 +8,8 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { EventsService } from '../_services/events.service';
 import { FullCalendarComponent } from '@fullcalendar/angular';
+import { MatDialog } from '@angular/material/dialog';
+import { ScheduleEventViewDialogComponent } from '../schedule-event-view-dialog/schedule-event-view-dialog.component';
 
 @Component({
   selector: 'app-teacher-schedule',
@@ -23,7 +25,8 @@ export class TeacherScheduleComponent {
   selectedSlotMax?: string;
   @ViewChild('fullCalendar') fullCalendar!: FullCalendarComponent;
 
-  constructor(private accountService: AccountService, private eventsService: EventsService) { 
+  constructor(private accountService: AccountService, private eventsService: EventsService, 
+    private dialog: MatDialog) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe({
       next: user => {
         if (user) {
@@ -33,7 +36,6 @@ export class TeacherScheduleComponent {
     });
     this.loadTeacherEvents();
   }
-
 
   calendarOptions = {
     plugins: [interactionPlugin, timeGridPlugin],
@@ -49,6 +51,7 @@ export class TeacherScheduleComponent {
     slotMaxTime: '22:00',
     events: this.events!,
     eventContent: this.handleEventContent.bind(this),
+    eventClick: this.handleEventClick.bind(this),
     locale: plLocale
     
   };
@@ -83,12 +86,9 @@ export class TeacherScheduleComponent {
           event.daysOfWeek = undefined;
         }
       });
-      console.log('eventy nauczyciela');
-      console.log(response);
     }
   })
   }
-
 
   switchTeacherSchedule() {
     if (this.teacherScheduleSwitch === true)
@@ -115,6 +115,25 @@ export class TeacherScheduleComponent {
     if (this.selectedSlotMax) {
       const calendarApi = this.fullCalendar.getApi();
       calendarApi.setOption("slotMaxTime", this.selectedSlotMax)
+    }
+  }
+
+  handleEventClick(arg: any) {
+    if (arg.event && this.events) {
+      var eventFromClick = arg.event.toPlainObject();
+      this.events.forEach(event => {
+        if (eventFromClick.id == event.id) { // == porównuje wartosci
+          event.start = arg.event._instance.range.start;
+          event.startHours = eventFromClick.extendedProps.startHours;
+          event.endHours = eventFromClick.extendedProps.endHours;
+          event.assignedTeacherId = eventFromClick.extendedProps.assignedTeacherId;
+          
+          const dialogRef = this.dialog.open(ScheduleEventViewDialogComponent, {
+            width: '300px',
+            data: { title: event.title, event: event, showDeleteButton: true },
+          });
+        }
+      });
     }
   }
 

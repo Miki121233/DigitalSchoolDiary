@@ -4,6 +4,6 @@ namespace API.Dtos;
 public class SubjectDto
 {
     [Required]
-    [MinLength(3)]
+    [MinLength(2)]
     public string Name { get; set; }
 }

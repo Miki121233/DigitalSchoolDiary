@@ -15,10 +15,8 @@ export class ParentRegisterComponent implements OnInit{
     @Output() cancelRegister = new EventEmitter();
     registerForm: FormGroup = new FormGroup({});
     validationErrors: string[] | undefined;
-    // member: Member | undefined;
     user: User | null = null;
 
-  
     constructor(private accountService: AccountService, private toastr: ToastrService, 
       private fb: FormBuilder, private router: Router) {
         this.accountService.currentUser$.pipe(take(1)).subscribe({

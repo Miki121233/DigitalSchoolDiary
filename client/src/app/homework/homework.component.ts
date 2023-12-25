@@ -70,7 +70,6 @@ export class HomeworkComponent implements OnInit{
       if(this.commentForm && this.homeworkDto) this.homeworkDto.comment = this.commentForm;
       if(this.deadlineForm && this.homeworkDto) this.homeworkDto.deadline = this.deadlineForm;
       if(this.classId && this.homeworkDto) {
-        console.log(this.homeworkDto)
         this.homeworksService.postHomeworkForClass(this.classId, this.homeworkDto).subscribe({
           next: response => {
             this.toastr.success(`Opublikowano zadanie ${this.descriptionForm} dla klasy ${this.schoolId} do dnia: ${formattedDeadline}`);

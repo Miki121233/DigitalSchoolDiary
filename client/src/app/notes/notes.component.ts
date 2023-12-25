@@ -5,7 +5,6 @@ import { User } from '../_models/user';
 import { NotesService } from '../_services/notes.service';
 import { ActivatedRoute } from '@angular/router';
 import { Note } from '../_models/note';
-import { UserService } from '../_services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { PostNote } from '../_models/postNote';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
@@ -28,7 +27,7 @@ export class NotesComponent {
   postNote: PostNote | null = null;
 
   constructor(private accountService: AccountService, private notesService: NotesService,
-    private route: ActivatedRoute, private userService: UserService, private toastr: ToastrService,
+    private route: ActivatedRoute, private toastr: ToastrService,
     private dialog: MatDialog) {
     this.accountService.currentUser$.pipe(take(1)).subscribe({
       next: user => this.user = user
@@ -57,8 +56,6 @@ export class NotesComponent {
     } else {
       this.filteredUsers = this.studentsForDisplay;
     }
-    console.log('this.filteredUsers');
-    console.log(this.filteredUsers);
   }
 
   assignNote() {

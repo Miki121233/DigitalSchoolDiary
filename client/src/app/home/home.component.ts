@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../_services/account.service';
-import { formatDistanceToNow } from 'date-fns';
-import { pl } from 'date-fns/locale';
 
 @Component({
   selector: 'app-home',
@@ -35,10 +33,6 @@ export class HomeComponent implements OnInit{
       this.daysRemaining = Math.floor((nextSummerVacation.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
     
       this.percentage = Math.min((1 - this.daysRemaining / (365-72)) * 100, 100);
-      console.log('this.percentage');
-      console.log(this.percentage);
-      console.log('this.daysRemaining');
-      console.log(this.daysRemaining);
     }
     
   }

@@ -30,16 +30,6 @@ public class GradesController : BaseApiController
     [HttpGet("{classId}/{subjectId}")]
     public async Task<ActionResult<List<StudentGradesDto>>> GetStudentsGradesForDisplay(int classId, int subjectId)
     {
-        // var classFromId = _context.Classes.Include(x => x.Students).Where(x => x.Id == classId);
-
-        // if (classFromId is null) return BadRequest("Nie ma klasy o podanym id");
-
-        // var gradesFromSubject = _context.Grades.Where(x => x.Subject.Id == subjectId);
-
-        // // var studentsFromGrades = _context.Students.Include(x => x.Grades).Where(x => x.Grades.sub)
-        
-        // var studentsFromThisClass = classFromId.Students;
-
         var classFromId = await _context.Classes
             .Include(x => x.Students)
             .ThenInclude(s => s.Grades)
@@ -65,7 +55,6 @@ public class GradesController : BaseApiController
                 grade.TeacherFullName = teacher.LastName + " " + teacher.FirstName;
             }
 
-
             studentsGradesDtoList.Add(studentGradesDto);
         }
 
@@ -74,7 +63,7 @@ public class GradesController : BaseApiController
     }
 
     [HttpPost("{studentId}")]
-    public async Task<ActionResult<GradeDto>> PostGrade(PostGradeDto gradeDto, int studentId) //sprawdzic jeszcze czy przedmiot jest w bazie klasy
+    public async Task<ActionResult<GradeDto>> PostGrade(PostGradeDto gradeDto, int studentId)
     {
         var student = _context.Students.FirstOrDefault(x => x.Id == studentId);
 
@@ -118,7 +107,7 @@ public class GradesController : BaseApiController
         var student = await _context.Students.Include(x => x.Grades).FirstOrDefaultAsync(t => t.Grades.Any(e => e.Id == id));
         if (student is null) BadRequest("Ocena nie ma swojego studenta");
 
-        student.Grades.Remove(grade); // nie jest to koniecznosc
+        student.Grades.Remove(grade);
         _context.Grades.Remove(grade);
         await _context.SaveChangesAsync();
 

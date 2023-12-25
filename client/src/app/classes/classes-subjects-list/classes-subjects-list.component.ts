@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs';
-import { Class } from 'src/app/_models/class';
 import { SchoolSubject } from 'src/app/_models/schoolSubject';
 import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
@@ -21,7 +20,6 @@ export class ClassesSubjectsListComponent implements OnInit{
     this.accountService.currentUser$.pipe(take(1)).subscribe({
       next: user => {
         this.user = user
-        console.log(user)
       }
     });
   }
@@ -29,7 +27,6 @@ export class ClassesSubjectsListComponent implements OnInit{
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.classId = params.get('classId');
-      console.log('Class ID:', this.classId);
     });
     this.loadSubjects();
   }
