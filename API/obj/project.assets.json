@@ -1703,24 +1703,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\mikip\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\MPR21\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\DigitalSchoolDiary\\API\\API.csproj",
+      "projectUniqueName": "E:\\DigitalSchoolDiary\\API\\API.csproj",
       "projectName": "API",
-      "projectPath": "D:\\DigitalSchoolDiary\\API\\API.csproj",
-      "packagesPath": "C:\\Users\\mikip\\.nuget\\packages\\",
-      "outputPath": "D:\\DigitalSchoolDiary\\API\\obj\\",
+      "projectPath": "E:\\DigitalSchoolDiary\\API\\API.csproj",
+      "packagesPath": "C:\\Users\\MPR21\\.nuget\\packages\\",
+      "outputPath": "E:\\DigitalSchoolDiary\\API\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\mikip\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\MPR21\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1788,7 +1783,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.105\\RuntimeIdentifierGraph.json"
       }
     }
   }
